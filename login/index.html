@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> Hanpass </title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/8.0.20/jsrsasign-all-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <script src="./login.js" type="module"></script>
+    <script src="../handler.js"></script>
+  </head>
+
+  <body>
+  <div class="container" style="max-width: 500px; margin-left: auto; margin-right: auto">
+    <div style="float:left">
+    <span style="text-align: center;display:inline-block" id="pw_method">
+      <h1 style="text-align: left;margin-left: 70px"> HANpass </h1>
+      <!-- <div style="margin-left:150px;">
+        <span style="margin:center;">Use OTP</span>
+        <input style="margin:bottom;" type="checkbox" id="auth_method" onclick="changeAuth()">
+      </div> -->
+
+      <table style="margin-right:auto;" id="pw_method">
+        <tr>
+          <td> Site </td>
+          <td> <input type="text" id="url_query" disabled> </td>
+        </tr>
+        <tr>
+          <td> ID </td>
+          <td> <input type="text" id="user_id" disabled> </td>
+        </tr>
+        <tr>
+          <td> Password </td>
+          <td> <input type="password" id="user_pw" autocomplete="new-password" onkeypress="enter_pwd()" autofocus> </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align:right">
+              <input type="checkbox" id="remember" autocomplete="new-password" name="remember"> Use Auto Login
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="text-align:right">
+          <input type="button" id="compute" value="Complete" onclick="alert('Please wait!')">
+          </td>
+        </tr>
+      </table>
+      <a onclick="maximize()" style="margin-right:auto;" href="../manager/">Open the password manager</a>
+    </span>
+    </div>
+    <div style="float:left; margin-top: 30px">
+      <table>
+      <tr><td>
+      &nbsp;&nbsp;
+      <span id="otp_view" style="margin-left:auto; width:20px; ">
+      <canvas id="qr_method" style="padding-bottom:0px;"></canvas>
+      </span>
+      </td></tr>
+      <tr><td style="text-align:center">
+      <a href="javascript:undefined"id="otp_link">Use OTP</a>
+      </td></tr>	  
+      </table>
+    </div>
+  </div>
+  </body>
+</html>
+

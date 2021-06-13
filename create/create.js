@@ -1,0 +1,87 @@
+import {check_strength, load_pw_name, do_query, parse, prove_upd, do_create} from "../library.js";
+let opener = null;
+let url_app = null;
+
+
+window.onload = function() {
+    // window.onblur = function(){ window.close(); };
+    // load_pw_name();
+    window.addEventListener("message", receive_message, false);
+    window.opener.postMessage("", "*");
+}
+
+
+// window.onload = async function() {
+//     await test()
+// }
+
+// async function test() {
+//     const dom_app = "sflab.snu.ac.kr"
+//     let id= "newtesting1234";
+//     let url_query = "https://sflab.snu.ac.kr:92?query=create&id=asdfasd";
+//     document.getElementById("user_id").value = id;
+//     document.getElementById("url_query").value = new URL(url_query).origin;
+//     let result = await QueryCreate(id, url_query);
+//     let ty= result['ty']; let pt = result['pt']; let pt_n = result['pt_n']; let ds = result['ds_n']; let aux = result['aux'];
+//     let data = parse(pt_n)(ds)
+//     let etc = aux +';' + dom_app
+//     // set_button(pt, id, url_query, data, kh);
+//     let pw = 'asdf1234!@#$';
+//     try {
+//         console.log(do_create(ty, pt, pt_n, data, etc, pw))
+//     } catch(err) {
+//         console.log(err)
+//     }
+// }
+
+async function receive_message(event) {
+    opener = event.source;
+    url_app = event.origin;
+    const dom_app = new URL(url_app).hostname;
+    let parsed = event.data.split(';',2);
+    let url_query = parsed[0];
+    let id = parsed[1];
+    document.getElementById("user_id").value = id;
+    document.getElementById("url_query").value = new URL(url_query).origin;
+    window.removeEventListener("message", receive_message);
+    let result = await QueryCreate(id, url_query);
+    let ty= result['ty']; let pt = result['pt']; let pt_n = result['pt_n']; let ds_n = result['ds_n']; let aux = result['aux'];
+    let data_n = parse(pt_n)(ds_n)
+    let etc = aux +';' + dom_app
+    document.getElementById('compute').onclick = set_create_button(id, url_query, ty, pt, pt_n, data_n, etc);
+}
+
+async function QueryCreate(id, url_query) {
+    let url = url_query + '?query=create&id=' + id;
+    return await do_query(url);
+}
+
+function set_create_button(id, url_query, ty, pt, pt_n, data_n, etc) {
+    return (() => {
+        let pw = get_userpw();
+        if(pw === null) return;
+        try {
+            // let pw_name = document.getElementById("pw_name").value;
+            // PMCreate(id, url_query, pw_name);
+            let ret = do_create(ty, pt, pt_n, data_n, etc, pw)
+            opener.postMessage(ret, url_app);
+            window.close();
+        } catch(err) {
+            // this event shouldn't occur
+            return_failure(err);
+
+        }
+    });
+}
+
+function get_userpw() {
+    let pw = document.getElementById("user_pw_new").value;
+    let pw_confirm = document.getElementById("user_pw_confirm").value;
+    if(pw !== pw_confirm) { alert("The password confirmation does not match"); return null; }
+    let strength = check_strength(pw);
+    if(strength !== null) {
+        alert(strength); return null;
+    }
+    return pw;
+}
+;

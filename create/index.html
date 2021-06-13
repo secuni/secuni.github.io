@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title> Hanpass </title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/8.0.20/jsrsasign-all-min.js"></script>
+    <script src="./create.js" type="module"></script>
+    <script src="../handler.js"></script>
+  </head>
+
+  <body style="text-align:center;">
+    <h1 > HANpass </h1>
+    <table style="margin-left:auto; margin-right:auto;">
+      <tr>
+	<td> Site </td>
+	<td> <input type="text" id="url_query" disabled> </td>
+      </tr>
+      <tr>
+	<td> ID </td>
+	<td> <input type="text" id="user_id" disabled> </td>
+      </tr>
+      <tr>
+	<td> New </td>
+	<td> <input type="password" id="user_pw_new" autofocus> </td>
+        <!-- <td> Use 10 or more characters with a mix of letters, numbers & symbols !@#$%^&*)(+=._- </td> -->
+      </tr>
+      <tr>
+	<td> Confirm </td>
+	<td> <input type="password" id="user_pw_confirm" autocomplete="new-password" onkeypress="enter_pwd()" autofocus> </td>
+      </tr>
+
+      <tr>
+	<td  colspan="2">
+    <input list="pw_name_list" type="text" id="pw_name" autocomplete="off" placeholder="Enter your PW name" onkeypress="enter_pwd()">
+    <datalist id="pw_name_list"></datalist>
+	  <input type="button" id="compute" value="Complete" onclick="alert('Please wait!')">
+	</td>
+      </tr>
+    </table>
+
+    <a onclick="maximize()" href="../manager/">Click here to go to password manager</a>
+    </body>
+</html>
