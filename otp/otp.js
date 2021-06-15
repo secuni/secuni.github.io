@@ -3,7 +3,6 @@ import {check_strength, load_pw_name, do_query,
     get_prid, prove_auth, do_login} from "../library.js";
 
 window.onload = async function() {   
-    console.log(window.location.href)
     await receive_message();
     // window.addEventListener("message", receive_message, false);
     // window.opener.postMessage("", "*");
@@ -69,14 +68,14 @@ function fromBase64URL(input) {
       input += new Array(5-pad).join('=');
     }
 
-    return input;
+    return atob(input);
 }
 
 function getByName(name, url = window.location.href) {
     name = name.replace(/[\[\]]/g, '\\$&');
     let anchor = url.split('#');
     anchor = anchor[1];
-    let data = atob(fromBase64URL(anchor))
+    let data = fromBase64URL(anchor)
     var regex = new RegExp('[&]' + name + '(=([^&#]*)|&|#|$)'),
         results = regex.exec(data);
     if (!results) return null;
