@@ -45,12 +45,16 @@ window.onload = function() {
 // }
     
 function get_query_string(url_query, id, dom_app,otp) {
-    let str='';
+    let str='&';
     str += 'url=' + encodeURIComponent(url_query) + '&';
     str += 'id=' + encodeURIComponent(id) + '&';
     str += 'otp=' + encodeURIComponent(otp) + '&';
     str += 'dom=' + encodeURIComponent(dom_app) + '&';
-    return str;
+    return toBase64URL(str);
+}
+
+function toBase64URL(str) {
+    return btoa(str.replace(/\+/g,'-').replace(/\//g,'_')).replace(/\=+$/m,'');
 }
 
 async function receive_message(event) {
@@ -69,12 +73,12 @@ async function receive_message(event) {
     let result = await QueryLogin(id, url_query);
     let ty= result['ty']; let pt = result['pt']; let ds = result['ds']; let pt_n = result['pt_n']; let ds_n = result['ds_n'];  let aux = result['aux'];
     let [otp] = aux.split(';',1)
-    let otp_url = "https://secuni.github.io/otp?" + get_query_string(url_query, id, dom_app, otp);
+    let otp_url = "https://secuni.github.io/otp#" + get_query_string(url_query, id, dom_app, otp);
     qr.value= otp_url;
     document.getElementById('otp_link').href = otp_url;
     document.getElementById('otp_view').style.display= "";
 
-    // console.log("http://localhost:7999/qrcode?" + get_query_string(url_query, id, dom_app, otp))
+    // console.log("http://localhost:7999/otp#" + get_query_string(url_query, id, dom_app, otp))
     let etc = aux +';' + dom_app;
     let data = parse(pt)(ds)
     let data_n = ds_n ? parse(pt_n)(ds_n) : null
@@ -88,6 +92,7 @@ async function QueryLogin(id, url_query) {
     let url = url_query + '?query=login&id=' + id;
     return await do_query(url);
 }
+
 
 // function set_otp_button(ty, pt, pt_n, aux, dom_app, ds, ds_n) {
 //     return (()=> {

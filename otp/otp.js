@@ -3,6 +3,7 @@ import {check_strength, load_pw_name, do_query,
     get_prid, prove_auth, do_login} from "../library.js";
 
 window.onload = async function() {   
+    console.log(window.location.href)
     await receive_message();
     // window.addEventListener("message", receive_message, false);
     // window.opener.postMessage("", "*");
@@ -13,8 +14,8 @@ async function receive_message() {
     // const dom_app = new URL(event.origin).hostname
     // alert("dom_app:" + dom_app);
     const dom_app = '';
-    const id = getParameterByName('id'); const url_query = getParameterByName('url');
-    const dom_app_n = getParameterByName('dom'); const otp_n = getParameterByName('otp');    
+    const id = getByName('id'); const url_query = getByName('url');
+    const dom_app_n = getByName('dom'); const otp_n = getByName('otp');    
 
     document.getElementById("user_id").value = id
     document.getElementById("user_id_view").value = id
@@ -53,10 +54,31 @@ function set_submit_button(id, url_query, ty, pt, pt_n, data, data_n, etc) {
     });
 }
 
-function getParameterByName(name, url = window.location.href) {
+function fromBase64URL(input) {
+    // Replace non-url compatible chars with base64 standard chars
+    input = input
+        .replace(/-/g, '+')
+        .replace(/_/g, '/');
+
+    // Pad out with standard base64 required padding characters
+    var pad = input.length % 4;
+    if(pad) {
+      if(pad === 1) {
+        throw new Error('InvalidLengthError: Input base64url string is the wrong length to determine padding');
+      }
+      input += new Array(5-pad).join('=');
+    }
+
+    return input;
+}
+
+function getByName(name, url = window.location.href) {
     name = name.replace(/[\[\]]/g, '\\$&');
-    var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-        results = regex.exec(url);
+    let anchor = url.split('#');
+    anchor = anchor[1];
+    let data = atob(fromBase64URL(anchor))
+    var regex = new RegExp('[&]' + name + '(=([^&#]*)|&|#|$)'),
+        results = regex.exec(data);
     if (!results) return null;
     if (!results[2]) return '';
     return decodeURIComponent(results[2].replace(/\+/g, ' '));
