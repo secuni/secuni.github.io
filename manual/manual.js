@@ -6,7 +6,7 @@ window.onload = function() {
 }
 
 async function getResult() {
-    let account_data = document.getElementById('hanpass_account_data').value;
+    let account_data = document.getElementById('secuni_account_data').value;
     let arr = account_data.split(';');
     let arr2 = arr.slice(0,2);
     arr2.push(arr.slice(2).join(';'));
@@ -39,6 +39,6 @@ async function getResult() {
     else {
         alert('Wrong Data')
     }
-    document.getElementById('hanpass_result_row').innerHTML = '<td>Result</td><td><input id="hanpass_result" disabled value="' + result + '"><span id="hanpass_clip" style="cursor:pointer" onclick="copy()">&#x2398</span></td>'
+    document.getElementById('secuni_result_row').innerHTML = '<td>Result</td><td><input id="secuni_result" disabled value="' + result + '"><span id="secuni_clip" style="cursor:pointer" onclick="copy()">&#x2398</span></td>'
 }
 

@@ -27,7 +27,7 @@ async function receive_message() {
     let data = parse(pt)(ds)
     let data_n = ds_n ? parse(pt_n)(ds_n) : null
     
-    let form = document.getElementById('hanpass_form');
+    let form = document.getElementById('secuni_form');
     form.onsubmit = set_submit_button(id, url_query, ty, pt, pt_n, data, data_n, etc);
     form.action = url_query+'?query=submit_otp';
 }

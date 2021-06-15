@@ -22,22 +22,22 @@ function changeAuth() {
 }
 
 function copy() {
-    let val = document.getElementById('hanpass_result').value;
+    let val = document.getElementById('secuni_result').value;
     navigator.clipboard.writeText(val).then(function() {
-        document.getElementById('hanpass_clip').innerHTML = '&#x2705;'
+        document.getElementById('secuni_clip').innerHTML = '&#x2705;'
         window.close();
     }, function(err) {});
 }
 
 function paste() {
     navigator.clipboard.readText().then((text) => {
-        document.getElementById('hanpass_account_data').value = text
+        document.getElementById('secuni_account_data').value = text
         open_field();
     });
 }
 
 function open_field() {
-    arr = document.getElementById('hanpass_account_data').value.split(';')
+    arr = document.getElementById('secuni_account_data').value.split(';')
     if(arr[1] && arr[1] === 'change') {
         document.getElementById('change_input').innerHTML = '\
         <td>\
