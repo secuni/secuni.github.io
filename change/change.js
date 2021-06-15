@@ -77,10 +77,12 @@ async function QueryChange(id, url_query) {
 function set_change_button(id, url_query, ty, pt, pt_n, data, data_n, etc) {
     return (() => {
         let [pw, pw_n] = get_userpw();
-        if(pw == null || pw_n === null) 
+        if((data && !(pw && pw_n)) || (!data && !pw_n)) 
             return;
         try {
-            let ret = do_change(ty, pt, data, pt_n, data_n, etc, pw, pw_n)
+            let ret =  null;
+            if(data === null) ret = do_create(ty, pt, pt_n, data_n, etc, pw_n)
+            else ret = do_change(ty, pt, data, pt_n, data_n, etc, pw, pw_n)
             // let pw_name = document.getElementById("pw_name").value;
             // PMChange(id, url_query, pw_name, null, null);
             opener.postMessage(ret, url_app);
