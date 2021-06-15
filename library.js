@@ -6,16 +6,19 @@ function check_strength(pw) {
     let regex_number = new RegExp(/^.*[0-9].*$/);
     let regex_symbol = new RegExp(/^.*[!@#\$%\^\&*\)\(+=._-].*$/);
 
-    if (denylist.includes(pw))
+
+    if (pw.length < 10)
+        return "Passwords must be at least 15 characters";
+/*
+    else if (denylist.includes(pw))
         return "The pasword is too common";
-    else if (pw.length < 10)
-        return "Passwords must be at least 10 characters";
     else if (!regex_letter.test(pw))
         return "Passwords must contain a minimum of 1 letters";
     else if (!regex_number.test(pw))
         return "Passwords must contain a minimum of 1 numbers";
     else if (!regex_symbol.test(pw))
         return "Passwords must contain a minimum of 1 symbols";
+*/
     else
         return null
 }

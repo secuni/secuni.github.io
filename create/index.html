@@ -10,7 +10,7 @@
   </head>
 
   <body style="text-align:center;">
-    <h1 > HANpass </h1>
+    <h1 > SecUni </h1>
     <table style="margin-left:auto; margin-right:auto;">
       <tr>
 	<td> Site </td>
@@ -22,19 +22,28 @@
       </tr>
       <tr>
 	<td> New </td>
-	<td> <input type="password" id="user_pw_new" autofocus> </td>
+	<td> <input type="password" id="user_pw_new" autocomplete="off" autofocus> </td>
         <!-- <td> Use 10 or more characters with a mix of letters, numbers & symbols !@#$%^&*)(+=._- </td> -->
       </tr>
       <tr>
+	<td  colspan="2">
+	It must be at least 15 characters.
+	</td>
+      </tr>
+      <tr>
 	<td> Confirm </td>
-	<td> <input type="password" id="user_pw_confirm" autocomplete="new-password" onkeypress="enter_pwd()" autofocus> </td>
+	<td> <input type="password" id="user_pw_confirm" autocomplete="off" onkeypress="enter_pwd()"> </td>
       </tr>
 
       <tr>
 	<td  colspan="2">
+		<div style="display:none">
     <input list="pw_name_list" type="text" id="pw_name" autocomplete="off" placeholder="Enter your PW name" onkeypress="enter_pwd()">
     <datalist id="pw_name_list"></datalist>
+		</div>
+		<div style="float:right">
 	  <input type="button" id="compute" value="Complete" onclick="alert('Please wait!')">
+		</div>
 	</td>
       </tr>
     </table>
