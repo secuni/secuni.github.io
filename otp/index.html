@@ -13,62 +13,54 @@
   </head>
 
   <body>
-  <div class="container" style="max-width: 260px; margin-left: auto; margin-right: auto">
-    <form id="secuni_form" name="secuni_form" method="post">
-      <input type="hidden" name="dom_app" id="dom_app" />
-      <input type="hidden" name="otp" id="otp" />
-      <input type="hidden" name="result" id="result" />
-      <input type="hidden" name="user_id" id="user_id" />
+    <div class="container" style="max-width: 260px; margin-left: auto; margin-right: auto">
+      <form id="secuni_form" name="secuni_form" method="post">
+        <input type="hidden" name="dom_app" id="dom_app" />
+        <input type="hidden" name="otp" id="otp" />
+        <input type="hidden" name="result" id="result" />
+        <input type="hidden" name="user_id" id="user_id" />
 
-      <table>
-	<tr>
-          <td>
-            <label>Site</label>
-	  </td>
-          <td>
-	    <input style="width:160px" type="text" id="url_query" disabled>
-	  </td>
-	</tr>
-	<tr>
-          <td>
-            <label>ID</label>
-	  </td>
-	  <td>
-            <input style="width:160px" type="text" id="user_id_view" disabled>
-	  </td>
-	</tr>
-	<tr style="display:none">
-          <td>
-	    <label for="dummy_id">id</label>
-	  </td>
-          <td>
-	    <input style="width:160px" type="text" name="dummy_id" id="dummy_id" value="secuni" autocomplete="username">
-	  </td>
-	</tr>
-	<tr>
-          <td>
-	    <label for="user_pw">Password</label>
-	  </td>
-          <td>
-	    <input style="width:160px" type="password" name="user_pw" id="user_pw" value="" autocomplete="current-password" autofocus>
-	  </td>
-	</tr>
-	<tr>
-	  <td></td>
-          <td style="text-align:right">
-            <input type="submit">
-	  </td>
-	</tr>
-	<!-- <tr>
-	  <td>
-	    <label>Result</label>
-	  </td>
-	  <td>
-	    <iframe style="width: 160px;height: 20px;" scrolling="no" name="dummyframe" id="dummyframe"></iframe>
-	  </td>
-	</tr> -->
-    </form>
-  </div>
+        <table>
+          <tr>
+            <td>
+              <label>Site</label>
+            </td>
+            <td>
+              <input style="width:160px" type="text" id="url_query" disabled>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>ID</label>
+            </td>
+            <td>
+              <input style="width:160px" type="text" id="user_id_view" disabled>
+            </td>
+          </tr>
+          <tr style="display:none">
+            <td>
+              <label for="dummy_id">id</label>
+            </td>
+            <td>
+              <input style="width:160px" type="text" name="dummy_id" id="dummy_id" value="secuni" autocomplete="username">
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="user_pw">Password</label>
+            </td>
+            <td>
+              <input style="width:160px" type="password" name="user_pw" id="user_pw" value="" autocomplete="current-password" autofocus>
+            </td>
+          </tr>
+          <tr>
+            <td style="text-align:right">
+              <input type="submit">
+            </td>
+          </tr>
+        </table>
+      </form>
+    </div>
   </body>
   </html>
   
