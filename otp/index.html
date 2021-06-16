@@ -19,46 +19,25 @@
         <input type="hidden" name="otp" id="otp" />
         <input type="hidden" name="result" id="result" />
         <input type="hidden" name="user_id" id="user_id" />
-        
-        <table>
-          <tr>
-            <td>
-              <label for="dummy_id">id</label>
-            </td>
-            <td>
-              <input style="width:160px" type="text" name="dummy_id" id="dummy_id" value="secuni" autocomplete="username">
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label>Site</label>
-            </td>
-            <td>
-              <input style="width:160px" type="text" id="url_query" disabled>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label>ID</label>
-            </td>
-            <td>
-              <input style="width:160px" type="text" id="user_id_view" disabled>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label for="user_pw">Password</label>
-            </td>
-            <td>
-              <input style="width:160px" type="password" name="user_pw" id="user_pw" value="" autocomplete="current-password" autofocus>
-            </td>
-          </tr>
-          <tr>
-            <td style="text-align:right">
-              <input type="submit">
-            </td>
-          </tr>
-        </table>
+        <div>
+          <label style="display:inline-block;width:70px;" for="dummy_id">id</label>
+          <input style="width:160px" type="text" name="dummy_id" id="dummy_id" value="secuni" autocomplete="username">
+        </div>
+        <div>
+          <label style="display:inline-block;width:70px;" for="url_query">Site</label>
+          <input style="width:160px" type="text" id="url_query" disabled>
+        </div>        
+        <div>
+          <label style="display:inline-block;width:70px;" for="user_id_view">ID</label>
+          <input style="width:160px" type="text" id="user_id_view" disabled>
+        </div>
+        <div>
+          <label style="display:inline-block;width:70px;" for="user_pw">Password</label>
+          <input style="width:160px" type="password" name="user_pw" id="user_pw" value="" autocomplete="current-password" autofocus>      
+        </div>
+        <div style="text-align:right">
+            <input type="submit">
+        </div>
       </form>
     </div>
   </body>
