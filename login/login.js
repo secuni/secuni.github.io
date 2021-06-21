@@ -1,5 +1,5 @@
 import {check_strength, load_pw_name, do_query,
-        parse, prove_upd,return_failure, get_prover, 
+        parse, prove_new,return_failure, get_prover, 
         get_prid, prove_auth, do_login} from "../library.js";
 let opener = null;
 let url_app = null;
@@ -136,6 +136,7 @@ function set_login_button(id, url_query, ty, pt, pt_n, data, data_n, etc, otp_st
             window.close();
         } catch(err) {
             // this event shouldn't occur
+            // console.log(err)
             return_failure(err)
         }
     });

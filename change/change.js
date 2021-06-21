@@ -1,5 +1,5 @@
 import {check_strength, load_pw_name, do_query,
-    parse, prove_upd,return_failure, get_prover, 
+    parse, prove_new,return_failure, get_prover, 
     get_prid, prove_auth, do_change} from "../library.js";
 let opener = null;
 let url_app = null;
@@ -35,7 +35,7 @@ window.onload = function() {
 //     let pw_n = 'asdf1234!@#$';
 //     try {
 //         let pr = get_prover(pt)(data, pw);
-//         let [r_n, prid_n, pr_n] = prove_upd(pt_n)(data_n, pw_n, kd);
+//         let [r_n, prid_n, pr_n] = prove_new(pt_n)(data_n, pw_n, kd);
 //         let ret = prove_auth(pt)(data, pr, r_n);
 //         console.log(ret);
 //     } catch(err) {

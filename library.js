@@ -1,4 +1,4 @@
-import {prove_upd_adv, get_prover_adv, prove_auth_adv, get_prid_adv, parse_adv} from './adv_protocol/public.js';
+import {prove_new_adv, get_prover_adv, prove_auth_adv, get_prid_adv, parse_adv} from './adv_protocol/public.js';
 
 function check_strength(pw) {
     let denylist = ["password"];
@@ -67,9 +67,9 @@ function return_failure(err_msg) {
     // window.close();
 }
 
-function prove_upd(pt) {
+function prove_new(pt) {
     switch (pt) {
-        case "adv": return prove_upd_adv; break;
+        case "adv": return prove_new_adv; break;
     }
 }
   
@@ -100,19 +100,19 @@ function parse(pt) {
 function do_login(ty, pt, data, pt_n, data_n, etc, pw) {
     let prid = get_prid(pt)(data);
     let pr = get_prover(pt)(data, pw);
-    let [r_n, prid_n, pr_n] = (data_n===null) ? [etc, prid, pr] : prove_upd(pt_n)(data_n, pw, etc);
+    let [r_n, prid_n, pr_n] = (data_n===null) ? [etc, prid, pr] : prove_new(pt_n)(data_n, pw, etc);
     let ret = ty + ';' + pt + ';' + pt_n + ';' + prove_auth(pt)(data, pr, r_n);
     return ret;
 }
 
 function do_create(ty, pt, pt_n, data_n, etc, pw) {
-    let [ret, salt, pr] = prove_upd(pt_n)(data_n, pw, etc);
+    let [ret, salt, pr] = prove_new(pt_n)(data_n, pw, etc);
     return ty + ';' + pt + ';' + pt_n + ';' + ret;
 }
 
 function do_change(ty, pt, data, pt_n, data_n, etc, pw, pw_n) {
     let pr = get_prover(pt)(data, pw);
-    let [r_n, {}, {}] = prove_upd(pt_n)(data_n, pw_n, etc);
+    let [r_n, {}, {}] = prove_new(pt_n)(data_n, pw_n, etc);
     let ret = ty + ';' + pt + ';' + pt_n + ';' + prove_auth(pt)(data, pr, r_n)
     return ret;
 }
@@ -120,5 +120,5 @@ function do_change(ty, pt, data, pt_n, data_n, etc, pw, pw_n) {
   
 
 export {check_strength, load_pw_name, do_query,
-         prove_upd, get_prover, prove_auth, get_prid,
+         prove_new, get_prover, prove_auth, get_prid,
         parse, return_failure, do_login, do_create, do_change};

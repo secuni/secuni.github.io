@@ -140,7 +140,7 @@ async function entry_change(key, pw_name, remember) {
     try {
         let [pw, pw_n] = PWChange(); // always non-null value
         let pr = await get_prover(entry['D'], pw);
-        let [s_n, salt_n, {}] = await prove_upd(entry['Dn'], pw_n, '');
+        let [s_n, salt_n, {}] = await prove_new(entry['Dn'], pw_n, '');
         let [ret, {}, pr_n] = await prove_auth(entry['D'],  pr, '', s_n)
         let res = await fetch(qurl, {
             method: 'POST',

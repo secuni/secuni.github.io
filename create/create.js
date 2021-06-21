@@ -1,4 +1,4 @@
-import {check_strength, load_pw_name, do_query, parse, prove_upd, do_create} from "../library.js";
+import {check_strength, load_pw_name, do_query, parse, prove_new, do_create, return_failure} from "../library.js";
 let opener = null;
 let url_app = null;
 
@@ -68,6 +68,7 @@ function set_create_button(id, url_query, ty, pt, pt_n, data_n, etc) {
             window.close();
         } catch(err) {
             // this event shouldn't occur
+            console.log(err)
             return_failure(err);
 
         }

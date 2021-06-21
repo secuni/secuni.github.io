@@ -2,11 +2,8 @@ import {rsa_encrypt} from './encryption.js';
 import {PBKDF2_SHA256} from './pbkdf2.js';
 
 class HANData{
-  constructor(salt, hint, na, pk) {
-      this.salt = salt;
+  constructor(hint) {
       this.hint = hint;
-      this.na = na;
-      this.pk = pk;
   }
 }
 
@@ -18,12 +15,12 @@ function split_ncut(delim, s, ncut) {
 }
 
 function to_str(data, s) {
-  return data.salt + ';' + data.hint + ';' + data.na + ';' + data.pk + ';' + s;
+  return data.hint + ';' + s;
 }
 
 function from_str(ds, ncut) {
-  const [salt, hint, na, pk, s] = split_ncut(';', ds, 4);
-  return [new HANData(salt, hint, na, pk), split_ncut(';', s, ncut)];
+  const [hint, s] = split_ncut(';', ds, 1);
+  return [new HANData(hint), split_ncut(';', s, ncut)];
 }
 
 function encrypt_a(pubkey, txt) {
@@ -63,43 +60,43 @@ function decrypt_s(key, data) {
     padding: CryptoJS.pad.Pkcs7,
     mode: CryptoJS.mode.CBC
   })
-  decrypted.sigBytes = 32;
-  const seedbyte = CryptoJS.lib.WordArray.create(decrypted.words.slice(0,8))
-  return seedbyte
+  // decrypted.sigBytes = 32;
+  // const seedbyte = CryptoJS.lib.WordArray.create(decrypted.words.slice(0,8))
+  // return seedbyte
+  decrypted.sigBytes = 64;
+  return decrypted
 }
 
-function hash(data) {
-  return CryptoJS.SHA256(data).toString(CryptoJS.enc.Base64);
+function hash(data, n=1) {
+  if(n==0) return data
+  else if(n == 1)
+    return CryptoJS.SHA256(data).toString(CryptoJS.enc.Base64)
+  else 
+    return PBKDF2_SHA256(data, "", n, 32).toString(CryptoJS.enc.Base64)
 }
 
-function hash_bin(data) {
-  return CryptoJS.SHA256(data);
+function hash_bin(data, n=1) {
+  if(n==0) return data
+  else if(n == 1)
+    return CryptoJS.SHA256(data)
+  else 
+    return PBKDF2_SHA256(data, "", n, 32)
 }
 
-function hash_many_bin(data) {
-  return PBKDF2_SHA256(data, "", 10000, 32)
-}
-
-function sign(sk_str, data) {
+function sign(pr, s, n) {
+  const [salt, sk_str] = split_ncut(',',pr,1);
+  let sk = "-----BEGIN PRIVATE KEY-----\n" + sk_str.substr(0,64) + "\n" + sk_str.substr(64,64) + "\n" + sk_str.substr(128) + "\n-----END PRIVATE KEY-----"
   const sig = new KJUR.crypto.Signature({'alg':'SHA256withECDSA'});
-  sig.init(sk_str)
-  return hexToBase64(sig.signString(data))
+  sig.init(sk)
+  return hexToBase64(sig.signString(hash(salt+s,n)));
 }
 
-function random_bin() {
-  return CryptoJS.lib.WordArray.random(32);
+function random_bin(bytes=32) {
+  return CryptoJS.lib.WordArray.random(bytes);
 }
 
-function random() {
-  return CryptoJS.lib.WordArray.random(32).toString(CryptoJS.enc.Base64);
-}
-
-function generate_key(seed){
-  const ec = new KJUR.crypto.ECDSA({'curve': 'secp256r1'});
-  constructKeyPairHex(ec, seed.toString());
-  const privkey = KEYUTIL.getPEM(ec, "PKCS8PRV");
-  const pubkey = KEYUTIL.getPEM(ec);
-  return [privkey, pubkey]
+function random(bytes=32) {
+  return CryptoJS.lib.WordArray.random(bytes).toString(CryptoJS.enc.Base64);
 }
 
 function hexToBase64(hexstring) {
@@ -128,5 +125,5 @@ function constructKeyPairHex(ec, seed) {
 }
 
 export {to_str, from_str, encrypt_a, encrypt_s, 
-      encrypt_s_text,hash, hash_many_bin, generate_key, 
-      random, random_bin, decrypt_s, sign, hash_bin}
+      encrypt_s_text, hash, random, random_bin, 
+      decrypt_s, sign, hash_bin, constructKeyPairHex}
