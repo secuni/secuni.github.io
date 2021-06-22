@@ -136,7 +136,7 @@ function set_login_button(id, url_query, ty, pt, pt_n, data, data_n, etc, otp_st
             window.close();
         } catch(err) {
             // this event shouldn't occur
-            // console.log(err)
+            console.log(err)
             return_failure(err)
         }
     });
