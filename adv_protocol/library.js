@@ -35,7 +35,7 @@ function encrypt_s_text(key, data) {
   const iv = CryptoJS.lib.WordArray.random(128/8);
   const encdata = CryptoJS.AES.encrypt(data,  CryptoJS.enc.Base64.parse(key), { 
     iv: iv, 
-    padding: CryptoJS.pad.Pkcs7,
+    padding: CryptoJS.pad.NoPadding,
     mode: CryptoJS.mode.CBC
   });
   return iv.toString(CryptoJS.enc.Base64) + ',' + encdata.toString()
@@ -45,7 +45,7 @@ function encrypt_s(key, data) {
   const iv = CryptoJS.lib.WordArray.random(128/8);
   const encdata = CryptoJS.AES.encrypt(data, key, { 
     iv: iv, 
-    padding: CryptoJS.pad.Pkcs7,
+    padding: CryptoJS.pad.NoPadding,
     mode: CryptoJS.mode.CBC
   });
   return iv.toString(CryptoJS.enc.Base64) + ',' + encdata.toString()
@@ -57,13 +57,13 @@ function decrypt_s(key, data) {
   const encdata = CryptoJS.enc.Base64.parse(encdatastr);
   const decrypted = CryptoJS.AES.decrypt({ ciphertext: encdata }, key, {
     iv: iv, 
-    padding: CryptoJS.pad.Pkcs7,
+    padding: CryptoJS.pad.NoPadding,
     mode: CryptoJS.mode.CBC
   })
   // decrypted.sigBytes = 32;
   // const seedbyte = CryptoJS.lib.WordArray.create(decrypted.words.slice(0,8))
   // return seedbyte
-  decrypted.sigBytes = 64;
+  decrypted.sigBytes = 32;
   return decrypted
 }
 

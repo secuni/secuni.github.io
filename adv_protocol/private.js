@@ -7,7 +7,7 @@ function get_hpw(pw) {
 }
 
 function generate_prvr(data, hpw) {
-    const rnum = random_bin(64)
+    const rnum = random_bin(32)
     const [pr, vr] = compute_prvr(rnum)
     const hint = encrypt_s(hpw, rnum)
     return [pr, vr, hint]
@@ -21,8 +21,8 @@ function get_pr(data, hpw){
 }
 
 function compute_prvr(rnum){
-    const seed = CryptoJS.lib.WordArray.create(rnum.words.slice(0,8))
-    const salt = CryptoJS.lib.WordArray.create(rnum.words.slice(8,16)).toString(CryptoJS.enc.Base64)
+    const seed = hash_bin(rnum.toString(CryptoJS.enc.Base64), 30000);
+    const salt = hash(seed.toString(CryptoJS.enc.Base64), 1);
     const ec = new KJUR.crypto.ECDSA({'curve': 'secp256r1'});
     constructKeyPairHex(ec, seed.toString());
     let privkey = KEYUTIL.getPEM(ec, "PKCS8PRV");

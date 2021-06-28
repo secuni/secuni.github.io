@@ -17,7 +17,7 @@ function get_prover_adv(data,pw) {
 
 function prove_auth_adv(data, pr, s) {
     let s_n = to_str(data, random(32) + ';' +  s)
-    return (sign(pr, s_n, 50000))+';'+ s_n
+    return (sign(pr, s_n, 30000))+';'+ s_n
 }
 
 function get_prid_adv(data) {
