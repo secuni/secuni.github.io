@@ -15,12 +15,12 @@ function split_ncut(delim, s, ncut) {
 }
 
 function to_str(data, s) {
-  return data.hint + ';' + s;
+  return (data ? data.hint : '') + ';' + s;
 }
 
 function from_str(ds, ncut) {
   const [hint, s] = split_ncut(';', ds, 1);
-  return [new HANData(hint), split_ncut(';', s, ncut)];
+  return [hint === '' ? null : new HANData(hint), split_ncut(';', s, ncut)];
 }
 
 function encrypt_a(pubkey, txt) {

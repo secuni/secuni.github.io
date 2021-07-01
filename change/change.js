@@ -1,6 +1,7 @@
 import {check_strength, load_pw_name, do_query,
     parse, prove_new,return_failure, get_prover, 
-    get_prid, prove_auth, do_change} from "../library.js";
+    get_prid, prove_auth, do_change, do_create} from "../library.js";
+
 let opener = null;
 let url_app = null;
 
@@ -58,14 +59,13 @@ async function receive_message(event) {
     window.removeEventListener("message", receive_message);
     let result = await QueryChange(id, url_query);
     let ty= result['ty']; let pt = result['pt']; let ds = result['ds']; let pt_n = result['pt_n']; let ds_n = result['ds_n'];  let aux = result['aux'];
-    if(ds == null) {
-        document.getElementById("user_pw_old").remove();
-        document.getElementById("user_pw_new").focus();
-        // HCreate(id, url_query, data);
-    }
     let etc = aux +';' + dom_app;
     let data = ds ? parse(pt)(ds) : null;
     let data_n = parse(pt_n)(ds_n);
+    if(data === null) {
+        document.getElementById("user_pw_old").remove();
+        document.getElementById("user_pw_new").focus();
+    }
     document.getElementById('compute').onclick = set_change_button(id, url_query, ty, pt, pt_n, data, data_n, etc);
 }
 
@@ -96,7 +96,7 @@ function set_change_button(id, url_query, ty, pt, pt_n, data, data_n, etc) {
 }
 
 function get_userpw() {
-    let pw = document.getElementById("user_pw").value;
+    let pw = document.getElementById("user_pw") ? document.getElementById("user_pw").value : null;
     let pw_n = document.getElementById("user_pw_new").value;
     let pw_n_confirm = document.getElementById("user_pw_confirm").value;
     if(pw_n !== pw_n_confirm) { 
