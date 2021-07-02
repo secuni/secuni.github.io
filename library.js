@@ -27,7 +27,7 @@ function load_pw_name() {
     let listdom = document.getElementById("pw_name_list");
     if(listdom == null)
         return
-    let options = '';
+    let options = listdom.innerHTML;
     let pw_name_list = []
     let keys = Object.keys(localStorage);
     for(var i=0; i<keys.length; i++) {
@@ -39,7 +39,6 @@ function load_pw_name() {
     pw_name_list.forEach(function (pw_name) {
         options += '<option value="' + pw_name + '" />';
     });
-
     listdom.innerHTML = options;
 }
 

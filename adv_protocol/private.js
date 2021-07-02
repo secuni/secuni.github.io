@@ -6,7 +6,7 @@ function get_hpw(pw) {
     return hash_bin(pw);
 }
 
-function generate_prvr(data, hpw) {
+function generate_prvr(hpw) {
     const rnum = random_bin(32)
     const [pr, vr] = compute_prvr(rnum)
     const hint = encrypt_s(hpw, rnum)

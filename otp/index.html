@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title> SecUni </title>
     <script src="../aes.js"></script>
+    <script src="../pad-nopadding-min.js"></script>
     <script src="../jsrsasign-all-min.js"></script>
     <!-- <script src="../qrious.min.js"></script> -->
     <script src="./otp.js" type="module"></script>
@@ -35,8 +36,13 @@
           <label style="display:inline-block;width:70px;" for="user_pw">Password</label>
           <input style="width:160px" type="password" name="user_pw" id="user_pw" value="" autocomplete="current-password" autofocus>      
         </div>
-        <div style="text-align:right">
-            <input type="submit">
+        <div>
+            <span style="float:left">
+              <input style="width:100px;" type="text" id="pw_name" disabled>
+            </span>
+            <span style="float:right">
+              <input type="submit">
+            </span>
         </div>
       </form>
     </div>

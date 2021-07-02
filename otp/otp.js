@@ -23,7 +23,9 @@ async function receive_message() {
     document.getElementById("dom_app").value = dom_app_n
     let result = await QueryLogin(id, url_query);
     let ty= result['ty']; let pt = result['pt']; let ds = result['ds']; let pt_n = result['pt_n']; let ds_n = result['ds_n'];  let aux = result['aux'];
-    let etc = aux +';' + dom_app;
+    let [pwname] = aux.split(';',1)
+    document.getElementById('pw_name').value = pwname;
+    let etc = aux +';' + dom_app + ';' + pwname;
     let data = parse(pt)(ds)
     let data_n = ds_n ? parse(pt_n)(ds_n) : null
     

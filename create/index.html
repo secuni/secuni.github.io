@@ -37,15 +37,18 @@
       </tr>
 
       <tr>
-	<td  colspan="2">
-		<div style="display:none">
-    <input list="pw_name_list" type="text" id="pw_name" autocomplete="off" placeholder="Enter your PW name" onkeypress="enter_pwd()">
-    <datalist id="pw_name_list"></datalist>
-		</div>
-		<div style="float:right">
-	  <input type="button" id="compute" value="Complete" onclick="alert('Please wait!')">
-		</div>
-	</td>
+        <td colspan="2">
+          <span style="float:left">
+          <input style="width:100px;" list="pw_name_list" type="text" id="pw_name" autocomplete="off" placeholder="Default" onkeypress="enter_pwd()">
+          <datalist id="pw_name_list">
+            <option value="Default">Default</option>
+            <option value="Special">Special</option>
+          </datalist>
+          </span>
+          <span style="float:right">
+          <input type="button" id="compute" value="Complete" onclick="alert('Please wait!')">
+          </span>
+        </td>
       </tr>
     </table>
 

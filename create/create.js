@@ -5,7 +5,7 @@ let url_app = null;
 
 window.onload = function() {
     // window.onblur = function(){ window.close(); };
-    // load_pw_name();
+    load_pw_name();
     window.addEventListener("message", receive_message, false);
     window.opener.postMessage("", "*");
 }
@@ -58,6 +58,8 @@ async function QueryCreate(id, url_query) {
 
 function set_create_button(id, url_query, ty, pt, pt_n, data_n, etc) {
     return (() => {
+        let pwname = document.getElementById('pw_name').value;
+        etc = etc + ';' + (pwname ? pwname : "Default");
         let pw = get_userpw();
         if(pw === null) return;
         try {

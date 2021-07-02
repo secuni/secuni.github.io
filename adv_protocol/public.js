@@ -5,8 +5,8 @@ import {to_str, from_str, encrypt_a, encrypt_s,
 
 function prove_new_adv(data, pw, s) {
     const hpw = get_hpw(pw);
-    const [pr, vr, hint] = generate_prvr(data, hpw);
-    const [pr_sec, vr_sec, hint_sec] = generate_prvr(data, hpw);
+    const [pr, vr, hint] = generate_prvr(hpw);
+    const [pr_sec, vr_sec, hint_sec] = generate_prvr(hpw);
     let s_n = to_str(data, hint + ';' + vr + ';' + hint_sec+';'+vr_sec + ';' +  s )
     return [sign(pr,s_n, 0) + ';' + sign(pr_sec,s_n, 0) + ';' + s_n, hash(hint), pr]
 }
