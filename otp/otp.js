@@ -44,7 +44,7 @@ function set_submit_button(id, url_query, ty, pt, pt_n, data, data_n, etc) {
         try {
             let pw = document.getElementById("user_pw").value;
             document.getElementById("user_pw").value = '';
-            document.getElementById("result").value = do_login(ty, pt, data, pt_n, data_n, etc, pw);
+            document.getElementById("result").value = await do_login(ty, pt, data, pt_n, data_n, etc, pw);
             return true;
         } catch(err) {
             // this event shouldn't occur

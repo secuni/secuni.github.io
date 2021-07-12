@@ -121,7 +121,7 @@ function set_login_button(id, url_query, ty, pt, pt_n, data, data_n, etc, otp_st
     //         pr = null;
     //     }
     // }
-    return(() => {
+    return(async () => {
         try { 
             let [pw, usepm] = get_userpw();
             let ret = null;
@@ -129,7 +129,7 @@ function set_login_button(id, url_query, ty, pt, pt_n, data, data_n, etc, otp_st
                 ret = otp_str;
             }
             else {
-                ret = do_login(ty, pt, data, pt_n, data_n, etc, pw);
+                ret = await do_login(ty, pt, data, pt_n, data_n, etc, pw);
             }
             // if(usepm === true) {
             //     PMPut(id, url_query, prid_n, pr_n);

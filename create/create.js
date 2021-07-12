@@ -48,7 +48,7 @@ async function receive_message(event) {
     let ty= result['ty']; let pt = result['pt']; let pt_n = result['pt_n']; let ds_n = result['ds_n']; let aux = result['aux'];
     let data_n = parse(pt_n)(ds_n)
     let etc = aux +';' + dom_app
-    document.getElementById('compute').onclick = set_create_button(id, url_query, ty, pt, pt_n, data_n, etc);
+    document.getElementById('compute').onclick = await set_create_button(id, url_query, ty, pt, pt_n, data_n, etc);
 }
 
 async function QueryCreate(id, url_query) {
@@ -57,7 +57,7 @@ async function QueryCreate(id, url_query) {
 }
 
 function set_create_button(id, url_query, ty, pt, pt_n, data_n, etc) {
-    return (() => {
+    return (async () => {
         let pwname = document.getElementById('pw_name').value;
         etc = etc + ';' + (pwname ? pwname : "Default");
         let pw = get_userpw();
@@ -65,7 +65,7 @@ function set_create_button(id, url_query, ty, pt, pt_n, data_n, etc) {
         try {
             // let pw_name = document.getElementById("pw_name").value;
             // PMCreate(id, url_query, pw_name);
-            let ret = do_create(ty, pt, pt_n, data_n, etc, pw)
+            let ret = await do_create(ty, pt, pt_n, data_n, etc, pw)
             opener.postMessage(ret, url_app);
             window.close();
         } catch(err) {

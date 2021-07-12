@@ -6,22 +6,22 @@ function get_hpw(pw) {
     return hash_bin(pw);
 }
 
-function generate_prvr(hpw) {
+async function generate_prvr(hpw) {
     const rnum = random_bin(32)
-    const [pr, vr] = compute_prvr(rnum)
+    const [pr, vr] = await compute_prvr(rnum)
     const hint = encrypt_s(hpw, rnum)
     return [pr, vr, hint]
 }
   
 
-function get_pr(data, hpw){
+async function get_pr(data, hpw){
     const rnum = decrypt_s(hpw, data.hint)
-    const [pr,{}] = compute_prvr(rnum)
+    const [pr,{}] = await compute_prvr(rnum)
     return pr
 }
 
-function compute_prvr(rnum){
-    const seed = CryptoJS.lib.WordArray.create(hash_many_bin(rnum.toString(CryptoJS.enc.Base64), hash("dummysalt"), 30000).words.slice(0, 8));
+async function compute_prvr(rnum){
+    const seed = CryptoJS.lib.WordArray.create((await hash_many_bin(rnum.toString(CryptoJS.enc.Base64), hash("dummysalt"), 30000)).words.slice(0, 8));
     const salt = hash(seed.toString(CryptoJS.enc.Base64));
     const ec = new KJUR.crypto.ECDSA({'curve': 'secp256r1'});
     constructKeyPairHex(ec, seed.toString());

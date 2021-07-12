@@ -70,7 +70,7 @@ function hash(data) {
   return CryptoJS.SHA256(data).toString(CryptoJS.enc.Base64)
 }
 
-function hash_many(data, salt, n) {
+async function hash_many(data, salt, n) {
   return PBKDF2_SHA256(data, salt, n, 64).toString(CryptoJS.enc.Base64)
 }
 
@@ -78,11 +78,11 @@ function hash_bin(data) {
   return CryptoJS.SHA256(data)
 }
 
-function hash_many_bin(data, salt, n) {
+async function hash_many_bin(data, salt, n) {
   return PBKDF2_SHA256(data, salt, n, 64)
 }
 
-function sign(pr, s, n) {
+async function sign(pr, s, n) {
   const [salt, sk_str] = split_ncut(',',pr,1);
   let sk = "-----BEGIN PRIVATE KEY-----\n" + sk_str.substr(0,64) + "\n" + sk_str.substr(64,64) + "\n" + sk_str.substr(128) + "\n-----END PRIVATE KEY-----"
   const sig = new KJUR.crypto.Signature({'alg':'SHA256withECDSA'});
@@ -90,7 +90,7 @@ function sign(pr, s, n) {
   if(n==0)
     return hexToBase64(sig.signString(salt+s));
   else
-    return hexToBase64(sig.signString(hash_many(s, salt, n)));
+    return hexToBase64(sig.signString(await hash_many(s, salt, n)));
 }
 
 function random_bin(bytes=32) {

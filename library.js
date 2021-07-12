@@ -96,23 +96,23 @@ function parse(pt) {
     }
 }
 
-function do_login(ty, pt, data, pt_n, data_n, etc, pw) {
+async function do_login(ty, pt, data, pt_n, data_n, etc, pw) {
     let prid = get_prid(pt)(data);
-    let pr = get_prover(pt)(data, pw);
-    let [r_n, prid_n, pr_n] = (data_n===null) ? [etc, prid, pr] : prove_new(pt_n)(data_n, pw, etc);
-    let ret = ty + ';' + pt + ';' + pt_n + ';' + prove_auth(pt)(data, pr, r_n);
+    let pr = await get_prover(pt)(data, pw);
+    let [r_n, prid_n, pr_n] = (data_n===null) ? [etc, prid, pr] : await prove_new(pt_n)(data_n, pw, etc);
+    let ret = ty + ';' + pt + ';' + pt_n + ';' + await prove_auth(pt)(data, pr, r_n);
     return ret;
 }
 
-function do_create(ty, pt, pt_n, data_n, etc, pw) {
-    let [ret, salt, pr] = prove_new(pt_n)(data_n, pw, etc);
+async function do_create(ty, pt, pt_n, data_n, etc, pw) {
+    let [ret, salt, pr] = await prove_new(pt_n)(data_n, pw, etc);
     return ty + ';' + pt + ';' + pt_n + ';' + ret;
 }
 
-function do_change(ty, pt, data, pt_n, data_n, etc, pw, pw_n) {
-    let pr = get_prover(pt)(data, pw);
-    let [r_n, {}, {}] = prove_new(pt_n)(data_n, pw_n, etc);
-    let ret = ty + ';' + pt + ';' + pt_n + ';' + prove_auth(pt)(data, pr, r_n)
+async function do_change(ty, pt, data, pt_n, data_n, etc, pw, pw_n) {
+    let pr = await get_prover(pt)(data, pw);
+    let [r_n, {}, {}] = await prove_new(pt_n)(data_n, pw_n, etc);
+    let ret = ty + ';' + pt + ';' + pt_n + ';' + await prove_auth(pt)(data, pr, r_n)
     return ret;
 }
 
