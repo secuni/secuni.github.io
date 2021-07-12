@@ -1,5 +1,4 @@
 import {rsa_encrypt} from './encryption.js';
-import {PBKDF2_SHA256} from './pbkdf2.js';
 
 class HANData{
   constructor(hint) {
@@ -67,20 +66,20 @@ function decrypt_s(key, data) {
   return decrypted
 }
 
-function hash(data, n=1) {
-  if(n==0) return data
-  else if(n == 1)
-    return CryptoJS.SHA256(data).toString(CryptoJS.enc.Base64)
-  else 
-    return PBKDF2_SHA256(data, "", n, 32).toString(CryptoJS.enc.Base64)
+function hash(data) {
+  return CryptoJS.SHA256(data).toString(CryptoJS.enc.Base64)
 }
 
-function hash_bin(data, n=1) {
-  if(n==0) return data
-  else if(n == 1)
-    return CryptoJS.SHA256(data)
-  else 
-    return PBKDF2_SHA256(data, "", n, 32)
+function hash_many(data, salt, n) {
+  return PBKDF2_SHA256(data, salt, n, 64).toString(CryptoJS.enc.Base64)
+}
+
+function hash_bin(data) {
+  return CryptoJS.SHA256(data)
+}
+
+function hash_many_bin(data, salt, n) {
+  return PBKDF2_SHA256(data, salt, n, 64)
 }
 
 function sign(pr, s, n) {
@@ -88,7 +87,10 @@ function sign(pr, s, n) {
   let sk = "-----BEGIN PRIVATE KEY-----\n" + sk_str.substr(0,64) + "\n" + sk_str.substr(64,64) + "\n" + sk_str.substr(128) + "\n-----END PRIVATE KEY-----"
   const sig = new KJUR.crypto.Signature({'alg':'SHA256withECDSA'});
   sig.init(sk)
-  return hexToBase64(sig.signString(hash(salt+s,n)));
+  if(n==0)
+    return hexToBase64(sig.signString(salt+s));
+  else
+    return hexToBase64(sig.signString(hash_many(s, salt, n)));
 }
 
 function random_bin(bytes=32) {
@@ -126,4 +128,4 @@ function constructKeyPairHex(ec, seed) {
 
 export {to_str, from_str, encrypt_a, encrypt_s, 
       encrypt_s_text, hash, random, random_bin, 
-      decrypt_s, sign, hash_bin, constructKeyPairHex}
+      decrypt_s, sign, hash_bin, hash_many, hash_many_bin, constructKeyPairHex}
