@@ -71,7 +71,38 @@ function hash(data) {
 }
 
 async function hash_many(data, salt, n) {
-  return PBKDF2_SHA256(data, salt, n, 64).toString(CryptoJS.enc.Base64)
+  return await pbkdf2(data, salt, n)
+}
+
+async function pbkdf2(password, salt, iterations=1e6, bytes=64) {
+  const pwUtf8 = new TextEncoder().encode(password);                                           // encode pw as UTF-8
+  const pwKey = await crypto.subtle.importKey('raw', pwUtf8, 'PBKDF2', false, ['deriveBits']); // create pw key
+  // const saltUint8 = new Uint8Array(_base64ToArrayBuffer(salt));                             // get random salt;
+  const saltUint8 = new TextEncoder().encode(salt);                             // get random salt;
+
+  const params = { name: 'PBKDF2', hash: 'SHA-256', salt: saltUint8, iterations: iterations }; // pbkdf2 params
+  const keyBuffer = await crypto.subtle.deriveBits(params, pwKey, bytes*8);                        // derive key
+  return _arrayBufferToBase64(keyBuffer);                                                                  // return composite key
+}
+
+function _base64ToArrayBuffer(base64) {
+  var binary_string = window.atob(base64);
+  var len = binary_string.length;
+  var bytes = new Uint8Array(len);
+  for (var i = 0; i < len; i++) {
+      bytes[i] = binary_string.charCodeAt(i);
+  }
+  return bytes.buffer;
+}
+
+function _arrayBufferToBase64( buffer ) {
+  var binary = '';
+  var bytes = new Uint8Array( buffer );
+  var len = bytes.byteLength;
+  for (var i = 0; i < len; i++) {
+      binary += String.fromCharCode( bytes[ i ] );
+  }
+  return window.btoa( binary );
 }
 
 function hash_bin(data) {
@@ -79,7 +110,7 @@ function hash_bin(data) {
 }
 
 async function hash_many_bin(data, salt, n) {
-  return PBKDF2_SHA256(data, salt, n, 64)
+  return CryptoJS.enc.Base64.parse(await pbkdf2(data, salt, n))
 }
 
 async function sign(pr, s, n) {
