@@ -1,6 +1,6 @@
 import {check_strength, load_pw_name, do_query,
     parse, prove_new,return_failure, get_prover, 
-    get_prid, prove_auth, do_login} from "../library.js";
+    get_prid, prove_auth, do_login, PMPut, PMGet} from "../library.js";
 
 window.onload = async function() {   
     await receive_message();
@@ -44,7 +44,8 @@ function set_submit_button(id, url_query, ty, pt, pt_n, data, data_n, etc) {
         try {
             let pw = document.getElementById("user_pw").value;
             document.getElementById("user_pw").value = '';
-            document.getElementById("result").value = await do_login(ty, pt, data, pt_n, data_n, etc, pw);
+            let [res, {}, {}] = await do_login(ty, pt, data, pt_n, data_n, etc, pw);
+            document.getElementById("result").value = res
             return true;
         } catch(err) {
             // this event shouldn't occur

@@ -3,14 +3,11 @@
   <head>
     <meta charset="utf-8">
     <title> SecUni </title>
-    <script src="../secuni.js"></script>
-    <script src="../crypto.js"></script>
-    <script src="../encryption.js"></script>
-    <script src="../library.js"></script>
-    <script src="../pbkdf2.js"></script>
     <script src="../aes.js"></script>
     <script src="../pad-nopadding-min.js"></script>
     <script src="../jsrsasign-all-min.js"></script>
+    <script src="./manager.js" type="module"></script>
+    <script src="../handler.js"></script>
   </head>
 
   <body>
@@ -22,7 +19,7 @@
         <th>Server Address</th>
         <th>Change Date</th>
         <th>PW Name</th>
-        <th>PWStored</th>
+        <th>PRStored</th>
         <th>
           Select
           <input type="checkbox" id="select_global" onchange="select_global()"/>
@@ -58,8 +55,11 @@
 
       <tr>
         <td colspan="2">
-          <input list="pw_name_list" type="text" id="pw_name" autocomplete="off" placeholder="Enter your PW name" onkeypress="enter_pwd()">
-          <datalist id="pw_name_list"></datalist>
+          <input list="pw_name_list" type="text" id="pw_name" autocomplete="off" placeholder="Default" onkeypress="enter_pwd()">
+          <datalist id="pw_name_list">
+            <option value="Default">Default</option>
+            <option value="Special">Special</option>
+          </datalist>
           <input type="button" id="compute" value="Change All" onclick="do_update_all()">
         </td>
       </tr>

@@ -1,6 +1,6 @@
 import {check_strength, load_pw_name, do_query,
     parse, prove_new,return_failure, get_prover, 
-    get_prid, prove_auth, do_change, do_create} from "../library.js";
+    get_prid, prove_auth, do_change, do_create, PMPut, PMGet} from "../library.js";
 
 let opener = null;
 let url_app = null;
@@ -77,17 +77,19 @@ async function QueryChange(id, url_query) {
 function set_change_button(id, url_query, ty, pt, pt_n, data, data_n, etc) {
     return (async () => {
         let pwname = document.getElementById('pw_name').value;
-        etc = etc + ';' + (pwname ? pwname : "Default");    
+        pwname = (pwname ? pwname : "Default");
+        etc = etc + ';' + pwname;
         let [pw, pw_n] = get_userpw();
         if((data && !(pw && pw_n)) || (!data && !pw_n)) 
             return;
         try {
             let ret =  null;
             if(data === null) ret = await do_create(ty, pt, pt_n, data_n, etc, pw_n)
-            else ret = await do_change(ty, pt, data, pt_n, data_n, etc, pw, pw_n)
+            else [ret, {}, {}] = await do_change(ty, pt, data, pt_n, data_n, etc, pw, pw_n)
             // let pw_name = document.getElementById("pw_name").value;
             // PMChange(id, url_query, pw_name, null, null);
             opener.postMessage(ret, url_app);
+            PMPut(url_query, id, pwname, true, "", "");
             window.close();
         } catch(err) {
             // this event shouldn't occur

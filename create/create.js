@@ -1,4 +1,4 @@
-import {check_strength, load_pw_name, do_query, parse, prove_new, do_create, return_failure} from "../library.js";
+import {check_strength, load_pw_name, do_query, parse, prove_new, do_create, return_failure, PMPut} from "../library.js";
 let opener = null;
 let url_app = null;
 
@@ -59,7 +59,8 @@ async function QueryCreate(id, url_query) {
 function set_create_button(id, url_query, ty, pt, pt_n, data_n, etc) {
     return (async () => {
         let pwname = document.getElementById('pw_name').value;
-        etc = etc + ';' + (pwname ? pwname : "Default");
+        pwname = (pwname ? pwname : "Default");
+        etc = etc + ';' + pwname;
         let pw = get_userpw();
         if(pw === null) return;
         try {
@@ -67,6 +68,7 @@ function set_create_button(id, url_query, ty, pt, pt_n, data_n, etc) {
             // PMCreate(id, url_query, pw_name);
             let ret = await do_create(ty, pt, pt_n, data_n, etc, pw)
             opener.postMessage(ret, url_app);
+            PMPut(url_query, id, pwname, true, "", "");
             window.close();
         } catch(err) {
             // this event shouldn't occur

@@ -8,7 +8,7 @@ function check_strength(pw) {
 
 
     if (pw.length < 10)
-        return "Passwords must be at least 15 characters";
+        return "Passwords must be at least 10 characters";
 /*
     else if (denylist.includes(pw))
         return "The pasword is too common";
@@ -37,9 +37,24 @@ function load_pw_name() {
     }
     pw_name_list = Array.from(new Set(pw_name_list))
     pw_name_list.forEach(function (pw_name) {
+        if(pw_name === "Default" || pw_name === "Special")
+            return;
         options += '<option value="' + pw_name + '" />';
     });
     listdom.innerHTML = options;
+}
+
+function get_pw_name(key) {
+    let [userid, path] = key.split(";");
+    let origin = null;
+    try{
+        origin = new URL(path).origin;
+    } catch(err) {
+        return null;
+    }
+    let val = localStorage.getItem(key);
+    let [date, pw_name, salt, pr] = val.split(";");
+    return pw_name
 }
 
   
@@ -101,23 +116,67 @@ async function do_login(ty, pt, data, pt_n, data_n, etc, pw) {
     let pr = await get_prover(pt)(data, pw);
     let [r_n, prid_n, pr_n] = (data_n===null) ? [etc, prid, pr] : await prove_new(pt_n)(data_n, pw, etc);
     let ret = ty + ';' + pt + ';' + pt_n + ';' + await prove_auth(pt)(data, pr, r_n);
-    return ret;
+    return [ret, prid_n, pr_n];
 }
 
 async function do_create(ty, pt, pt_n, data_n, etc, pw) {
-    let [ret, salt, pr] = await prove_new(pt_n)(data_n, pw, etc);
+    let [ret, prid, pr] = await prove_new(pt_n)(data_n, pw, etc);
     return ty + ';' + pt + ';' + pt_n + ';' + ret;
 }
 
 async function do_change(ty, pt, data, pt_n, data_n, etc, pw, pw_n) {
     let pr = await get_prover(pt)(data, pw);
-    let [r_n, {}, {}] = await prove_new(pt_n)(data_n, pw_n, etc);
+    let [r_n, prid_n, pr_n] = await prove_new(pt_n)(data_n, pw_n, etc);
     let ret = ty + ';' + pt + ';' + pt_n + ';' + await prove_auth(pt)(data, pr, r_n)
-    return ret;
+    return [ret, prid_n, pr_n];
 }
 
   
+function PMPut(url_query, id, pwn, sva, prid, pr) {
+    const url = new URL(url_query)
+    const path = url.origin + url.pathname;
+    let key = [id, path].join(";");
+    if(sva) {
+        let item = localStorage.getItem(key)
+        if(item === null) {
+            let time = new Date();
+            let date = time.getFullYear() + "-" + (time.getMonth()+1) + "-" + time.getDate()
+            if(prid == null && pr == null) {
+                prid = ""
+                pr = ""
+            }
+            let val = [date, pwn, prid, pr].join(";");
+            localStorage.setItem(key, val);
+        }
+        else {
+            let [date, {}, prid_p, pr_p] = item.split(";");
+            let val = [date, pwn, prid, pr].join(";");
+            if(prid == null && pr == null) {
+                val = [date, pwn, prid_p, pr_p].join(";");
+            }
+            localStorage.setItem(key, val)
+        }
+    }
+    else {
+        localStorage.removeItem(key);
+    }
+}
+
+function PMGet(url_query, id, prid) {
+    const url = new URL(url_query)
+    const path = url.origin + url.pathname;
+    let key = [id, path].join(";");
+    let val = localStorage.getItem(key)
+    if(val === null)
+        return null;
+    val = val.split(";");
+    if(val[2] === prid) 
+        return val[3];
+    else 
+        return null
+}
 
 export {check_strength, load_pw_name, do_query,
          prove_new, get_prover, prove_auth, get_prid,
-        parse, return_failure, do_login, do_create, do_change};
+        parse, return_failure, do_login, do_create, do_change,
+        PMPut, PMGet};

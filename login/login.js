@@ -1,6 +1,6 @@
 import {check_strength, load_pw_name, do_query,
         parse, prove_new,return_failure, get_prover, 
-        get_prid, prove_auth, do_login} from "../library.js";
+        get_prid, prove_auth, do_login, PMPut, PMGet} from "../library.js";
 let opener = null;
 let url_app = null;
 let qr=null;
@@ -107,7 +107,7 @@ async function QueryLogin(id, url_query) {
 //     })
 // }
 
-function set_login_button(id, url_query, ty, pt, pt_n, data, data_n, etc, otp_str) {
+function set_login_button(id, url_query, ty, pt, pt_n, data, data_n, etc, otp_str, sec=false) {
     // let pr = PMGet(id, url_query, get_prid(data));
     // if(pr !== null && data_n === null) {
     //     let res = confirm("Use Auto Login");
@@ -123,20 +123,18 @@ function set_login_button(id, url_query, ty, pt, pt_n, data, data_n, etc, otp_st
     // }
     return(async () => {
         try { 
-            let [pw, usepm] = get_userpw();
+            let [pw, svp] = get_userpw();
             let ret = null;
-            if(!pw) {
+            let prid = null;
+            let pr = null;
+            if(pw === null) {
                 ret = otp_str;
             }
             else {
-                ret = await do_login(ty, pt, data, pt_n, data_n, etc, pw);
+                [ret, prid, pr] = await do_login(ty, pt, data, pt_n, data_n, etc, pw);
             }
-            // if(usepm === true) {
-            //     PMPut(id, url_query, prid_n, pr_n);
-            // }
-            // else {
-            //     PMPut(id, url_query, null, null);
-            // }
+            [prid, pr] = sec? [null, null] : (svp ? [prid, pr] : ["", ""])
+            PMPut(url_query, id, document.getElementById('pw_name').value, true, prid, pr);
             opener.postMessage(ret, url_app);
             window.close();
         } catch(err) {
