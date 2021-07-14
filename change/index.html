@@ -27,30 +27,33 @@
       </tr>
       <tr>
         <td> New </td>
-        <td> <input type="password" id="user_pw_new" autocomplete="off"> </td>
+        <td> <input type="password" placeholder="Minimum 15 characters" id="user_pw_new" autocomplete="off"> </td>
         <!-- <td> Use 10 or more characters with a mix of letters, numbers & symbols !@#$%^&*)(+=._- </td> -->
       </tr>
-      <tr>
+      <!-- <tr>
 	<td  colspan="2">
 	It must be at least 15 characters.
 	</td>
-      </tr>
+      </tr> -->
       <tr>
         <td> Confirm </td>
-        <td> <input type="password" id="user_pw_confirm" autocomplete="off" onkeypress="enter_pwd()"> </td>
+        <td> <input type="password" placeholder="Minimum 15 characters" id="user_pw_confirm" autocomplete="off" onkeypress="enter_pwd()"> </td>
       </tr>
 
       <tr>
-        <td  colspan="2">
+        <td> PWName </td>
+        <td>
           <span style="float:left">
-          <input style="width:100px;" list="pw_name_list" type="text" id="pw_name" autocomplete="off" placeholder="Default" onkeypress="enter_pwd()">
+            <input style="width:100px;" list="pw_name_list" type="text" id="pw_name" autocomplete="off" placeholder="Default" onkeypress="enter_pwd()">
           <datalist id="pw_name_list">
             <option value="Default">Default</option>
             <option value="Special">Special</option>
           </datalist>
           </span>
-          <span style="float:right">
-          <input type="button" id="compute" value="Complete" onclick="alert('Please wait!')">
+        </td>
+        <td style="position:relative; right:40px;">
+          <span >
+            <input type="button" id="compute" value="Complete" onclick="alert('Please wait!')">
           </span>
         </td>
       </tr>

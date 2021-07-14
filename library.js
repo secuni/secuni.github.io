@@ -7,8 +7,8 @@ function check_strength(pw) {
     let regex_symbol = new RegExp(/^.*[!@#\$%\^\&*\)\(+=._-].*$/);
 
 
-    if (pw.length < 10)
-        return "Passwords must be at least 10 characters";
+    if (pw.length < 15)
+        return "Passwords must be at least 15 characters";
 /*
     else if (denylist.includes(pw))
         return "The pasword is too common";

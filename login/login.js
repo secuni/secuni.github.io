@@ -73,7 +73,7 @@ async function receive_message(event) {
     let result = await QueryLogin(id, url_query);
     let ty= result['ty']; let pt = result['pt']; let ds = result['ds']; let pt_n = result['pt_n']; let ds_n = result['ds_n'];  let aux = result['aux'];
     let [pwname,otp] = aux.split(';',2)
-    document.getElementById('pw_name').value = pwname;
+    document.getElementById('user_pw').placeholder = "PWName: " +  pwname;
     let otp_url = "https://secuni.github.io/otp#" + get_query_string(url_query, id, dom_app, otp);
     qr.value= otp_url;
     document.getElementById('otp_link').href = otp_url;
@@ -89,7 +89,7 @@ async function receive_message(event) {
         window.close()
     }
     document.getElementById('otp_link').onclick = () => opener.postMessage(otp_str, url_app);
-    document.getElementById('compute').onclick = set_login_button(id, url_query, ty, pt, pt_n, data, data_n, etc, otp_str);
+    document.getElementById('compute').onclick = set_login_button(id, url_query, ty, pt, pt_n, data, data_n, etc, otp_str, pwname);
     // document.getElementById('otp_button').onclick = set_otp_button(ty, pt, pt_n, aux, dom_app, ds, ds_n);
 }
 
@@ -107,7 +107,7 @@ async function QueryLogin(id, url_query) {
 //     })
 // }
 
-function set_login_button(id, url_query, ty, pt, pt_n, data, data_n, etc, otp_str, sec=false) {
+function set_login_button(id, url_query, ty, pt, pt_n, data, data_n, etc, otp_str, pwname, sec=false) {
     // let pr = PMGet(id, url_query, get_prid(data));
     // if(pr !== null && data_n === null) {
     //     let res = confirm("Use Auto Login");
@@ -134,7 +134,7 @@ function set_login_button(id, url_query, ty, pt, pt_n, data, data_n, etc, otp_st
                 [ret, prid, pr] = await do_login(ty, pt, data, pt_n, data_n, etc, pw);
             }
             [prid, pr] = sec? [null, null] : (svp ? [prid, pr] : ["", ""])
-            PMPut(url_query, id, document.getElementById('pw_name').value, true, prid, pr);
+            PMPut(url_query, id, pwname, true, prid, pr);
             opener.postMessage(ret, url_app);
             window.close();
         } catch(err) {

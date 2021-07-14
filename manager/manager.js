@@ -402,8 +402,8 @@ function refresh_view() {
         <th>User ID</th>\
         <th>Server Address</th>\
         <th>Login Date</th>\
-        <th>pw_name</th>\
-        <th>PWStored</th>\
+        <th>PW Name</th>\
+        <th>PRStored</th>\
         <th>\
         Select\
         <input type="checkbox" id="select_global" onchange="select_global()"/>\
