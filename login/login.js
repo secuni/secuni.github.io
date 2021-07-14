@@ -75,11 +75,12 @@ async function receive_message(event) {
     let [pwname,otp] = aux.split(';',2)
     document.getElementById('user_pw').placeholder = "PWName: " +  pwname;
     let otp_url = "https://secuni.github.io/otp#" + get_query_string(url_query, id, dom_app, otp);
+    // otp_url = "http://localhost:7999/otp#" + get_query_string(url_query, id, dom_app, otp);
+    // console.log("http://localhost:7999/otp#" + get_query_string(url_query, id, dom_app, otp))
     qr.value= otp_url;
     document.getElementById('otp_link').href = otp_url;
     document.getElementById('otp_view').style.display= "";
 
-    // console.log("http://localhost:7999/otp#" + get_query_string(url_query, id, dom_app, otp))
     let etc = aux +';' + dom_app + ';' + pwname;
     let data = parse(pt)(ds)
     let data_n = ds_n ? parse(pt_n)(ds_n) : null
