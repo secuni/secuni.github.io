@@ -128,14 +128,14 @@ function set_login_button(id, url_query, ty, pt, pt_n, data, data_n, etc, otp_st
             let ret = null;
             let prid = null;
             let pr = null;
-            if(pw) {
+            if(pw==="") {
                 ret = otp_str;
             }
             else {
                 [ret, prid, pr] = await do_login(ty, pt, data, pt_n, data_n, etc, pw);
+                [prid, pr] = sec ? [null, null] : (svp ? [prid, pr] : ["", ""])
+                PMPut(url_query, id, pwname, true, prid, pr);
             }
-            [prid, pr] = sec? [null, null] : (svp ? [prid, pr] : ["", ""])
-            PMPut(url_query, id, pwname, true, prid, pr);
             opener.postMessage(ret, url_app);
             window.close();
         } catch(err) {
