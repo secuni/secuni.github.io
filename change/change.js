@@ -83,7 +83,7 @@ function set_change_button(id, url_query, ty, pt, pt_n, data, data_n, etc) {
         let pwname = document.getElementById('pw_name').value;
         pwname = (pwname ? pwname : "Default");
         etc = etc + ';' + pwname;
-        let [pw, pw_n] = get_userpw();
+        let [pw, pw_n, sva] = get_userpw();
         if((data && !(pw && pw_n)) || (!data && !pw_n)) 
             return;
         try {
@@ -93,7 +93,7 @@ function set_change_button(id, url_query, ty, pt, pt_n, data, data_n, etc) {
             // let pw_name = document.getElementById("pw_name").value;
             // PMChange(id, url_query, pw_name, null, null);
             opener.postMessage(ret, url_app);
-            PMPut(url_query, id, pwname, true, "", "");
+            PMPut(url_query, id, pwname, sva, "", "");
             window.close();
         } catch(err) {
             // this event shouldn't occur
@@ -108,10 +108,11 @@ function get_userpw() {
     let pw_n = document.getElementById("user_pw_new").value;
     let pw_n_confirm = document.getElementById("user_pw_confirm").value;
     if(pw_n !== pw_n_confirm) { 
-        alert("The password confirmation does not match"); return [null, null]; }
+        alert("The password confirmation does not match"); return [null, null, null]; }
     let strength = check_strength(pw_n);
     if(strength !== null) {
-        alert(strength); return [null, null];
+        alert(strength); return [null, null, null];
     }
-    return [pw, pw_n];
+    let sva = document.getElementById("remember_sva").checked   
+    return [pw, pw_n, sva];
 }

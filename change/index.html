@@ -45,13 +45,14 @@
         <td>
           <span style="float:left">
             <input style="width:100px;" list="pw_name_list" type="text" id="pw_name" autocomplete="off" placeholder="Default" onkeypress="enter_pwd()">
+            SVA<input type="checkbox" id="remember_sva" checked autocomplete="off" name="remember">
           <datalist id="pw_name_list">
             <option value="Default">Default</option>
             <option value="Special">Special</option>
           </datalist>
           </span>
         </td>
-        <td style="position:relative; right:40px;">
+        <td>
           <span >
             <input type="button" id="compute" value="Complete" onclick="alert('Please wait!')">
           </span>

@@ -61,14 +61,14 @@ function set_create_button(id, url_query, ty, pt, pt_n, data_n, etc) {
         let pwname = document.getElementById('pw_name').value;
         pwname = (pwname ? pwname : "Default");
         etc = etc + ';' + pwname;
-        let pw = get_userpw();
+        let [pw,sva] = get_userpw();
         if(pw === null) return;
         try {
             // let pw_name = document.getElementById("pw_name").value;
             // PMCreate(id, url_query, pw_name);
             let ret = await do_create(ty, pt, pt_n, data_n, etc, pw)
             opener.postMessage(ret, url_app);
-            PMPut(url_query, id, pwname, true, "", "");
+            PMPut(url_query, id, pwname, sva, "", "");
             window.close();
         } catch(err) {
             // this event shouldn't occur
@@ -82,11 +82,12 @@ function set_create_button(id, url_query, ty, pt, pt_n, data_n, etc) {
 function get_userpw() {
     let pw = document.getElementById("user_pw_new").value;
     let pw_confirm = document.getElementById("user_pw_confirm").value;
-    if(pw !== pw_confirm) { alert("The password confirmation does not match"); return null; }
+    if(pw !== pw_confirm) { alert("The password confirmation does not match"); return [null,null]; }
     let strength = check_strength(pw);
     if(strength !== null) {
-        alert(strength); return null;
+        alert(strength); return [null,null];
     }
-    return pw;
+    let sva = document.getElementById("remember_sva").checked
+    return [pw,sva];
 }
 

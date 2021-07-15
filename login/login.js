@@ -124,7 +124,7 @@ function set_login_button(id, url_query, ty, pt, pt_n, data, data_n, etc, otp_st
     // }
     return(async () => {
         try { 
-            let [pw, svp] = get_userpw();
+            let [pw, sva, svp] = get_userpw();
             let ret = null;
             let prid = null;
             let pr = null;
@@ -134,7 +134,7 @@ function set_login_button(id, url_query, ty, pt, pt_n, data, data_n, etc, otp_st
             else {
                 [ret, prid, pr] = await do_login(ty, pt, data, pt_n, data_n, etc, pw);
                 [prid, pr] = sec ? [null, null] : (svp ? [prid, pr] : ["", ""])
-                PMPut(url_query, id, pwname, true, prid, pr);
+                PMPut(url_query, id, pwname, sva, prid, pr);
             }
             opener.postMessage(ret, url_app);
             window.close();
@@ -148,8 +148,9 @@ function set_login_button(id, url_query, ty, pt, pt_n, data, data_n, etc, otp_st
 
 function get_userpw() {
     let pw = document.getElementById("user_pw").value;
-    let usepm = document.getElementById("remember").checked;
-    return [pw, usepm];
+    let sva = document.getElementById("remember_sva").checked;
+    let svp = document.getElementById("remember_svp").checked;
+    return [pw, sva, svp];
 }
 
 let popupwindow = function (url, title, w, h) {
