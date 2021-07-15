@@ -34,14 +34,14 @@
         </div>
         <div>
           <label style="display:inline-block;width:70px;" for="user_pw">Password</label>
-          <input style="width:160px" type="password" name="user_pw" id="user_pw" value="" autocomplete="current-password" autofocus>      
+          <input style="width:160px" type="password" name="user_pw" id="user_pw" value="" autocomplete="current-password" autofocus onkeypress="enter_pwd()">      
         </div>
         <div>
             <!-- <span style="float:left">
               <input style="width:100px;" type="text" id="pw_name" disabled>
             </span> -->
             <span style="float:right">
-              <input type="submit">
+              <input type="button" id="compute" value="Submit" onclick="alert('Please wait!')">
             </span>
         </div>
       </form>

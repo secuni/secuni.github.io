@@ -29,10 +29,8 @@ async function receive_message() {
     let etc = aux +';' + dom_app + ';' + pwname;
     let data = parse(pt)(ds)
     let data_n = ds_n ? parse(pt_n)(ds_n) : null
-    
-    let form = document.getElementById('secuni_form');
-    form.onsubmit = set_submit_button(id, url_query, ty, pt, pt_n, data, data_n, etc);
-    form.action = url_query+'?query=submit_otp';
+    document.getElementById('secuni_form').action = url_query+'?query=submit_otp';
+    document.getElementById('compute').onclick = set_submit_button(id, url_query, ty, pt, pt_n, data, data_n, etc);
 }
 
 async function QueryLogin(id, url_query) {
@@ -44,15 +42,16 @@ function set_submit_button(id, url_query, ty, pt, pt_n, data, data_n, etc) {
     return(async () => {
         try {
             let pw = document.getElementById("user_pw").value;
-            document.getElementById("user_pw").value = '';
             let [res, {}, {}] = await do_login(ty, pt, data, pt_n, data_n, etc, pw);
             document.getElementById("result").value = res
-            return true;
+            document.getElementById("user_pw").value = '';
+            document.getElementById('secuni_form').submit();
         } catch(err) {
             // this event shouldn't occur
+            document.getElementById("user_pw").value = '';
             console.log(err)
-            alert('error')
-            return false;
+            alert(err)
+            document.getElementById('secuni_form').submit();
         }
     });
 }
