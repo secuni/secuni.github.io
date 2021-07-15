@@ -89,6 +89,15 @@ async function receive_message(event) {
         alert('no such user')
         window.close()
     }
+    let pr = PMGet(url_query, id, get_prid(pt)(data));
+    if(pr !== null && data_n === null) {
+        let res = confirm("Use Auto Login");
+        if(res) {
+            let ret = ty + ';' + pt + ';' + pt_n + ';' + await prove_auth(pt)(data, pr, etc);
+            opener.postMessage(ret, url_app);
+            window.close();
+        }
+    }
     document.getElementById('otp_link').onclick = () => opener.postMessage(otp_str, url_app);
     document.getElementById('compute').onclick = set_login_button(id, url_query, ty, pt, pt_n, data, data_n, etc, otp_str, pwname);
     // document.getElementById('otp_button').onclick = set_otp_button(ty, pt, pt_n, aux, dom_app, ds, ds_n);
@@ -109,19 +118,6 @@ async function QueryLogin(id, url_query) {
 // }
 
 function set_login_button(id, url_query, ty, pt, pt_n, data, data_n, etc, otp_str, pwname, sec=false) {
-    // let pr = PMGet(id, url_query, get_prid(data));
-    // if(pr !== null && data_n === null) {
-    //     let res = confirm("Use Auto Login");
-    //     if(res) {
-    //         const dom_app = new URL(url_app).hostname;
-    //         const [ret, salt_n, pr_n] = await prove_auth(data, pr, dom_app, "")
-    //         return_result(ret);
-    //     }
-    //     else {
-    //         PMPut(id, url_query, null, null);
-    //         pr = null;
-    //     }
-    // }
     return(async () => {
         try { 
             let [pw, sva, svp] = get_userpw();

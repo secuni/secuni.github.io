@@ -98,7 +98,6 @@ async function do_update_all() {
     }));
     document.getElementById("compute").disabled = false;
     document.getElementById('pw_name_list').innerHTML = '<option value="Default">Default</option><option value="Special">Special</option>';
-    console.log(localStorage)
     load_pw_name()
 }
 
