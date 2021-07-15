@@ -128,7 +128,7 @@ function set_login_button(id, url_query, ty, pt, pt_n, data, data_n, etc, otp_st
             let ret = null;
             let prid = null;
             let pr = null;
-            if(pw === null) {
+            if(pw) {
                 ret = otp_str;
             }
             else {
