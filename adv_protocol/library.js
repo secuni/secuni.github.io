@@ -19,7 +19,7 @@ function to_str(data, s) {
 
 function from_str(ds, ncut) {
   const [hint, s] = split_ncut(';', ds, 1);
-  return [hint === '' ? null : new HANData(hint), split_ncut(';', s, ncut)];
+  return [ds === '' ? null : new HANData(hint), split_ncut(';', s, ncut)];
 }
 
 function encrypt_a(pubkey, txt) {

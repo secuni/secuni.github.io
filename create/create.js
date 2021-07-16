@@ -59,6 +59,10 @@ async function QueryCreate(id, url_query) {
 function set_create_button(id, url_query, ty, pt, pt_n, data_n, etc) {
     return (async () => {
         let pwname = document.getElementById('pw_name').value;
+        if(pwname.includes(";")) {
+            alert("semicolon not allowed for PWName")
+            return;
+        }
         pwname = (pwname ? pwname : "Default");
         etc = etc + ';' + pwname;
         let [pw,sva] = get_userpw();

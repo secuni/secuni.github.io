@@ -81,6 +81,10 @@ async function QueryChange(id, url_query) {
 function set_change_button(id, url_query, ty, pt, pt_n, data, data_n, etc) {
     return (async () => {
         let pwname = document.getElementById('pw_name').value;
+        if(pwname.includes(";")) {
+            alert("semicolon not allowed for PWName")
+            return;
+        }
         pwname = (pwname ? pwname : "Default");
         etc = etc + ';' + pwname;
         let [pw, pw_n, sva] = get_userpw();

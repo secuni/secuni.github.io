@@ -70,10 +70,14 @@ async function do_update_all() {
         alert("Select a website to change");
         return;
     }
-
-    document.getElementById("compute").disabled = true;
     
-    let pw_name = document.getElementById("pw_name").value;
+    let pw_name = document.getElementById('pw_name').value;
+    if(pw_name.includes(";")) {
+        alert("semicolon not allowed for PWName")
+        return;
+    }
+    
+    document.getElementById("compute").disabled = true;
 
     pw_name = pw_name ? pw_name : "Default";
     let remember = document.getElementById("remember").checked;
