@@ -20,10 +20,25 @@
       <tr>
 	<td> ID </td>
 	<td> <input type="text" id="user_id" disabled> </td>
+	<td>
+        <span style="float:left">
+        Manage Account<input type="checkbox" id="remember_sva" checked autocomplete="off" name="remember">
+        </span>
+	</td>
       </tr>
       <tr>
 	<td> New </td>
 	<td> <input type="password" id="user_pw_new" placeholder="Minimum 15 characters" autocomplete="off" autofocus> </td>
+        <td>
+          <span>
+          PW Name 
+          <input style="width:100px;" list="pw_name_list" type="text" id="pw_name" autocomplete="off" placeholder="Default" onkeypress="enter_pwd()">
+          <datalist id="pw_name_list">
+            <option value="Default">Default</option>
+            <option value="Special">Special</option>
+          </datalist>
+          </span>
+        </td>
         <!-- <td> Use 10 or more characters with a mix of letters, numbers & symbols !@#$%^&*)(+=._- </td> -->
       </tr>
       <!-- <tr> -->
@@ -35,27 +50,10 @@
 	<td> Confirm </td>
 	<td> <input type="password" id="user_pw_confirm" placeholder="Minimum 15 characters" autocomplete="off" onkeypress="enter_pwd()"> </td>
       </tr>
-
-      <tr>
-        <td> PWName </td>
-        <td>
-          <span style="float:left">
-            <input style="width:100px;" list="pw_name_list" type="text" id="pw_name" autocomplete="off" placeholder="Default" onkeypress="enter_pwd()">
-            SVA<input type="checkbox" id="remember_sva" checked autocomplete="off" name="remember">
-          <datalist id="pw_name_list">
-            <option value="Default">Default</option>
-            <option value="Special">Special</option>
-          </datalist>
-          </span>
-        </td>
-        <td>
-          <span >
-            <input type="button" id="compute" value="Complete" onclick="alert('Please wait!')">
-          </span>
-        </td>
-      </tr>
+      <tr><td colspan="2">
+        <a onclick="maximize()" style="float:left;" href="../manager/">Password Manager</a>
+        <input type="button" id="compute" value="Complete" style="float:right;" onclick="alert('Please wait!')">
+      </td></tr>
     </table>
-
-    <a onclick="maximize()" href="../manager/">Click here to go to password manager</a>
     </body>
 </html>

@@ -38,14 +38,18 @@
         <tr>
           <td colspan="2">
             <span style="float:right">
-              SVA<input type="checkbox" id="remember_sva" checked autocomplete="off" name="remember_sva">
-              SVP<input type="checkbox" id="remember_svp" autocomplete="off" name="remember_svp">
-              <input type="button" id="compute" value="Complete" onclick="alert('Please wait!')">
+              Manage Account<input type="checkbox" id="remember_sva" checked autocomplete="off" name="remember_sva">
+              Auto Login<input type="checkbox" id="remember_svp" autocomplete="off" name="remember_svp">
             </span>
           </td>
         </tr>
+        <tr>
+          <td colspan="2">
+            <a onclick="maximize()" style="margin-right:auto; float:left;" href="../manager/">Password Manager</a>
+            <input type="button" id="compute" value="Complete" style="float:right;" onclick="alert('Please wait!')">
+          </td>
+        </tr>
       </table>
-      <a onclick="maximize()" style="margin-right:auto;" href="../manager/">Open the password manager</a>
     </span>
     </div>
     <div style="float:left; margin-top: 30px">
@@ -56,9 +60,11 @@
       <canvas id="qr_method" style="padding-bottom:0px;"></canvas>
       </span>
       </td></tr>
+<!--
       <tr><td style="text-align:center">
       <a href="javascript:undefined"id="otp_link">Use OTP</a>
       </td></tr>	  
+-->
       </table>
     </div>
   </div>
