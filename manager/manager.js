@@ -73,7 +73,7 @@ async function do_update_all() {
     
     let pw_name = document.getElementById('pw_name').value;
     if(pw_name.includes(";")) {
-        alert("semicolon not allowed for PWName")
+        alert("semicolon not allowed for PW Name")
         return;
     }
     
@@ -206,24 +206,34 @@ function get_userpw() {
 function key_to_entry(key, val) {
     let [userid, path] = key.split(";");
     let [date, pw_name, salt, pr] = val.split(";");
-    let origin = null;
+    let host = null;
     try{
-        origin = new URL(path).origin;
+        host = new URL(path).host;
     } catch(err) {
         return [null,null];
     }
     let tr = document.createElement("tr");
+    
+    let td_checked = document.createElement("td");
+    td_checked.style.textAlign = "center";
+    td_checked.onchange = select_entry;
+    let td_checked_val = document.createElement("input");
+    td_checked_val.type = "checkbox";
+    td_checked_val.checked = false;
+    td_checked.appendChild(td_checked_val);
+    tr.appendChild(td_checked);
+
+    let td_host = document.createElement("td");
+    td_host.title = path;
+    let td_host_val = document.createTextNode(host);
+    td_host.appendChild(td_host_val);
+    tr.appendChild(td_host);
 
     let td_userid = document.createElement("td");
     let td_userid_val = document.createTextNode(userid);
     td_userid.appendChild(td_userid_val);
     tr.appendChild(td_userid);
 
-    let td_origin = document.createElement("td");
-    td_origin.title = path;
-    let td_origin_val = document.createTextNode(origin);
-    td_origin.appendChild(td_origin_val);
-    tr.appendChild(td_origin);
 
     let td_date = document.createElement("td");
     let td_date_val = document.createTextNode(date);
@@ -244,19 +254,10 @@ function key_to_entry(key, val) {
     td_saved.appendChild(td_saved_val);
     tr.appendChild(td_saved);
 
-    let td_checked = document.createElement("td");
-    td_checked.style.textAlign = "center";
-    td_checked.onchange = select_entry;
-    let td_checked_val = document.createElement("input");
-    td_checked_val.type = "checkbox";
-    td_checked_val.checked = false;
-    td_checked.appendChild(td_checked_val);
-    tr.appendChild(td_checked);
-
     let entry = {
         node: tr,
-        origin: td_origin_val,
         userid: td_userid_val,
+        host: td_host_val,
         date: td_date_val,
         pw_name: td_pw_name_val,
         saved: td_saved_val,

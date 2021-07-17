@@ -34,13 +34,8 @@
         <td> New </td>
         <td> <input type="password" placeholder="Minimum 15 characters" id="user_pw_new" autocomplete="off"> </td>
         <td>
-          <span>
-          PW Name
-          <input style="width:100px;" list="pw_name_list" type="text" id="pw_name" autocomplete="off" placeholder="Default" onkeypress="enter_pwd()">
-          <datalist id="pw_name_list">
-            <option value="Default">Default</option>
-            <option value="Special">Special</option>
-          </datalist>
+          <span style="float:left">
+            Auto Login<input type="checkbox" id="remember_svp" autocomplete="off" name="remember_svp">
           </span>
         </td>
         <!-- <td> Use 10 or more characters with a mix of letters, numbers & symbols !@#$%^&*)(+=._- </td> -->
@@ -53,6 +48,16 @@
       <tr>
         <td> Confirm </td>
         <td> <input type="password" placeholder="Minimum 15 characters" id="user_pw_confirm" autocomplete="off" onkeypress="enter_pwd()"> </td>
+        <td>
+          <span>
+          PW Name
+          <input style="width:100px;" list="pw_name_list" type="text" id="pw_name" autocomplete="off" placeholder="Default" onkeypress="enter_pwd()">
+          <datalist id="pw_name_list">
+            <option value="Default">Default</option>
+            <option value="Special">Special</option>
+          </datalist>
+          </span>
+        </td>
       </tr>
       <tr><td colspan="2">
         <a onclick="maximize()" style="float:left;" href="../manager/">Password Manager</a>

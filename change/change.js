@@ -68,7 +68,7 @@ async function receive_message(event) {
     }
     else {
         let [pwname] = aux.split(';',1)
-        document.getElementById('user_pw').placeholder = "PWName: " +  pwname;
+        document.getElementById('user_pw').placeholder = "PW Name: " +  pwname;
     }
     document.getElementById('compute').onclick = set_change_button(id, url_query, ty, pt, pt_n, data, data_n, etc);
 }
@@ -82,22 +82,27 @@ function set_change_button(id, url_query, ty, pt, pt_n, data, data_n, etc) {
     return (async () => {
         let pwname = document.getElementById('pw_name').value;
         if(pwname.includes(";")) {
-            alert("semicolon not allowed for PWName")
+            alert("semicolon not allowed for PW Name")
             return;
         }
         pwname = (pwname ? pwname : "Default");
         etc = etc + ';' + pwname;
-        let [pw, pw_n, sva] = get_userpw();
+        let [pw, pw_n, sva, svp] = get_userpw();
         if((data && !(pw && pw_n)) || (!data && !pw_n)) 
             return;
         try {
             let ret =  null;
             if(data === null) ret = await do_create(ty, pt, pt_n, data_n, etc, pw_n)
-            else [ret, {}, {}] = await do_change(ty, pt, data, pt_n, data_n, etc, pw, pw_n)
+            else [ret, prid, pr] = await do_change(ty, pt, data, pt_n, data_n, etc, pw, pw_n)
             // let pw_name = document.getElementById("pw_name").value;
             // PMChange(id, url_query, pw_name, null, null);
             opener.postMessage(ret, url_app);
-            PMPut(url_query, id, pwname, sva, "", "");
+
+            if(svp)
+                PMPut(url_query, id, pwname, sva, prid, pr);
+            else
+                PMPut(url_query, id, pwname, sva, "", "");
+
             window.close();
         } catch(err) {
             // this event shouldn't occur
@@ -118,5 +123,6 @@ function get_userpw() {
         alert(strength); return [null, null, null];
     }
     let sva = document.getElementById("remember_sva").checked   
-    return [pw, pw_n, sva];
+    let svp = document.getElementById("remember_svp").checked   
+    return [pw, pw_n, sva, svp];
 }

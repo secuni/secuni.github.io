@@ -121,7 +121,8 @@ async function do_login(ty, pt, data, pt_n, data_n, etc, pw) {
 
 async function do_create(ty, pt, pt_n, data_n, etc, pw) {
     let [ret, prid, pr] = await prove_new(pt_n)(data_n, pw, etc);
-    return ty + ';' + pt + ';' + pt_n + ';' + ret;
+    ret = ty + ';' + pt + ';' + pt_n + ';' + ret;
+    return [ret, prid, pr];
 }
 
 async function do_change(ty, pt, data, pt_n, data_n, etc, pw, pw_n) {

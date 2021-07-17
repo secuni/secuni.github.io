@@ -60,19 +60,22 @@ function set_create_button(id, url_query, ty, pt, pt_n, data_n, etc) {
     return (async () => {
         let pwname = document.getElementById('pw_name').value;
         if(pwname.includes(";")) {
-            alert("semicolon not allowed for PWName")
+            alert("semicolon not allowed for PW Name")
             return;
         }
         pwname = (pwname ? pwname : "Default");
         etc = etc + ';' + pwname;
-        let [pw,sva] = get_userpw();
+        let [pw,sva,svp] = get_userpw();
         if(pw === null) return;
         try {
             // let pw_name = document.getElementById("pw_name").value;
             // PMCreate(id, url_query, pw_name);
-            let ret = await do_create(ty, pt, pt_n, data_n, etc, pw)
+            let [ret, prid, pr] = await do_create(ty, pt, pt_n, data_n, etc, pw)
             opener.postMessage(ret, url_app);
-            PMPut(url_query, id, pwname, sva, "", "");
+            if(svp)
+                PMPut(url_query, id, pwname, sva, prid, pr);
+            else
+                PMPut(url_query, id, pwname, sva, "", "");
             window.close();
         } catch(err) {
             // this event shouldn't occur
@@ -92,6 +95,7 @@ function get_userpw() {
         alert(strength); return [null,null];
     }
     let sva = document.getElementById("remember_sva").checked
-    return [pw,sva];
+    let svp = document.getElementById("remember_svp").checked
+    return [pw,sva, svp];
 }
 
