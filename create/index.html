@@ -28,7 +28,7 @@
       </tr>
       <tr>
 	<td> New </td>
-	<td> <input type="password" id="user_pw_1" placeholder="Minimum 15 characters" autocomplete="current-password" autofocus> </td>
+	<td> <input type="password" id="user_pw_new" placeholder="Minimum 15 characters" autocomplete="off" autofocus> </td>
         <td>
           <span style="float:left">
             Auto Login<input type="checkbox" id="remember_svp" autocomplete="off" name="remember_svp">
@@ -43,7 +43,7 @@
       <!-- </tr> -->
       <tr>
 	<td> Confirm </td>
-	<td> <input type="password" id="user_pw_2" placeholder="Minimum 15 characters" autocomplete="current-password" onkeypress="enter_pwd()"> </td>
+	<td> <input type="password" id="user_pw_confirm" placeholder="Minimum 15 characters" autocomplete="off" onkeypress="enter_pwd()"> </td>
   <td>
     <span>
     PW Name 
@@ -56,7 +56,7 @@
   </td>
       </tr>
       <tr><td colspan="2">
-        <a onclick="maximize()" style="float:left;" href="../manager/">Password Manager</a>
+        <a onclick="maximize()" style="float:left;" href="../manager/">Account Manager</a>
         <input type="button" id="compute" value="Complete" style="float:right;" onclick="alert('Please wait!')">
       </td></tr>
     </table>
