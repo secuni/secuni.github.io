@@ -92,7 +92,9 @@ function set_change_button(id, url_query, ty, pt, pt_n, data, data_n, etc) {
             return;
         try {
             let ret =  null;
-            if(data === null) ret = await do_create(ty, pt, pt_n, data_n, etc, pw_n)
+            let prid = null;
+            let pr = null;
+            if(data === null) [ret, prid, pr] = await do_create(ty, pt, pt_n, data_n, etc, pw_n)
             else [ret, prid, pr] = await do_change(ty, pt, data, pt_n, data_n, etc, pw, pw_n)
             // let pw_name = document.getElementById("pw_name").value;
             // PMChange(id, url_query, pw_name, null, null);
