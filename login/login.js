@@ -98,7 +98,7 @@ async function receive_message(event) {
             window.close();
         }
     }
-    document.getElementById('otp_link').onclick = () => opener.postMessage(otp_str, url_app);
+    // document.getElementById('otp_link').onclick = () => opener.postMessage(otp_str, url_app);
     document.getElementById('compute').onclick = set_login_button(id, url_query, ty, pt, pt_n, data, data_n, etc, otp_str, pwname);
     // document.getElementById('otp_button').onclick = set_otp_button(ty, pt, pt_n, aux, dom_app, ds, ds_n);
 }
