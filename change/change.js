@@ -67,7 +67,7 @@ async function receive_message(event) {
         document.getElementById("user_pw_new").focus();
     }
     else {
-        let [pwname] = aux.split(';',1)
+        let pwname = "dummy"
         document.getElementById('user_pw').placeholder = "PW Name: " +  pwname;
     }
     document.getElementById('compute').onclick = set_change_button(id, url_query, ty, pt, pt_n, data, data_n, etc);
