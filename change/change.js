@@ -86,7 +86,6 @@ function set_change_button(id, url_query, ty, pt, pt_n, data, data_n, etc) {
             return;
         }
         pwname = (pwname ? pwname : "Default");
-        etc = etc + ';' + pwname;
         let [pw, pw_n, sva, svp] = get_userpw();
         if((data && !(pw && pw_n)) || (!data && !pw_n)) 
             return;

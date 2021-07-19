@@ -64,7 +64,6 @@ function set_create_button(id, url_query, ty, pt, pt_n, data_n, etc) {
             return;
         }
         pwname = (pwname ? pwname : "Default");
-        etc = etc + ';' + pwname;
         let [pw,sva,svp] = get_userpw();
         if(pw === null) return;
         try {
