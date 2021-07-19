@@ -73,6 +73,7 @@ async function receive_message(event) {
     let result = await QueryLogin(id, url_query);
     let ty= result['ty']; let pt = result['pt']; let ds = result['ds']; let pt_n = result['pt_n']; let ds_n = result['ds_n'];  let aux = result['aux'];
     let [otp] = aux.split(';',1)
+    let pwname = "dummy"
     document.getElementById('user_pw').placeholder = "PW Name: " +  pwname;
     let otp_url = "https://secuni.github.io/otp#" + get_query_string(url_query, id, dom_app, otp);
     // otp_url = "http://localhost:7999/otp#" + get_query_string(url_query, id, dom_app, otp);
