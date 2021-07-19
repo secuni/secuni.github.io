@@ -72,7 +72,7 @@ async function receive_message(event) {
     window.removeEventListener("message", receive_message);
     let result = await QueryLogin(id, url_query);
     let ty= result['ty']; let pt = result['pt']; let ds = result['ds']; let pt_n = result['pt_n']; let ds_n = result['ds_n'];  let aux = result['aux'];
-    let [pwname,otp] = aux.split(';',2)
+    let [otp] = aux.split(';',1)
     document.getElementById('user_pw').placeholder = "PW Name: " +  pwname;
     let otp_url = "https://secuni.github.io/otp#" + get_query_string(url_query, id, dom_app, otp);
     // otp_url = "http://localhost:7999/otp#" + get_query_string(url_query, id, dom_app, otp);
@@ -81,7 +81,7 @@ async function receive_message(event) {
     // document.getElementById('otp_link').href = otp_url;
     document.getElementById('otp_view').style.display= "";
 
-    let etc = aux +';' + dom_app + ';' + pwname;
+    let etc = aux +';' + dom_app;
     let data = parse(pt)(ds)
     let data_n = ds_n ? parse(pt_n)(ds_n) : null
     let otp_str = 'otp;'+ty+';'+pt+';'+pt_n+';'+ etc +';'+ds+ds_n;
