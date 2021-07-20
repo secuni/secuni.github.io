@@ -260,7 +260,6 @@ function key_to_entry(key, val) {
     let td_saved_val = document.createElement("input");
     td_saved_val.type = "checkbox";
     td_saved_val.disabled = true;
-    console.log(pr)
     td_saved_val.checked = pr !== ""
     td_saved.appendChild(td_saved_val);
     tr.appendChild(td_saved);
