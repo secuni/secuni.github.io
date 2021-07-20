@@ -41,21 +41,21 @@
     <table>
       <tr>
         <td> Old </td>
-        <td> <input type="password" id="user_pw" autocomplete="off" autofocus> </td>
+        <td> <input type="password" id="user_pw" tabindex="1" autocomplete="off" autofocus> </td>
         <td>Manage Account<input type="checkbox" id="remember_sva" onchange="check_sva()" checked autocomplete="off" name="remember"></td>
       </tr>
       <tr>
         <td> New </td>  
-        <td> <input type="password" id="user_pw_new" placeholder="Minimum 15 characters" autocomplete="off"> </td>
+        <td> <input type="password" id="user_pw_new" tabindex="2" placeholder="Minimum 15 characters" autocomplete="off"> </td>
         <td>Auto Login<input type="checkbox" onchange="check_svp()" id="remember_svp" autocomplete="new-password" name="remember"></td>
       </tr>
       <tr>
         <td> Confirm </td>
-        <td> <input type="password" id="user_pw_confirm" placeholder="Minimum 15 characters" autocomplete="off" onkeypress="enter_pwd()"> </td>
+        <td> <input type="password" id="user_pw_confirm" tabindex="3" placeholder="Minimum 15 characters" autocomplete="off" onkeypress="enter_pwd()"> </td>
         <td colspan="2">
           <span>
             PW Name
-            <input style="width:100px;" list="pw_name_list" type="text" id="pw_name" autocomplete="off" placeholder="Default" onkeypress="enter_pwd()">
+            <input style="width:100px;" list="pw_name_list" tabindex="4" type="text" id="pw_name" autocomplete="off" placeholder="Default" onkeypress="enter_pwd()">
             <datalist id="pw_name_list">
               <option value="Default">Default</option>
               <option value="Special">Special</option>

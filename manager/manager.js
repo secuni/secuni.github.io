@@ -80,7 +80,7 @@ async function do_update_all() {
     document.getElementById("compute").disabled = true;
 
     pw_name = pw_name ? pw_name : "Default";
-    let remember = document.getElementById("remember").checked;
+    let al = document.getElementById("remember_svp").checked;
 
     if(document.getElementById('status') === null) {
         let th = document.createElement('th');
@@ -97,7 +97,7 @@ async function do_update_all() {
         if (entry.checked.checked === true) {
             entry.status.nodeValue = "querying..."
             if(await entry_query(key, pw_name))
-                await entry_change(key, pw_name, remember);
+                await entry_change(key, pw_name, al);
         }
     }));
     document.getElementById("compute").disabled = false;
@@ -206,7 +206,7 @@ function get_userpw() {
 function key_to_entry(key, val) {
     if(!key.includes(';')) return [null,null];
     let [userid, path] = key.split(";");
-    let [time, pw_name, salt, pr] = val.split(";");
+    let [time, pw_name, prid, pr] = val.split(";");
     let date = ""
     if(time === "0") {
         time = ""
@@ -294,7 +294,7 @@ async function entry_query(key, pw_name) {
     if (result === null)
         return false;
     let ty= result['ty']; let pt = result['pt']; let ds = result['ds']; let pt_n = result['pt_n']; let ds_n = result['ds_n'];  let aux = result['aux'];
-    let etc = aux +';' + "" + ';' + pw_name;
+    let etc = aux +';' + "";
     let data = ds ? parse(pt)(ds) : null;
     let data_n = parse(pt_n)(ds_n)
     entries[key] = {...entry, ty, pt, data, pt_n, data_n, etc}
@@ -330,7 +330,7 @@ async function do_query_manager(url) {
     return body;
 }
 
-async function entry_change(key, pw_name, remember) {
+async function entry_change(key, pw_name, al) {
     let [userid, path] = key.split(";");
     const qurl = path + "?query=change_all&id=" + userid;
     let entry = entries[key];
@@ -351,18 +351,11 @@ async function entry_change(key, pw_name, remember) {
             entry.status.nodeValue = "success";
             entry.pw_name.nodeValue = pw_name;
             let time = new Date();
-            let date = time.getFullYear() + "-" + (time.getMonth()+1) + "-" + time.getDate()
-            if(remember) {
-                PMPut(qurl, userid, pw_name, true, prid_n, pr_n);
-                // date = PMChange(userid, qurl, pw_name, salt_n, pr_n)
-                entry.saved.checked = true;
-            }
-            else {
-                PMPut(qurl, userid, pw_name, true, "", "");
-                // date = PMChange(userid, qurl, pw_name, null, null)
-                entry.saved.checked = false;
-            }
+            let date = time.getFullYear() + "/" + (time.getMonth()+1) + "/" + time.getDate()
+            PMPut(qurl, userid, pw_name, prid_n, pr_n, true, al, true);
+            entry.saved.checked = al
             entry.date.nodeValue = date;
+            entry.date.parentElement.title = time
         }
         else {
             entry.status.nodeValue = "update fail";
