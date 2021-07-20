@@ -1,6 +1,37 @@
-function check_sva() {
+function check_svp() {
     if(document.getElementById('remember_svp').checked)
         document.getElementById('remember_sva').checked = true;
+
+    if(document.getElementById('remember_sva').checked) {
+        localStorage.setItem('Manage Account', "Y");   
+    }
+    else {
+        localStorage.setItem('Manage Account', "N");   
+    }
+    if(document.getElementById('remember_svp').checked) {
+        localStorage.setItem('Auto Login', "Y");
+    }
+    else {
+        localStorage.setItem('Auto Login', "N");
+    }
+}
+
+function check_sva() {
+    if(!document.getElementById('remember_sva').checked)
+        document.getElementById('remember_svp').checked = false;
+
+    if(document.getElementById('remember_sva').checked) {
+        localStorage.setItem('Manage Account', "Y");   
+    }
+    else {
+        localStorage.setItem('Manage Account', "N");   
+    }
+    if(document.getElementById('remember_svp').checked) {
+        localStorage.setItem('Auto Login', "Y");
+    }
+    else {
+        localStorage.setItem('Auto Login', "N");
+    }
 }
 
 function maximize() {

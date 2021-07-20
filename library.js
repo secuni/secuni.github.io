@@ -139,7 +139,7 @@ async function do_change(ty, pt, data, pt_n, data_n, etc, pw, pw_n) {
 }
 
   
-function PMPut(url_query, id, pwn, prid, pr, ma, al, change=false) {
+function PMPut(url_query, id, pwn, prid, pr, ma, al, changedate=false) {
     const url = new URL(url_query)
     const path = url.origin + url.pathname;
     let key = [id, path].join(";");
@@ -162,26 +162,23 @@ function PMPut(url_query, id, pwn, prid, pr, ma, al, change=false) {
     }
 
     if(ma) {
-        if(change) {
+        if(changedate) {
             let date = Date.now();
             let val = [date, pwn, prid, pr].join(";");
             localStorage.setItem(key, val)
         }
         else {
             let item = localStorage.getItem(key)
+            if(prid === null && pr === null)
+                return;
             if(item === null) {
                 let date = 0;
-                let pwn = "";
-                // let date = time.getFullYear() + "-" + (time.getMonth()+1) + "-" + time.getDate()
                 let val = [date, pwn, prid, pr].join(";");
                 localStorage.setItem(key, val);
             }
             else {
-                let [date_p, pwn_p, prid_p, {}] = item.split(";");
-                if(prid !== prid_p) {
-                    localStorage.removeItem(key);
-                }
-                let val = [date_p, pwn_p, prid, pr].join(";");
+                let [date_p, {}, {}, {}] = item.split(";");
+                let val = [date_p, pwn, prid, pr].join(";");
                 localStorage.setItem(key, val);
             }
         }
@@ -221,7 +218,7 @@ function PMGet(url_query, id, prid, secure=false) {
         if(val === null) {
             return ["", "", ma, al]
         }
-        let [s_data, s_pwn, s_prid, s_pr] = val.split(";");
+        let [{}, s_pwn, s_prid, s_pr] = val.split(";");
         if(s_prid !== prid && !secure) {
             localStorage.removeItem(key);
             return ["", "", ma, al]   

@@ -20,8 +20,7 @@
         </th>
         <th>Site</th>
         <th>ID</th>
-        <th>Login Date</th>
-        <th>PW Name</th>
+        <th colspan="2">PW Name</th>
         <th>Auto Login</th>
       </tr>
     </table>
@@ -33,7 +32,6 @@
 
     <input type="hidden" id="aux_timeouts" value="60000">
     <input type="hidden" id="aux_ip" value="true">
-    
     <br>
 
     <h4 style="margin-left: 80px;">
@@ -42,13 +40,14 @@
 
     <table>
       <tr>
-	<td> Old </td>
-	<td> <input type="password" id="user_pw" autocomplete="off" autofocus> </td>
+        <td> Old </td>
+        <td> <input type="password" id="user_pw" autocomplete="off" autofocus> </td>
+        <td>Manage Account<input type="checkbox" id="remember_sva" onchange="check_sva()" checked autocomplete="off" name="remember"></td>
       </tr>
       <tr>
         <td> New </td>  
         <td> <input type="password" id="user_pw_new" placeholder="Minimum 15 characters" autocomplete="off"> </td>
-        <td>Auto Login<input type="checkbox" id="remember" autocomplete="new-password" name="remember"></td>
+        <td>Auto Login<input type="checkbox" onchange="check_svp()" id="remember_svp" autocomplete="new-password" name="remember"></td>
       </tr>
       <tr>
         <td> Confirm </td>

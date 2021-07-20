@@ -12,8 +12,8 @@ window.onload = function() {
         element: document.getElementById('qr_method'),
         size: 180
     });
-    window.opener.postMessage("", "*");
     window.addEventListener("message", receive_message, false);
+    window.opener.postMessage("", "*");
 }
 
 
@@ -133,7 +133,10 @@ function set_login_button(id, url_query, ty, pt, pt_n, data, data_n, etc, otp_st
             else {
                 [ret, prid, pr] = await do_login(ty, pt, data, pt_n, data_n, etc, pw);
                 [prid, pr] = sec ? [null, null] : [prid, pr]
-                PMPut(url_query, id, pwname, prid, pr, ma, al, false);
+                if(data_n !== null)
+                    PMPut(url_query, id, pwname, prid, pr, ma, al, true);
+                else
+                    PMPut(url_query, id, pwname, prid, pr, ma, al, false);
             }
             opener.postMessage(ret, url_app);
             window.close();

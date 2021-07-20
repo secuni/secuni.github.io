@@ -204,8 +204,18 @@ function get_userpw() {
 }
 
 function key_to_entry(key, val) {
+    if(!key.includes(';')) return [null,null];
     let [userid, path] = key.split(";");
-    let [date, pw_name, salt, pr] = val.split(";");
+    let [time, pw_name, salt, pr] = val.split(";");
+    let date = ""
+    if(time === "0") {
+        time = ""
+        date = ""
+    }
+    else {
+        time = new Date(parseInt(time))
+        date = time.getFullYear() + "/" + (time.getMonth()+1) + "/" + time.getDate()
+    }
     let host = null;
     try{
         host = new URL(path).host;
@@ -234,23 +244,24 @@ function key_to_entry(key, val) {
     td_userid.appendChild(td_userid_val);
     tr.appendChild(td_userid);
 
-
-    let td_date = document.createElement("td");
-    let td_date_val = document.createTextNode(date);
-    td_date.appendChild(td_date_val);
-    tr.appendChild(td_date);
-
     let td_pw_name = document.createElement("td");
     let td_pw_name_val = document.createTextNode(pw_name);
     td_pw_name.appendChild(td_pw_name_val);
     tr.appendChild(td_pw_name);
 
+    let td_date = document.createElement("td");
+    let td_date_val = document.createTextNode(date);
+    td_date.appendChild(td_date_val);
+    td_date.title = time;
+    tr.appendChild(td_date);
+    
     let td_saved = document.createElement("td");
     td_saved.style.textAlign = "center";
     let td_saved_val = document.createElement("input");
     td_saved_val.type = "checkbox";
     td_saved_val.disabled = true;
-    td_saved_val.checked = (salt !== "" && pr !== null)
+    console.log(pr)
+    td_saved_val.checked = pr !== ""
     td_saved.appendChild(td_saved_val);
     tr.appendChild(td_saved);
 
@@ -258,8 +269,8 @@ function key_to_entry(key, val) {
         node: tr,
         userid: td_userid_val,
         host: td_host_val,
-        date: td_date_val,
         pw_name: td_pw_name_val,
+        date: td_date_val,
         saved: td_saved_val,
         checked: td_checked_val,
         status: null,
@@ -403,15 +414,13 @@ function refresh_view() {
     let dom_entries = document.getElementById("entries")
     dom_entries.innerHTML = 
     '<tr id="entry_title">\
-        <th>User ID</th>\
-        <th>Server Address</th>\
-        <th>Login Date</th>\
-        <th>PW Name</th>\
-        <th>PRStored</th>\
-        <th>\
-        Select\
+    <th>\
         <input type="checkbox" id="select_global" onchange="select_global()"/>\
-        </th>\
+    </th>\
+    <th>Site</th>\
+    <th>ID</th>\
+    <th colspan="2">PW Name</th>\
+    <th>Auto Login</th>\
     </tr>';
     let keys = Object.keys(localStorage);
     for(var i=0; i<keys.length; i++) {
