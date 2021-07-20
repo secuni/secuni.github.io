@@ -1,3 +1,8 @@
+function check_sva() {
+    if(document.getElementById('remember_svp').checked)
+        document.getElementById('remember_sva').checked = true;
+}
+
 function maximize() {
     window.moveTo(0, 0);
     window.resizeTo(screen.availWidth, screen.availHeight);   

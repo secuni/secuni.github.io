@@ -62,12 +62,15 @@ async function receive_message(event) {
     let etc = aux +';' + dom_app;
     let data = ds ? parse(pt)(ds) : null;
     let data_n = parse(pt_n)(ds_n);
+    let [pwname, {}, ma, al] = PMGet(url_query, id, get_prid(pt)(data), true);
+    document.getElementById('remember_sva').checked = ma;
+    document.getElementById('remember_svp').checked = al;
+
     if(data === null) {
         document.getElementById("user_pw_old").remove();
         document.getElementById("user_pw_new").focus();
     }
     else {
-        let pwname = "dummy"
         document.getElementById('user_pw').placeholder = "PW Name: " +  pwname;
     }
     document.getElementById('compute').onclick = set_change_button(id, url_query, ty, pt, pt_n, data, data_n, etc);
@@ -86,7 +89,7 @@ function set_change_button(id, url_query, ty, pt, pt_n, data, data_n, etc) {
             return;
         }
         pwname = (pwname ? pwname : "Default");
-        let [pw, pw_n, sva, svp] = get_userpw();
+        let [pw, pw_n, ma, al] = get_userpw();
         if((data && !(pw && pw_n)) || (!data && !pw_n)) 
             return;
         try {
@@ -98,11 +101,7 @@ function set_change_button(id, url_query, ty, pt, pt_n, data, data_n, etc) {
             // let pw_name = document.getElementById("pw_name").value;
             // PMChange(id, url_query, pw_name, null, null);
             opener.postMessage(ret, url_app);
-
-            if(svp)
-                PMPut(url_query, id, pwname, sva, prid, pr);
-            else
-                PMPut(url_query, id, pwname, sva, "", "");
+            PMPut(url_query, id, pwname, prid, pr, ma, al, true);
 
             window.close();
         } catch(err) {

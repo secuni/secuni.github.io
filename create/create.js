@@ -1,4 +1,4 @@
-import {check_strength, load_pw_name, do_query, parse, prove_new, do_create, return_failure, PMPut} from "../library.js";
+import {check_strength, load_pw_name, do_query, parse, prove_new, do_create, return_failure, PMGet, PMPut} from "../library.js";
 let opener = null;
 let url_app = null;
 
@@ -48,6 +48,9 @@ async function receive_message(event) {
     let ty= result['ty']; let pt = result['pt']; let pt_n = result['pt_n']; let ds_n = result['ds_n']; let aux = result['aux'];
     let data_n = parse(pt_n)(ds_n)
     let etc = aux +';' + dom_app
+    let [{}, {}, ma, al] = PMGet(null, null, null);
+    document.getElementById('remember_sva').checked = ma;
+    document.getElementById('remember_svp').checked = al;
     document.getElementById('compute').onclick = await set_create_button(id, url_query, ty, pt, pt_n, data_n, etc);
 }
 
@@ -64,17 +67,14 @@ function set_create_button(id, url_query, ty, pt, pt_n, data_n, etc) {
             return;
         }
         pwname = (pwname ? pwname : "Default");
-        let [pw,sva,svp] = get_userpw();
+        let [pw,ma,al] = get_userpw();
         if(pw === null) return;
         try {
             // let pw_name = document.getElementById("pw_name").value;
             // PMCreate(id, url_query, pw_name);
             let [ret, prid, pr] = await do_create(ty, pt, pt_n, data_n, etc, pw)
             opener.postMessage(ret, url_app);
-            if(svp)
-                PMPut(url_query, id, pwname, sva, prid, pr);
-            else
-                PMPut(url_query, id, pwname, sva, "", "");
+            PMPut(url_query, id, pwname, prid, pr, ma, al, true);
             window.close();
         } catch(err) {
             // this event shouldn't occur

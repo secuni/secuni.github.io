@@ -73,15 +73,13 @@ async function receive_message(event) {
     let result = await QueryLogin(id, url_query);
     let ty= result['ty']; let pt = result['pt']; let ds = result['ds']; let pt_n = result['pt_n']; let ds_n = result['ds_n'];  let aux = result['aux'];
     let [otp] = aux.split(';',1)
-    let pwname = "dummy"
-    document.getElementById('user_pw').placeholder = "PW Name: " +  pwname;
     let otp_url = "https://secuni.github.io/otp#" + get_query_string(url_query, id, dom_app, otp);
     // otp_url = "http://localhost:7999/otp#" + get_query_string(url_query, id, dom_app, otp);
-    // console.log("http://localhost:7999/otp#" + get_query_string(url_query, id, dom_app, otp))
+    console.log("http://localhost:7999/otp#" + get_query_string(url_query, id, dom_app, otp))
     qr.value= otp_url;
     // document.getElementById('otp_link').href = otp_url;
     document.getElementById('otp_view').style.display= "";
-
+    
     let etc = aux +';' + dom_app;
     let data = parse(pt)(ds)
     let data_n = ds_n ? parse(pt_n)(ds_n) : null
@@ -90,8 +88,9 @@ async function receive_message(event) {
         alert('no such user')
         window.close()
     }
-    let pr = PMGet(url_query, id, get_prid(pt)(data));
-    if(pr !== null && data_n === null) {
+    
+    let [pwname, pr, ma, al] = PMGet(url_query, id, get_prid(pt)(data), false);
+    if(pr !== null && data_n === null && al) {
         let res = confirm("Use Auto Login");
         if(res) {
             let ret = ty + ';' + pt + ';' + pt_n + ';' + await prove_auth(pt)(data, pr, etc);
@@ -99,6 +98,9 @@ async function receive_message(event) {
             window.close();
         }
     }
+    document.getElementById('remember_sva').checked = ma;
+    document.getElementById('remember_svp').checked = al;
+    document.getElementById('user_pw').placeholder = "PW Name: " +  pwname;
     // document.getElementById('otp_link').onclick = () => opener.postMessage(otp_str, url_app);
     document.getElementById('compute').onclick = set_login_button(id, url_query, ty, pt, pt_n, data, data_n, etc, otp_str, pwname);
     // document.getElementById('otp_button').onclick = set_otp_button(ty, pt, pt_n, aux, dom_app, ds, ds_n);
@@ -121,7 +123,7 @@ async function QueryLogin(id, url_query) {
 function set_login_button(id, url_query, ty, pt, pt_n, data, data_n, etc, otp_str, pwname, sec=false) {
     return(async () => {
         try { 
-            let [pw, sva, svp] = get_userpw();
+            let [pw, ma, al] = get_userpw();
             let ret = null;
             let prid = null;
             let pr = null;
@@ -130,8 +132,8 @@ function set_login_button(id, url_query, ty, pt, pt_n, data, data_n, etc, otp_st
             }
             else {
                 [ret, prid, pr] = await do_login(ty, pt, data, pt_n, data_n, etc, pw);
-                [prid, pr] = sec ? [null, null] : (svp ? [prid, pr] : ["", ""])
-                PMPut(url_query, id, pwname, sva, prid, pr);
+                [prid, pr] = sec ? [null, null] : [prid, pr]
+                PMPut(url_query, id, pwname, prid, pr, ma, al, false);
             }
             opener.postMessage(ret, url_app);
             window.close();

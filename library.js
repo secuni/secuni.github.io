@@ -133,29 +133,51 @@ async function do_change(ty, pt, data, pt_n, data_n, etc, pw, pw_n) {
 }
 
   
-function PMPut(url_query, id, pwn, sva, prid, pr) {
+function PMPut(url_query, id, pwn, prid, pr, ma, al, change=false) {
     const url = new URL(url_query)
     const path = url.origin + url.pathname;
     let key = [id, path].join(";");
-    if(sva) {
-        let item = localStorage.getItem(key)
-        if(item === null) {
-            let time = new Date();
-            let date = time.getFullYear() + "-" + (time.getMonth()+1) + "-" + time.getDate()
-            if(prid == null && pr == null) {
-                prid = ""
-                pr = ""
-            }
+    if(ma === true) {
+        localStorage.setItem('Manage Account', "Y");   
+    }
+    else {
+        localStorage.setItem('Manage Account', "N");   
+    }
+
+    if(al === true) {
+        localStorage.setItem('Auto Login', "Y");
+    }
+    else {
+        localStorage.setItem('Auto Login', "N");
+    }
+
+    if(!al) {
+        pr = ""
+    }
+
+    if(ma) {
+        if(change) {
+            let date = Date.now();
             let val = [date, pwn, prid, pr].join(";");
-            localStorage.setItem(key, val);
+            localStorage.setItem(key, val)
         }
         else {
-            let [date, {}, prid_p, pr_p] = item.split(";");
-            let val = [date, pwn, prid, pr].join(";");
-            if(prid == null && pr == null) {
-                val = [date, pwn, prid_p, pr_p].join(";");
+            let item = localStorage.getItem(key)
+            if(item === null) {
+                let date = 0;
+                let pwn = "";
+                // let date = time.getFullYear() + "-" + (time.getMonth()+1) + "-" + time.getDate()
+                let val = [date, pwn, prid, pr].join(";");
+                localStorage.setItem(key, val);
             }
-            localStorage.setItem(key, val)
+            else {
+                let [date_p, pwn_p, prid_p, {}] = item.split(";");
+                if(prid !== prid_p) {
+                    localStorage.removeItem(key);
+                }
+                let val = [date_p, pwn_p, prid, pr].join(";");
+                localStorage.setItem(key, val);
+            }
         }
     }
     else {
@@ -163,18 +185,44 @@ function PMPut(url_query, id, pwn, sva, prid, pr) {
     }
 }
 
-function PMGet(url_query, id, prid) {
-    const url = new URL(url_query)
-    const path = url.origin + url.pathname;
-    let key = [id, path].join(";");
-    let val = localStorage.getItem(key)
-    if(val === null)
-        return null;
-    val = val.split(";");
-    if(val[2] === prid) 
-        return val[3];
-    else 
-        return null
+function PMGet(url_query, id, prid, secure=false) {
+    let ma = localStorage.getItem('Manage Account')
+    let al = localStorage.getItem('Auto Login')
+
+    if(ma === null) {
+        localStorage.setItem('Manage Account', "Y");
+        ma = true;
+    } else if( ma === "Y") {
+        ma = true
+    } else{
+        ma = false;
+    }
+
+    if(al === null) {
+        localStorage.setItem('Auto Login', "N");
+        al = false;
+    } else if( al === "Y") {
+        al = true
+    } else{
+        al = false;
+    }
+
+    if(url_query !== null && id !== null && prid !== null) {
+        const url = new URL(url_query)
+        const path = url.origin + url.pathname;    
+        let key = [id, path].join(";");
+        let val = localStorage.getItem(key)
+        if(val === null) {
+            return ["", "", ma, al]
+        }
+        let [s_data, s_pwn, s_prid, s_pr] = val.split(";");
+        if(s_prid !== prid && !secure) {
+            localStorage.removeItem(key);
+            return ["", "", ma, al]   
+        }
+        return [s_pwn, s_pr, ma, al]
+    }
+    return ["", "", ma, al];
 }
 
 export {check_strength, load_pw_name, do_query,
