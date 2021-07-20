@@ -83,31 +83,37 @@ function return_failure(err_msg) {
 
 function prove_new(pt) {
     switch (pt) {
-        case "adv": return prove_new_adv; break;
+        case "adv": return prove_new_adv;
+        case "" : return () => {return null}
     }
 }
   
 function get_prover(pt) {
     switch (pt) {
-        case "adv": return get_prover_adv; break;
+        case "adv": return get_prover_adv;
+        case "" : return () => {return null}
     }
 }
 
 function prove_auth(pt) {
     switch (pt) {
-        case "adv": return prove_auth_adv; break;
+        case "adv": return prove_auth_adv;
+        case "" : return () => {return null}
     }
 }
 
 function get_prid(pt) {
     switch (pt) {
-        case "adv": return get_prid_adv; break;
+        case "adv": return get_prid_adv;
+        case "" : return () => {return null}
+
     }
 }
 
 function parse(pt) {
     switch (pt) {
-        case "adv": return parse_adv; break;
+        case "adv": return parse_adv;
+        case "" : return () => {return null}
     }
 }
 

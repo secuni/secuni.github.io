@@ -83,7 +83,7 @@ async function receive_message(event) {
     let etc = aux +';' + dom_app;
     let data = parse(pt)(ds)
     let data_n = ds_n ? parse(pt_n)(ds_n) : null
-    let otp_str = 'otp;'+ty+';'+pt+';'+pt_n+';'+ etc +';'+ds+ds_n;
+    let otp_str = 'otp;'+ etc +';' + ty + pt + pt_n + ds + ds_n;
     if(data === null) {
         alert('no such user')
         window.close()
