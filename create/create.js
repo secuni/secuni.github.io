@@ -48,7 +48,7 @@ async function receive_message(event) {
     let ty= result['ty']; let pt = result['pt']; let pt_n = result['pt_n']; let ds_n = result['ds_n']; let aux = result['aux'];
     let data_n = parse(pt_n)(ds_n)
     let etc = aux +';' + dom_app
-    let [{}, {}, ma, al] = PMGet(null, null, null);
+    let [_0, _1, ma, al] = PMGet(null, null, null);
     document.getElementById('remember_sva').checked = ma;
     document.getElementById('remember_svp').checked = al;
     document.getElementById('compute').onclick = await set_create_button(id, url_query, ty, pt, pt_n, data_n, etc);
