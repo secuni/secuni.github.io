@@ -56,10 +56,7 @@ function set_submit_button(id, url_query, ty, pt, pt_n, data, data_n, etc, pwnam
             let [res, prid, pr] = await do_login(ty, pt, data, pt_n, data_n, etc, pw);
             document.getElementById("result").value = res
             document.getElementById("user_pw").value = '';
-            if(data_n !== null)
-                PMPut(url_query, id, pwname, prid, pr, ma, al, true);
-            else
-                PMPut(url_query, id, pwname, prid, pr, ma, al, false);
+            PMPut(url_query, id, pwname, prid, pr, ma, al, false);
             document.getElementById('secuni_form').submit();
         } catch(err) {
             // this event shouldn't occur
