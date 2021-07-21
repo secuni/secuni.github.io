@@ -32,7 +32,7 @@ async function receive_message() {
     document.getElementById('secuni_form').action = url_query+'?query=submit_otp';
     document.getElementById('user_pw').placeholder = "PW Name: " +  pwname;
     document.getElementById('dummy_id').setAttribute('value', pwname)
-    if(pr !== null && data_n === null && al) {
+    if(pr !== "" && data_n === null && al) {
         let res = confirm("Use Auto Login");
         if(res) {
             let ret = ty + ';' + pt + ';' + pt_n + ';' + await prove_auth(pt)(data, pr, etc);

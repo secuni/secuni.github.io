@@ -93,7 +93,7 @@ async function receive_message(event) {
     document.getElementById('remember_sva').checked = ma;
     document.getElementById('remember_svp').checked = al;
     document.getElementById('user_pw').placeholder = "PW Name: " +  pwname;
-    if(pr !== null && data_n === null && al) {
+    if(pr !== "" && data_n === null && al) {
         let res = confirm("Use Auto Login");
         if(res) {
             let ret = ty + ';' + pt + ';' + pt_n + ';' + await prove_auth(pt)(data, pr, etc);
