@@ -35,7 +35,39 @@ document.getElementById('compute').onclick = do_update_all;
 document.getElementById('export_data').onclick = export_data;
 document.getElementById('import_data').onclick = import_data;
 document.getElementById('clear_all').onclick = clear_all;
+document.getElementById('rename').onclick = rename;
 window.parse_file = parse_file
+
+function rename () {
+    let keys = Object.keys(entries);
+    let empty = true;
+    for(var i=0; i<keys.length; i++) {
+        let key = keys[i];
+        if(entries[key].checked.checked == true) {
+            empty = false;
+            break;
+        }
+    }
+    if(empty) {
+        alert('Select an account to rename')
+        return;
+    }
+    let name = prompt("Enter your new PW Name")
+    for(var i=0; i<keys.length; i++) {
+        let key = keys[i];
+        let entry = entries[key]
+        if(entry.checked.checked == true) {
+            entry.pw_name.nodeValue = name;
+            let [userid, qurl] = key.split(';')
+            let time = new Date();
+            let date = time.getFullYear() + "/" + (time.getMonth()+1) + "/" + time.getDate()
+            let [_0, _1, prid, pr] = localStorage.getItem(key).split(';')
+            PMPut(qurl, userid, name, prid, pr, true, true, true);
+            entry.date.nodeValue = date;
+            entry.date.parentElement.title = time
+        }
+    }
+}
 
 
 window.onload = function() {
@@ -51,6 +83,9 @@ window.onload = function() {
         }
     }
     document.getElementById('export_url').onclick = copy;
+    let [_0, _1, ma, al] = PMGet(null, null, null);
+    document.getElementById('remember_sva').checked = ma
+    document.getElementById('remember_svp').checked = al
 }
 
 function copy() {
@@ -414,6 +449,20 @@ function select_entry() {
 
 function clear_all() {
     let keys = Object.keys(entries);
+    let empty = true;
+    for(var i=0; i<keys.length; i++) {
+        let key = keys[i];
+        if(entries[key].checked.checked == true) {
+            empty = false;
+            break;
+        }
+    }
+    if(empty) {
+        alert('Select an account to remove')
+        return;
+    }
+    let check = confirm("Are you sure to remove selected accounts?")
+    if(!check) return;
     for(var i=0; i<keys.length; i++) {
         let key = keys[i];
         let entry = entries[key];
