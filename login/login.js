@@ -90,8 +90,10 @@ async function receive_message(event) {
     }
     
     let [pwname, pr, ma, al] = PMGet(url_query, id, get_prid(pt)(data), false);
+    document.getElementById('remember_sva').checked = ma;
+    document.getElementById('remember_svp').checked = al;
+    document.getElementById('user_pw').placeholder = "PW Name: " +  pwname;
     if(pr !== null && data_n === null && al) {
-        console.log(pr,data_n,al)
         let res = confirm("Use Auto Login");
         if(res) {
             let ret = ty + ';' + pt + ';' + pt_n + ';' + await prove_auth(pt)(data, pr, etc);
@@ -99,9 +101,6 @@ async function receive_message(event) {
             window.close();
         }
     }
-    document.getElementById('remember_sva').checked = ma;
-    document.getElementById('remember_svp').checked = al;
-    document.getElementById('user_pw').placeholder = "PW Name: " +  pwname;
     // document.getElementById('otp_link').onclick = () => opener.postMessage(otp_str, url_app);
     document.getElementById('compute').onclick = set_login_button(id, url_query, ty, pt, pt_n, data, data_n, etc, otp_str, pwname);
     // document.getElementById('otp_button').onclick = set_otp_button(ty, pt, pt_n, aux, dom_app, ds, ds_n);
