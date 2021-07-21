@@ -13,37 +13,65 @@
 		    
   </head>
 
-  <body>
-    <div class="container" style="max-width: 260px; margin-left: auto; margin-right: auto">
+  <body style="text-align:center;">
+    <h1 > SecUni </h1>
+    <div class="container" style="max-width: 400px; margin-left: auto; margin-right: auto">
       <form id="secuni_form" action="#" name="secuni_form" method="post">
-        <input type="hidden" name="dom_app" id="dom_app" />
-        <input type="hidden" name="otp" id="otp" />
-        <input type="hidden" name="result" id="result" />
-        <input type="hidden" name="user_id" id="user_id" />
-        <div style="display:none !important; visibility:hidden; pointer-events: none;">
-          <label for="dummy_id">Username</label>
-          <input style="width:160px" type="text" name="dummy_id" id="dummy_id" autocomplete="username">
-        </div>
-        <div style="float:right;">
-          <label style="display:inline-block;width:70px;" for="url_query">Site</label>
-          <input style="width:160px" type="text" id="url_query" disabled>
-        </div>        
-        <div style="float:right;">
-          <label style="display:inline-block;width:70px;" for="user_id_view">ID</label>
-          <input style="width:160px" type="text" id="user_id_view" disabled>
-        </div>
-        <div style="float:right;">
-          <label style="display:inline-block;width:70px;" for="user_pw">Password</label>
-          <input style="width:160px" type="password" name="user_pw" id="user_pw" value="" autocomplete="current-password" autofocus onkeypress="enter_pwd()">      
-        </div>
-        <div>
-            <!-- <span style="float:left">
-              <input style="width:100px;" type="text" id="pw_name" disabled>
-            </span> -->
-            <span style="float:right">
-              <input type="button" id="compute" value="Submit" onclick="alert('Please wait!')">
-            </span>
-        </div>
+        <table>
+          <input type="hidden" name="dom_app" id="dom_app" />
+          <input type="hidden" name="otp" id="otp" />
+          <input type="hidden" name="result" id="result" />
+          <input type="hidden" name="user_id" id="user_id" />
+          <div style="display:none !important; visibility:hidden; pointer-events: none;">
+            <label for="dummy_id">Username</label>
+            <input style="width:160px" type="text" name="dummy_id" id="dummy_id" autocomplete="username">
+          </div>
+          <tr>
+            <td>
+              <label style="display:inline-block;width:70px;" for="url_query">Site</label>
+            </td>
+            <td>
+              <input style="width:160px" type="text" id="url_query" disabled>
+            </td>
+            <td>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="user_id_view">ID</label>
+            </td>
+            <td>
+              <input style="width:160px" type="text" id="user_id_view" disabled>
+            </td>
+            <td>
+              <span style="float:right">
+                Manage Account<input type="checkbox" onchange="check_sva()" id="remember_sva" checked autocomplete="off" name="remember">
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="user_pw">Password</label>
+            </td>
+            <td>
+              <input style="width:160px" type="password" name="user_pw" id="user_pw" value="" autocomplete="current-password" autofocus onkeypress="enter_pwd()">      
+            </td>
+            <td>
+              <span style="float:left">
+                Auto Login<input type="checkbox" id="remember_svp" onchange="check_svp()" autocomplete="off" name="remember_svp">
+              </span>    
+            </td>
+          </tr>
+          <tr>
+              <!-- <span style="float:left">
+                <input style="width:100px;" type="text" id="pw_name" disabled>
+              </span> -->
+              <td colspan="2">
+                <a onclick="maximize()" style="float:left;" href="../manager/">Account Manager</a>
+                <input type="button" id="compute" style="float:right;" value="Submit" onclick="alert('Please wait!')">
+              </td>
+          </tr>
+        </table>
       </form>
     </div>
   </body>
