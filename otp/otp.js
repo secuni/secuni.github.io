@@ -16,7 +16,7 @@ async function receive_message() {
     const id = getByName('id'); const url_query = getByName('url');
     const dom_app_n = getByName('dom'); const otp_n = getByName('otp');    
 
-    document.getElementById("user_info").value = id
+    document.getElementById("user_info1").value = id
     document.getElementById("user_info_view").value = id
     document.getElementById("url_query").value = url_query
     document.getElementById("otp").value = otp_n

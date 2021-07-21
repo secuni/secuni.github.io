@@ -22,10 +22,16 @@
           <input type="hidden" name="otp" id="otp" />
           <input type="hidden" name="result" id="result" />
           <input type="hidden" name="user_info1" id="user_info1" />
-          <div style="display:none !important; visibility:hidden; pointer-events: none;">
-            <label for="dummy_id">Username</label>
-            <input style="width:160px" type="text" name="dummy_id" id="dummy_id" autocomplete="username">
-          </div>
+          <tr>
+            <!-- <div style="display:none !important; visibility:hidden; pointer-events: none;"> -->
+              <td>
+                <label for="dummy_id">PW Name</label>
+              </td>
+              <td>
+                <input style="width:160px" type="text" name="dummy_id" id="dummy_id" autocomplete="username">
+              </td>
+            <!-- </div> -->
+          </tr>
           <tr>
             <td>
               <label style="display:inline-block;width:70px;" for="url_query">Site</label>
@@ -54,7 +60,7 @@
               <label for="user_info2">Password</label>
             </td>
             <td>
-              <input style="width:160px" type="password" name="user_info2" id="user_info2" value="" autocomplete="current-password" autofocus onkeypress="enter_pwd()">      
+              <input style="width:160px" type="password" name="user_info2" tabindex="1" id="user_info2" value="" autocomplete="current-password" autofocus onkeypress="enter_pwd()">      
             </td>
             <td>
               <span style="float:left">
@@ -68,7 +74,7 @@
               </span> -->
               <td colspan="2">
                 <a onclick="maximize()" style="float:left;" href="../manager/">Account Manager</a>
-                <input type="button" id="compute" style="float:right;" value="Submit" onclick="alert('Please wait!')">
+                <input type="button" id="compute" style="float:right;" value="Submit" tabindex="2" onclick="alert('Please wait!')">
               </td>
           </tr>
         </table>
