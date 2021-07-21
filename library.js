@@ -216,16 +216,16 @@ function PMGet(url_query, id, prid, secure=false) {
         let key = [id, path].join(";");
         let val = localStorage.getItem(key)
         if(val === null) {
-            return ["", "", ma, al]
+            return [null, null, ma, al]
         }
         let [{}, s_pwn, s_prid, s_pr] = val.split(";");
         if(s_prid !== prid && !secure) {
             localStorage.removeItem(key);
-            return ["", "", ma, al]   
+            return [null, null, ma, al]   
         }
         return [s_pwn, s_pr, ma, al]
     }
-    return ["", "", ma, al];
+    return [null, null, ma, al];
 }
 
 export {check_strength, load_pw_name, do_query,

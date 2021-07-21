@@ -91,6 +91,7 @@ async function receive_message(event) {
     
     let [pwname, pr, ma, al] = PMGet(url_query, id, get_prid(pt)(data), false);
     if(pr !== null && data_n === null && al) {
+        console.log(pr,data_n,al)
         let res = confirm("Use Auto Login");
         if(res) {
             let ret = ty + ';' + pt + ';' + pt_n + ';' + await prove_auth(pt)(data, pr, etc);
