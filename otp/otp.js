@@ -16,8 +16,8 @@ async function receive_message() {
     const id = getByName('id'); const url_query = getByName('url');
     const dom_app_n = getByName('dom'); const otp_n = getByName('otp');    
 
-    document.getElementById("user_id").value = id
-    document.getElementById("user_id_view").value = id
+    document.getElementById("user_info").value = id
+    document.getElementById("user_info_view").value = id
     document.getElementById("url_query").value = url_query
     document.getElementById("otp").value = otp_n
     document.getElementById("dom_app").value = dom_app_n
@@ -30,14 +30,14 @@ async function receive_message() {
     document.getElementById('remember_sva').checked = ma;
     document.getElementById('remember_svp').checked = al;
     document.getElementById('secuni_form').action = url_query+'?query=submit_otp';
-    document.getElementById('user_pw').placeholder = "PW Name: " +  pwname;
+    document.getElementById('user_info2').placeholder = "PW Name: " +  pwname;
     document.getElementById('dummy_id').setAttribute('value', pwname)
     if(pr !== "" && data_n === null && al) {
         let res = confirm("Use Auto Login");
         if(res) {
             let ret = ty + ';' + pt + ';' + pt_n + ';' + await prove_auth(pt)(data, pr, etc);
             document.getElementById("result").value = ret
-            document.getElementById("user_pw").value = '';
+            document.getElementById("user_info2").value = '';
             document.getElementById('secuni_form').submit();
         }
     }
@@ -55,12 +55,12 @@ function set_submit_button(id, url_query, ty, pt, pt_n, data, data_n, etc, pwnam
             let [pw, ma, al] = get_userpw();
             let [res, prid, pr] = await do_login(ty, pt, data, pt_n, data_n, etc, pw);
             document.getElementById("result").value = res
-            document.getElementById("user_pw").value = '';
+            document.getElementById("user_info2").value = '';
             PMPut(url_query, id, pwname, prid, pr, ma, al, false);
             document.getElementById('secuni_form').submit();
         } catch(err) {
             // this event shouldn't occur
-            document.getElementById("user_pw").value = '';
+            document.getElementById("user_info2").value = '';
             console.log(err)
             alert(err)
             document.getElementById('secuni_form').submit();
@@ -69,7 +69,7 @@ function set_submit_button(id, url_query, ty, pt, pt_n, data, data_n, etc, pwnam
 }
 
 function get_userpw() {
-    let pw = document.getElementById("user_pw").value;
+    let pw = document.getElementById("user_info2").value;
     let sva = document.getElementById("remember_sva").checked;
     let svp = document.getElementById("remember_svp").checked;
     return [pw, sva, svp];

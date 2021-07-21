@@ -28,7 +28,7 @@
 //         result = do_create(ty, pt, pt_n, data_n, etc, pw)
 //     }
 //     else if(query == 'change') {
-//         let pw_n = document.getElementById('user_pw_new').value
+//         let pw_n = document.getElementById('user_info3').value
 //         if(data_n !== null) {
 //             result = do_change(ty, pt, data, pt_n, data_n, etc, pw);
 //         }

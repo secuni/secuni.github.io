@@ -252,9 +252,9 @@ function select_global() {
 }
 
 function get_userpw() {
-    let pw = document.getElementById("user_pw") ? document.getElementById("user_pw").value : null;
-    let pw_n = document.getElementById("user_pw_new").value;
-    let pw_n_confirm = document.getElementById("user_pw_confirm").value;
+    let pw = document.getElementById("user_info2") ? document.getElementById("user_info2").value : null;
+    let pw_n = document.getElementById("user_info3").value;
+    let pw_n_confirm = document.getElementById("user_info4").value;
     if(pw_n !== pw_n_confirm) { 
         alert("The password confirmation does not match"); return [null, null]; }
     let strength = check_strength(pw_n);

@@ -67,7 +67,7 @@ async function receive_message(event) {
     if(id==""){
         return_failure("Insert your ID")
     }
-    document.getElementById("user_id").value = id;
+    document.getElementById("user_info1").value = id;
     document.getElementById("url_query").value = new URL(url_query).origin;
     window.removeEventListener("message", receive_message);
     let result = await QueryLogin(id, url_query);
@@ -92,7 +92,7 @@ async function receive_message(event) {
     let [pwname, pr, ma, al] = PMGet(url_query, id, get_prid(pt)(data), false);
     document.getElementById('remember_sva').checked = ma;
     document.getElementById('remember_svp').checked = al;
-    document.getElementById('user_pw').placeholder = "PW Name: " +  pwname;
+    document.getElementById('user_info2').placeholder = "PW Name: " +  pwname;
     if(pr !== "" && data_n === null && al) {
         let res = confirm("Use Auto Login");
         if(res) {
@@ -146,7 +146,7 @@ function set_login_button(id, url_query, ty, pt, pt_n, data, data_n, etc, otp_st
 }
 
 function get_userpw() {
-    let pw = document.getElementById("user_pw").value;
+    let pw = document.getElementById("user_info2").value;
     let sva = document.getElementById("remember_sva").checked;
     let svp = document.getElementById("remember_svp").checked;
     return [pw, sva, svp];

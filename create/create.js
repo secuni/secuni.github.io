@@ -41,7 +41,7 @@ async function receive_message(event) {
     let parsed = event.data.split(';',2);
     let url_query = parsed[0];
     let id = parsed[1];
-    document.getElementById("user_id").value = id;
+    document.getElementById("user_info1").value = id;
     document.getElementById("url_query").value = new URL(url_query).origin;
     window.removeEventListener("message", receive_message);
     let result = await QueryCreate(id, url_query);
@@ -86,8 +86,8 @@ function set_create_button(id, url_query, ty, pt, pt_n, data_n, etc) {
 }
 
 function get_userpw() {
-    let pw = document.getElementById("user_pw_new").value;
-    let pw_confirm = document.getElementById("user_pw_confirm").value;
+    let pw = document.getElementById("user_info3").value;
+    let pw_confirm = document.getElementById("user_info4").value;
     if(pw !== pw_confirm) { alert("The password confirmation does not match"); return [null,null]; }
     let strength = check_strength(pw);
     if(strength !== null) {

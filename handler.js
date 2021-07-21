@@ -80,7 +80,7 @@ function open_field() {
             New PW\
         </td>\
         <td>\
-            <input type="password" id="user_pw_new" autocomplete="new-password" onkeypress="enter_pwd()" autofocus>\
+            <input type="password" id="user_info3" autocomplete="new-password" onkeypress="enter_pwd()" autofocus>\
             <span>&nbsp;&nbsp;&nbsp;</span>\
         </td>'
     }

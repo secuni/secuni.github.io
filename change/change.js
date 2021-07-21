@@ -54,7 +54,7 @@ async function receive_message(event) {
     if(id==""){
         return_failure("Insert your ID")
     }
-    document.getElementById("user_id").value = id;
+    document.getElementById("user_info1").value = id;
     document.getElementById("url_query").value = new URL(url_query).origin;
     window.removeEventListener("message", receive_message);
     let result = await QueryChange(id, url_query);
@@ -67,11 +67,11 @@ async function receive_message(event) {
     document.getElementById('remember_svp').checked = al;
 
     if(data === null) {
-        document.getElementById("user_pw_old").remove();
-        document.getElementById("user_pw_new").focus();
+        document.getElementById("user_info2_old").remove();
+        document.getElementById("user_info3").focus();
     }
     else {
-        document.getElementById('user_pw').placeholder = "PW Name: " +  pwname;
+        document.getElementById('user_info2').placeholder = "PW Name: " +  pwname;
     }
     document.getElementById('compute').onclick = set_change_button(id, url_query, ty, pt, pt_n, data, data_n, etc);
 }
@@ -113,9 +113,9 @@ function set_change_button(id, url_query, ty, pt, pt_n, data, data_n, etc) {
 }
 
 function get_userpw() {
-    let pw = document.getElementById("user_pw") ? document.getElementById("user_pw").value : null;
-    let pw_n = document.getElementById("user_pw_new").value;
-    let pw_n_confirm = document.getElementById("user_pw_confirm").value;
+    let pw = document.getElementById("user_info2") ? document.getElementById("user_info2").value : null;
+    let pw_n = document.getElementById("user_info3").value;
+    let pw_n_confirm = document.getElementById("user_info4").value;
     if(pw_n !== pw_n_confirm) { 
         alert("The password confirmation does not match"); return [null, null, null]; }
     let strength = check_strength(pw_n);
