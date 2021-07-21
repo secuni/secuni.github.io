@@ -8,6 +8,7 @@
     <script src="../jsrsasign-all-min.js"></script>
     <script src="./manager.js" type="module"></script>
     <script src="../handler.js"></script>
+    <script src="../qrious.min.js"></script>
   </head>
 
   <body>
@@ -29,6 +30,10 @@
     <button type="button" id="clear_all" onclick="clear_all()">Remove</button>
     <div id="input_file"></div>
     <div><a id="export_result"></a></div>
+    <div>
+      <button type="button" id="export_url" onclick="import_url()">Export Test</button>
+      <canvas id="qr_method"></canvas>
+    </div>
 
     <input type="hidden" id="aux_timeouts" value="60000">
     <input type="hidden" id="aux_ip" value="true">

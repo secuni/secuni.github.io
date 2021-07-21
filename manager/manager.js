@@ -28,6 +28,7 @@ import {check_strength, load_pw_name, do_query,
 //     return date;
 // }
 
+let entries = {};
 
 document.getElementById('select_global').onchange = select_global;
 document.getElementById('compute').onclick = do_update_all;
@@ -36,7 +37,6 @@ document.getElementById('import_data').onclick = import_data;
 document.getElementById('clear_all').onclick = clear_all;
 window.parse_file = parse_file
 
-let entries = {};
 
 window.onload = function() {
     load_pw_name();
@@ -50,6 +50,32 @@ window.onload = function() {
             entries[key] = entry;
         }
     }
+    document.getElementById('export_url').onclick = copy;
+}
+
+function copy() {
+    let keyval = ""
+    let arr = [];
+    let keys = Object.keys(entries);
+    for(var i=0; i<keys.length; i++) {
+        let key = keys[i];
+        if(entries[key].checked.checked == false) continue;
+        let [userid, url_query] = key.split(";");
+        let [date, pw_name, {}, {}] = localStorage.getItem(key).split(";");
+        keyval += key + "=" + date + ";" + pw_name + "&"
+    }
+    if (keyval === ""){
+        alert("Select a website to export");
+        return;
+    }
+    // let val = "http://localhost:7999/import#" + keyval;
+    let val = "https://secuni.github.io/import#" + keyval;
+    navigator.clipboard.writeText(val).then(function() {}, function(err) {});
+    let qr = new QRious({
+        element: document.getElementById('qr_method'),
+        size: 300,
+        value: val
+    });
 }
 
 async function do_update_all() {
@@ -138,7 +164,7 @@ function export_data() {
 function import_data() {
     document.getElementById("export_result").innerHTML = "";
     document.getElementById("input_file").innerHTML = '<input type="file" onchange="parse_file(this.files[0])">'
-    }
+}
 
 async function parse_file(file) {
     let arrstr = await file.text();
