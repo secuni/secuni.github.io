@@ -113,9 +113,9 @@ function set_change_button(id, url_query, ty, pt, pt_n, data, data_n, etc) {
 }
 
 function get_userpw() {
-    let pw = document.getElementById("user_info2") ? document.getElementById("user_info2").value : null;
-    let pw_n = document.getElementById("user_info3").value;
-    let pw_n_confirm = document.getElementById("user_info4").value;
+    let pw = document.getElementById("user_info2") ? get_info2() : null;
+    let pw_n = get_info3();
+    let pw_n_confirm = get_info4();
     if(pw_n !== pw_n_confirm) { 
         alert("The password confirmation does not match"); return [null, null, null]; }
     let strength = check_strength(pw_n);

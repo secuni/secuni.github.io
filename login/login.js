@@ -146,7 +146,7 @@ function set_login_button(id, url_query, ty, pt, pt_n, data, data_n, etc, otp_st
 }
 
 function get_userpw() {
-    let pw = document.getElementById("user_info2").value;
+    let pw = get_info2();
     let sva = document.getElementById("remember_sva").checked;
     let svp = document.getElementById("remember_svp").checked;
     return [pw, sva, svp];

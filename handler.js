@@ -42,6 +42,7 @@ function maximize() {
 function enter_pwd() {
     let k = window.event.keyCode;
     if(k === 13){
+        document.activeElement.blur();
         document.getElementById("compute").click();
     }
 }
