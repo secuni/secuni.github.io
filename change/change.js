@@ -68,10 +68,10 @@ async function receive_message(event) {
 
     if(data === null) {
         document.getElementById("user_info2_old").remove();
-        document.getElementById("user_info3").focus();
+        user_info3_e.focus();
     }
     else {
-        document.getElementById('user_info2').placeholder = "PW Name: " +  pwname;
+        user_info2_e.placeholder = "PW Name: " +  pwname;
     }
     document.getElementById('compute').onclick = set_change_button(id, url_query, ty, pt, pt_n, data, data_n, etc);
 }
@@ -113,9 +113,12 @@ function set_change_button(id, url_query, ty, pt, pt_n, data, data_n, etc) {
 }
 
 function get_userpw() {
-    let pw = document.getElementById("user_info2") ? get_info2() : null;
+    let pw = user_info2_e ? get_info2() : null;
     let pw_n = get_info3();
     let pw_n_confirm = get_info4();
+    console.log(pw,pw_n,pw_n_confirm)
+    // user_info2 = "";user_info3 = "";user_info4 = "";
+
     if(pw_n !== pw_n_confirm) { 
         alert("The password confirmation does not match"); return [null, null, null]; }
     let strength = check_strength(pw_n);

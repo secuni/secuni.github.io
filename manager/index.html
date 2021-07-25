@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <title> SecUni </title>
-    <script defer src="../noautofill.js"></script>
+    <script defer src="../handleinput.js"></script>
     <script src="../aes.js"></script>
     <script src="../pad-nopadding-min.js"></script>
     <script src="../jsrsasign-all-min.js"></script>
     <script src="./manager.js" type="module"></script>
     <script src="../handler.js"></script>
     <script src="../qrious.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../noautofill.css">
+    <link rel="stylesheet" type="text/css" href="../handleinput.css">
   </head>
 
   <body>
@@ -37,7 +37,9 @@
       <button type="button" id="export_url" onclick="import_url()">Export Test</button>
       <canvas id="qr_method"></canvas>
     </div>
-
+    <div>
+      <td>Use PM<input type="checkbox" id="use_pm" onchange="check_usepm()" autocomplete="off" name="remember"></td>
+    </div>
     <input type="hidden" id="aux_timeouts" value="60000">
     <input type="hidden" id="aux_ip" value="true">
     <br>
@@ -48,13 +50,14 @@
 
     <table>
       <tr>
+        <div id="pm_id" style="display:none !important; visibility:hidden; pointer-events: none;"></div>
         <td> Old </td>
         <td> <input class="no_autofill" type="text" id="user_info2" tabindex="1" autocomplete="off" autofocus> </td>
         <td>Manage Account<input type="checkbox" id="remember_sva" onchange="check_sva()" checked autocomplete="off" name="remember"></td>
       </tr>
       <tr>
         <td> New </td>  
-        <td> <input class="no_autofill" type="text" id="user_info3" tabindex="2" placeholder="Minimum 15 characters" autocomplete="off"> </td>
+        <td> <input class="no_autofill" type="text" id="user_info3" tabindex="2" placeholder="Minimum 15 characters" autocomplete="off" onkeypress="enter_pwd()"> </td>
         <td>Auto Login<input type="checkbox" onchange="check_svp()" id="remember_svp" autocomplete="new-password" name="remember"></td>
       </tr>
       <tr>
@@ -63,7 +66,7 @@
         <td colspan="2">
           <span>
             PW Name
-            <input style="width:100px;" list="pw_name_list" tabindex="4" type="text" id="pw_name" autocomplete="off" placeholder="Default" onkeypress="enter_pwd()">
+            <input style="width:100px;" list="pw_name_list" tabindex="4" type="text" onchange="set_id()" id="pw_name" autocomplete="off" placeholder="Default" onkeypress="enter_pwd()">
             <datalist id="pw_name_list">
               <option value="Default">Default</option>
               <option value="Special">Special</option>

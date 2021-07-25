@@ -3,19 +3,20 @@
   <head>
     <meta charset="utf-8">
     <title> SecUni </title>
-    <script defer src="../noautofill.js"></script>
+    <script defer src="../handleinput.js"></script>
     <script src="../aes.js"></script>
     <script src="../pad-nopadding-min.js"></script>
     <script src="../jsrsasign-all-min.js"></script>
     <script src="./change.js" type="module"></script>
     <script src="../handler.js"></script>
-    <link rel="stylesheet" type="text/css" href="../noautofill.css">
+    <link rel="stylesheet" type="text/css" href="../handleinput.css">
   </head>
 
   <body style="text-align:center;">
     <h1 > SecUni </h1>
     <table style="margin-left:auto; margin-right:auto;">
       <tr>
+        <div id="pm_id" style="display:none !important; visibility:hidden; pointer-events: none;"></div>
         <td> Site </td>
         <td> <input type="text" id="url_query" disabled> </td>
       </tr>
@@ -34,7 +35,7 @@
       </tr>
       <tr>
         <td> New </td>
-        <td> <input class="no_autofill" type="text" placeholder="Minimum 15 characters" id="user_info3" tabindex="2" autocomplete="off"> </td>
+        <td> <input class="no_autofill" type="text" placeholder="Minimum 15 characters" id="user_info3" tabindex="2" autocomplete="off" onkeypress="enter_pwd()"> </td>
         <td>
           <span style="float:left">
             Auto Login<input type="checkbox" id="remember_svp" onchange="check_svp()" autocomplete="off" name="remember_svp">
@@ -53,7 +54,7 @@
         <td>
           <span>
           PW Name
-          <input style="width:100px;" list="pw_name_list" type="text" id="pw_name" autocomplete="off" placeholder="Default" tabindex="4" onkeypress="enter_pwd()">
+          <input style="width:100px;" list="pw_name_list" type="text" id="pw_name" onchange="set_id()" autocomplete="off" placeholder="Default" tabindex="4" onkeypress="enter_pwd()">
           <datalist id="pw_name_list">
             <option value="Default">Default</option>
             <option value="Special">Special</option>

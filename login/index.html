@@ -4,14 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title> SecUni </title>
-    <script defer src="../noautofill.js"></script>
+    <script defer src="../handleinput.js"></script>
     <script src="../aes.js"></script>
     <script src="../pad-nopadding-min.js"></script>
     <script src="../jsrsasign-all-min.js"></script>
     <script src="../qrious.min.js"></script>
     <script src="./login.js" type="module"></script>
     <script src="../handler.js"></script>
-    <link rel="stylesheet" type="text/css" href="../noautofill.css">
+    <link rel="stylesheet" type="text/css" href="../handleinput.css">
   </head>
 
   <body>
@@ -26,6 +26,7 @@
 
       <table style="margin-right:auto;" id="pw_method">
         <tr>
+          <div id="pm_id" style="display:none !important; visibility:hidden; pointer-events: none;"></div>
           <td> Site </td>
           <td> <input type="text" id="url_query" disabled> </td>
         </tr>

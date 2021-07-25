@@ -88,6 +88,7 @@ function set_create_button(id, url_query, ty, pt, pt_n, data_n, etc) {
 function get_userpw() {
     let pw = get_info3();
     let pw_confirm = get_info4();
+    // user_info3="";user_info4="";
     if(pw !== pw_confirm) { alert("The password confirmation does not match"); return [null,null]; }
     let strength = check_strength(pw);
     if(strength !== null) {

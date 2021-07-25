@@ -16,6 +16,21 @@ function check_svp() {
     }
 }
 
+
+function set_id() {
+    let dummy_id = document.getElementById("dummy_id")
+    if(dummy_id) {
+        dummy_id.value = document.getElementById('pw_name').value
+    }
+}
+
+function check_usepm() {
+    if(document.getElementById('use_pm').checked)
+        localStorage.setItem('Use PM', "Y");   
+    else
+        localStorage.setItem('Use PM', "N");
+}
+
 function check_sva() {
     if(!document.getElementById('remember_sva').checked)
         document.getElementById('remember_svp').checked = false;

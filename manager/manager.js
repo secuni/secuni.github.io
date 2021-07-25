@@ -86,6 +86,7 @@ window.onload = function() {
     let [_0, _1, ma, al] = PMGet(null, null, null);
     document.getElementById('remember_sva').checked = ma
     document.getElementById('remember_svp').checked = al
+    document.getElementById('use_pm').checked = (localStorage.getItem("Use PM") === "Y")
 }
 
 function copy() {
