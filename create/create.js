@@ -45,13 +45,12 @@ async function receive_message(event) {
     document.getElementById("url_query").value = new URL(url_query).origin;
     window.removeEventListener("message", receive_message);
     let result = await QueryCreate(id, url_query);
-    let ty= result['ty']; let pt = result['pt']; let pt_n = result['pt_n']; let ds_n = result['ds_n']; let aux = result['aux'];
+    let aux = result['aux']; let pt = result['pt']; let pt_n = result['pt_n']; let ds_n = result['ds_n'];
     let data_n = parse(pt_n)(ds_n)
-    let etc = aux +';' + dom_app
     let [_0, _1, ma, al] = PMGet(null, null, null);
     document.getElementById('remember_sva').checked = ma;
     document.getElementById('remember_svp').checked = al;
-    document.getElementById('compute').onclick = await set_create_button(id, url_query, ty, pt, pt_n, data_n, etc);
+    document.getElementById('compute').onclick = await set_create_button(id, url_query, aux, pt, pt_n, data_n, dom_app);
 }
 
 async function QueryCreate(id, url_query) {
@@ -59,22 +58,17 @@ async function QueryCreate(id, url_query) {
     return await do_query(url);
 }
 
-function set_create_button(id, url_query, ty, pt, pt_n, data_n, etc) {
+function set_create_button(id, url_query, aux, pt, pt_n, data_n, dom_app) {
     return (async () => {
-        let pwname = document.getElementById('pw_name').value;
-        if(pwname.includes(";")) {
-            alert("semicolon not allowed for PW Name")
-            return;
-        }
-        pwname = (pwname ? pwname : "Default");
-        let [pw,ma,al] = get_userpw();
+        let [pw, pwn_n, eml, ma,al] = get_userpw();
         if(pw === null) return;
         try {
             // let pw_name = document.getElementById("pw_name").value;
             // PMCreate(id, url_query, pw_name);
-            let [ret, prid, pr] = await do_create(ty, pt, pt_n, data_n, etc, pw)
+            let etc = dom_app + ';' + eml;
+            let [ret, prid, pr] = await do_create(aux, pt, pt_n, data_n, etc, pw)
             opener.postMessage(ret, url_app);
-            PMPut(url_query, id, pwname, prid, pr, ma, al, true);
+            PMPut(url_query, id, pwn_n, prid, pr, ma, al, true);
             window.close();
         } catch(err) {
             // this event shouldn't occur
@@ -94,8 +88,16 @@ function get_userpw() {
     if(strength !== null) {
         alert(strength); return [null,null];
     }
+
+    let pwname = document.getElementById('pw_name').value;
+    if(pwname.includes(";")) {
+        alert("semicolon not allowed for PW Name")
+        return;
+    }
+    pwname = (pwname ? pwname : "Default");
+    let eml = document.getElementById('eml').value;
     let sva = document.getElementById("remember_sva").checked
     let svp = document.getElementById("remember_svp").checked
-    return [pw,sva, svp];
+    return [pw, pwname, eml, sva, svp];
 }
 

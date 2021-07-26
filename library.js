@@ -1,4 +1,4 @@
-import {prove_new_adv, get_prover_adv, prove_auth_adv, get_prid_adv, parse_adv} from './adv_protocol/public.js';
+import {prove_new_adv, get_prover_adv, prove_test_adv, get_prid_adv, parse_adv} from './adv_protocol/public.js';
 
 function check_strength(pw) {
     let denylist = ["password"];
@@ -95,9 +95,9 @@ function get_prover(pt) {
     }
 }
 
-function prove_auth(pt) {
+function prove_test(pt) {
     switch (pt) {
-        case "adv": return prove_auth_adv;
+        case "adv": return prove_test_adv;
         case "" : return () => {return null}
     }
 }
@@ -117,24 +117,25 @@ function parse(pt) {
     }
 }
 
-async function do_login(ty, pt, data, pt_n, data_n, etc, pw) {
+async function do_login(aux, pt, data, pt_n, data_n, etc, pw) {
     let prid = get_prid(pt)(data);
-    let pr = await get_prover(pt)(data, pw);
+    let pr = pw !== "" ? await get_prover(pt)(data, pw) : null;
+    data_n = pw !==  "" ? data_n : null;
     let [r_n, prid_n, pr_n] = (data_n===null) ? [etc, prid, pr] : await prove_new(pt_n)(data_n, pw, etc);
-    let ret = ty + ';' + pt + ';' + pt_n + ';' + await prove_auth(pt)(data, pr, r_n);
+    let ret = aux + ';' + pt + ';' + pt_n + ';' + await prove_test(pt)(data, pr, r_n);
     return [ret, prid_n, pr_n];
 }
 
-async function do_create(ty, pt, pt_n, data_n, etc, pw) {
+async function do_create(aux, pt, pt_n, data_n, etc, pw) {
     let [ret, prid, pr] = await prove_new(pt_n)(data_n, pw, etc);
-    ret = ty + ';' + pt + ';' + pt_n + ';' + ret;
+    ret = aux + ';' + pt + ';' + pt_n + ';' + ret;
     return [ret, prid, pr];
 }
 
-async function do_change(ty, pt, data, pt_n, data_n, etc, pw, pw_n) {
+async function do_change(aux, pt, data, pt_n, data_n, etc, pw, pw_n) {
     let pr = await get_prover(pt)(data, pw);
     let [r_n, prid_n, pr_n] = await prove_new(pt_n)(data_n, pw_n, etc);
-    let ret = ty + ';' + pt + ';' + pt_n + ';' + await prove_auth(pt)(data, pr, r_n)
+    let ret = aux + ';' + pt + ';' + pt_n + ';' + await prove_test(pt)(data, pr, r_n)
     return [ret, prid_n, pr_n];
 }
 
@@ -229,6 +230,6 @@ function PMGet(url_query, id, prid, secure=false) {
 }
 
 export {check_strength, load_pw_name, do_query,
-         prove_new, get_prover, prove_auth, get_prid,
+         prove_new, get_prover, prove_test, get_prid,
         parse, return_failure, do_login, do_create, do_change,
         PMPut, PMGet};

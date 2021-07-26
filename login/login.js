@@ -1,6 +1,6 @@
 import {check_strength, load_pw_name, do_query,
         parse, prove_new,return_failure, get_prover, 
-        get_prid, prove_auth, do_login, PMPut, PMGet} from "../library.js";
+        get_prid, prove_test, do_login, PMPut, PMGet} from "../library.js";
 let opener = null;
 let url_app = null;
 let qr=null;
@@ -70,39 +70,37 @@ async function receive_message(event) {
     document.getElementById("user_info1").value = id;
     document.getElementById("url_query").value = new URL(url_query).origin;
     window.removeEventListener("message", receive_message);
+    let sec = true;
     let result = await QueryLogin(id, url_query);
-    let ty= result['ty']; let pt = result['pt']; let ds = result['ds']; let pt_n = result['pt_n']; let ds_n = result['ds_n'];  let aux = result['aux'];
+    let aux= result['aux']; let pt = result['pt']; let ds = result['ds']; let pt_n = result['pt_n']; let ds_n = result['ds_n'];
     let [otp] = aux.split(';',1)
-    let otp_url = "https://secuni.github.io/otp#" + get_query_string(url_query, id, dom_app, otp);
-    // otp_url = "http://localhost:7999/otp#" + get_query_string(url_query, id, dom_app, otp);
-    console.log("http://localhost:7999/otp#" + get_query_string(url_query, id, dom_app, otp))
-    qr.value= otp_url;
-    // document.getElementById('otp_link').href = otp_url;
-    document.getElementById('otp_view').style.display= "";
     
-    let etc = aux +';' + dom_app;
+    let etc = dom_app +';' + "";
     let data = parse(pt)(ds)
     let data_n = ds_n ? parse(pt_n)(ds_n) : null
-    let otp_str = 'otp;'+ etc +';' + ty + pt + pt_n + ds + ds_n;
     if(data === null) {
         alert('no such user')
         window.close()
     }
     
     let [pwname, pr, ma, al] = PMGet(url_query, id, get_prid(pt)(data), false);
+    let otp_url = "https://secuni.github.io/otp#" + get_query_string(url_query, id, sec, pwname, dom_app, otp);
+    console.log("http://localhost:7999/otp#" + get_query_string(url_query, id, sec, pwname, dom_app, otp))
+    qr.value= otp_url;
+    document.getElementById('otp_view').style.display= "";
     document.getElementById('remember_sva').checked = ma;
     document.getElementById('remember_svp').checked = al;
     user_info2_e.placeholder = "PW Name: " +  pwname;
     if(pr !== "" && data_n === null && al) {
         let res = confirm("Use Auto Login");
         if(res) {
-            let ret = ty + ';' + pt + ';' + pt_n + ';' + await prove_auth(pt)(data, pr, etc);
+            let ret = aux + ';' + pt + ';' + pt_n + ';' + await prove_test(pt)(data, pr, etc);
             opener.postMessage(ret, url_app);
             window.close();
         }
     }
     // document.getElementById('otp_link').onclick = () => opener.postMessage(otp_str, url_app);
-    document.getElementById('compute').onclick = set_login_button(id, url_query, ty, pt, pt_n, data, data_n, etc, otp_str, pwname);
+    document.getElementById('compute').onclick = set_login_button(id, url_query, aux, pt, pt_n, data, data_n, etc, pwname);
     // document.getElementById('otp_button').onclick = set_otp_button(ty, pt, pt_n, aux, dom_app, ds, ds_n);
 }
 
@@ -120,21 +118,16 @@ async function QueryLogin(id, url_query) {
 //     })
 // }
 
-function set_login_button(id, url_query, ty, pt, pt_n, data, data_n, etc, otp_str, pwname, sec=false) {
+function set_login_button(id, url_query, aux, pt, pt_n, data, data_n, etc, pwname, sec=false) {
     return(async () => {
         try { 
             let [pw, ma, al] = get_userpw();
             let ret = null;
             let prid = null;
             let pr = null;
-            if(pw==="") {
-                ret = otp_str;
-            }
-            else {
-                [ret, prid, pr] = await do_login(ty, pt, data, pt_n, data_n, etc, pw);
-                [prid, pr] = sec ? [null, null] : [prid, pr]
-                PMPut(url_query, id, pwname, prid, pr, ma, al, false);
-            }
+            [ret, prid, pr] = await do_login(aux, pt, data, pt_n, data_n, etc, pw);
+            [prid, pr] = sec ? [null, null] : [prid, pr]
+            PMPut(url_query, id, pwname, prid, pr, ma, al, false);
             opener.postMessage(ret, url_app);
             window.close();
         } catch(err) {

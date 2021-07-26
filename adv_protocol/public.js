@@ -15,9 +15,9 @@ async function get_prover_adv(data,pw) {
     return await get_pr(data, get_hpw(pw))
 }
 
-async function prove_auth_adv(data, pr, s) {
+async function prove_test_adv(data, pr, s) {
     let s_n = to_str(data, random(32) + ';' +  s)
-    return (await sign(pr, s_n, 30000))+';'+ s_n
+    return (pr ? await sign(pr, s_n, 30000) : "")+';'+ s_n
 }
 
 function get_prid_adv(data) {
@@ -29,4 +29,4 @@ function parse_adv(ds) {
     return data;
 }
   
-export {prove_new_adv, get_prover_adv, prove_auth_adv, get_prid_adv, parse_adv};
+export {prove_new_adv, get_prover_adv, prove_test_adv, get_prid_adv, parse_adv};

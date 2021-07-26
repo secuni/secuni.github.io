@@ -1,6 +1,6 @@
 import {check_strength, load_pw_name, do_query,
     parse, prove_new,return_failure, get_prover, 
-    get_prid, prove_auth, do_login, PMPut, PMGet} from "../library.js";
+    get_prid, prove_test, do_login, PMPut, PMGet} from "../library.js";
 
 window.onload = async function() {   
     await receive_message();
@@ -36,7 +36,7 @@ async function receive_message() {
     if(pr !== "" && data_n === null && al) {
         let res = confirm("Use Auto Login");
         if(res) {
-            let ret = ty + ';' + pt + ';' + pt_n + ';' + await prove_auth(pt)(data, pr, etc);
+            let ret = ty + ';' + pt + ';' + pt_n + ';' + await prove_test(pt)(data, pr, etc);
             document.getElementById("result").value = ret
             document.getElementById("user_info2").value = '';
             document.getElementById('secuni_form').submit();

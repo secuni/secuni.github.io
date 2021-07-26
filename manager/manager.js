@@ -1,6 +1,6 @@
 import {check_strength, load_pw_name, do_query,
     parse, prove_new,return_failure, get_prover, 
-    get_prid, prove_auth, do_change, do_create, PMPut, PMGet} from "../library.js";
+    get_prid, prove_test, do_change, do_create, PMPut, PMGet} from "../library.js";
 
 
 // function PMChange(id, url_query, pw_name, salt, pr) {
@@ -117,9 +117,7 @@ function copy() {
 async function do_update_all() {
     let keys = Object.keys(entries);
     let all_unchecked = true;
-
-    if(get_userpw().every(e=>e === null))
-        return;
+    let [pw, pw_n, pwn_n, eml, al] = get_userpw();
 
     for(var i=0; i<keys.length; i++) {
         let key = keys[i];
@@ -132,17 +130,8 @@ async function do_update_all() {
         alert("Select a website to change");
         return;
     }
-    
-    let pw_name = document.getElementById('pw_name').value;
-    if(pw_name.includes(";")) {
-        alert("semicolon not allowed for PW Name")
-        return;
-    }
-    
-    document.getElementById("compute").disabled = true;
 
-    pw_name = pw_name ? pw_name : "Default";
-    let al = document.getElementById("remember_svp").checked;
+    document.getElementById("compute").disabled = true;
 
     if(document.getElementById('status') === null) {
         let th = document.createElement('th');
@@ -158,8 +147,8 @@ async function do_update_all() {
             add_status(key);
         if (entry.checked.checked === true) {
             entry.status.nodeValue = "querying..."
-            if(await entry_query(key, pw_name))
-                await entry_change(key, pw_name, al);
+            if(await entry_query(key, eml))
+                await entry_change(key, pw, pw_n, pwn_n, al);
         }
     }));
     document.getElementById("compute").disabled = false;
@@ -262,7 +251,17 @@ function get_userpw() {
     if(strength !== null) {
         alert(strength); return [null, null];
     }
-    return [pw, pw_n];
+
+    let pw_name = document.getElementById('pw_name').value;
+    if(pw_name.includes(";")) {
+        alert("semicolon not allowed for PW Name")
+        return;
+    }
+    pw_name = pw_name ? pw_name : "Default";
+    let eml = document.getElementById('eml').value;
+    let svp = document.getElementById("remember_svp").checked;
+
+    return [pw, pw_n, pw_name, eml, svp];
 }
 
 function key_to_entry(key, val) {
@@ -349,17 +348,17 @@ function add_status(key) {
     entry.status = td_status_val
 }
 
-async function entry_query(key, pw_name) {
+async function entry_query(key, eml) {
     let [userid, url_query] = key.split(";");
     let entry = entries[key];
     let result = await QueryManager(userid, url_query, entry);
     if (result === null)
         return false;
-    let ty= result['ty']; let pt = result['pt']; let ds = result['ds']; let pt_n = result['pt_n']; let ds_n = result['ds_n'];  let aux = result['aux'];
-    let etc = aux +';' + "";
+    let aux= result['aux']; let pt = result['pt']; let ds = result['ds']; let pt_n = result['pt_n']; let ds_n = result['ds_n'];
+    let etc = "" +';' + eml;
     let data = ds ? parse(pt)(ds) : null;
     let data_n = parse(pt_n)(ds_n)
-    entries[key] = {...entry, ty, pt, data, pt_n, data_n, etc}
+    entries[key] = {...entry, aux, pt, data, pt_n, data_n, etc}
     return true;
 }
 
@@ -392,13 +391,12 @@ async function do_query_manager(url) {
     return body;
 }
 
-async function entry_change(key, pw_name, al) {
+async function entry_change(key, pw, pw_n, pwn_n, al) {
     let [userid, path] = key.split(";");
     const qurl = path + "?query=change_all&id=" + userid;
     let entry = entries[key];
     try {
-        let [pw, pw_n] = get_userpw(); // always non-null value
-        let [ret, prid_n, pr_n] = await do_change(entry.ty, entry.pt, entry.data, entry.pt_n, entry.data_n, entry.etc, pw, pw_n)
+        let [ret, prid_n, pr_n] = await do_change(entry.aux, entry.pt, entry.data, entry.pt_n, entry.data_n, entry.etc, pw, pw_n)
         let res = await fetch(qurl, {
             method: 'POST',
             mode: 'cors',
@@ -411,10 +409,10 @@ async function entry_change(key, pw_name, al) {
         })
         if (res.ok) {
             entry.status.nodeValue = "success";
-            entry.pw_name.nodeValue = pw_name;
+            entry.pw_name.nodeValue = pwn_n;
             let time = new Date();
             let date = time.getFullYear() + "/" + (time.getMonth()+1) + "/" + time.getDate()
-            PMPut(qurl, userid, pw_name, prid_n, pr_n, true, al, true);
+            PMPut(qurl, userid, pwn_n, prid_n, pr_n, true, al, true);
             entry.saved.checked = al
             entry.date.nodeValue = date;
             entry.date.parentElement.title = time
