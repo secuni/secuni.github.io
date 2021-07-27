@@ -48,13 +48,15 @@ function get_pw_name(key) {
     let [userid, path] = key.split(";");
     let origin = null;
     try{
-        origin = new URL(path).origin;
+        origin = new URL(decodeURIComponent(path)).origin;
     } catch(err) {
         return null;
     }
+    console.log(origin)
+    console.log(key)
     let val = localStorage.getItem(key);
-    let [date, pw_name, salt, pr] = val.split(";");
-    return pw_name
+    let [date, pw_name, salt, pr, {}] = val.split("&");
+    return decodeURIcomponent(pw_name)
 }
 
   
@@ -138,12 +140,11 @@ async function do_change(aux, pt, data, pt_n, data_n, etc, pw, pw_n) {
     let ret = aux + ';' + pt + ';' + pt_n + ';' + await prove_test(pt)(data, pr, r_n)
     return [ret, prid_n, pr_n];
 }
-
   
 function PMPut(url_query, id, pwn, prid, pr, ma, al, changedate=false) {
     const url = new URL(url_query)
     const path = url.origin + url.pathname;
-    let key = [id, path].join(";");
+    let key = [encodeURIComponent(id), encodeURIComponent(path)].join("&");
     if(ma === true) {
         localStorage.setItem('Manage Account', "Y");   
     }
@@ -165,7 +166,7 @@ function PMPut(url_query, id, pwn, prid, pr, ma, al, changedate=false) {
     if(ma) {
         if(changedate) {
             let date = Date.now();
-            let val = [date, pwn, prid, pr].join(";");
+            let val = [encodeURIComponent(date), encodeURIComponent(pwn), encodeURIComponent(prid), encodeURIComponent(pr),""].join("&");
             localStorage.setItem(key, val)
         }
         else {
@@ -174,12 +175,12 @@ function PMPut(url_query, id, pwn, prid, pr, ma, al, changedate=false) {
                 return;
             if(item === null) {
                 let date = 0;
-                let val = [date, pwn, prid, pr].join(";");
+                let val = [encodeURIComponent(date), encodeURIComponent(pwn), encodeURIComponent(prid), encodeURIComponent(pr),""].join("&");
                 localStorage.setItem(key, val);
             }
             else {
-                let [date_p, {}, {}, {}] = item.split(";");
-                let val = [date_p, pwn, prid, pr].join(";");
+                let [date_p, {}, {}, {}, {}] = item.split("&");
+                let val = [date_p, encodeURIComponent(pwn), encodeURIComponent(prid), encodeURIComponent(pr),""].join("&");
                 localStorage.setItem(key, val);
             }
         }
@@ -214,17 +215,18 @@ function PMGet(url_query, id, prid, secure=false) {
     if(url_query !== null && id !== null && prid !== null) {
         const url = new URL(url_query)
         const path = url.origin + url.pathname;    
-        let key = [id, path].join(";");
+        let key = [encodeURIComponent(id), encodeURIComponent(path)].join("&");
         let val = localStorage.getItem(key)
         if(val === null) {
             return ["", "", ma, al]
         }
-        let [{}, s_pwn, s_prid, s_pr] = val.split(";");
-        if(s_prid !== prid && !secure) {
+        console.log(key, val,)
+        let [{}, s_pwn, s_prid, s_pr, {}] = val.split("&");
+        if(decodeURIComponent(s_prid) !== prid && !secure) {
             localStorage.removeItem(key);
             return ["", "", ma, al]   
         }
-        return [s_pwn, s_pr, ma, al]
+        return [decodeURIComponent(s_pwn), decodeURIComponent(s_pr), ma, al]
     }
     return ["", "", ma, al];
 }

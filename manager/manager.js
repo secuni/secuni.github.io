@@ -32,11 +32,11 @@ let entries = {};
 
 document.getElementById('select_global').onchange = select_global;
 document.getElementById('compute').onclick = do_update_all;
-document.getElementById('export_data').onclick = export_data;
-document.getElementById('import_data').onclick = import_data;
+// document.getElementById('export_data').onclick = export_data;
+// document.getElementById('import_data').onclick = import_data;
 document.getElementById('clear_all').onclick = clear_all;
 document.getElementById('rename').onclick = rename;
-window.parse_file = parse_file
+// window.parse_file = parse_file
 
 function rename () {
     let keys = Object.keys(entries);
@@ -58,11 +58,11 @@ function rename () {
         let entry = entries[key]
         if(entry.checked.checked == true) {
             entry.pw_name.nodeValue = name;
-            let [userid, qurl] = key.split(';')
+            let [userid, qurl] = key.split('&')
             let time = new Date();
             let date = time.getFullYear() + "/" + (time.getMonth()+1) + "/" + time.getDate()
-            let [_0, _1, prid, pr] = localStorage.getItem(key).split(';')
-            PMPut(qurl, userid, name, prid, pr, true, true, true);
+            let [_0, _1, prid, pr, _2] = localStorage.getItem(key).split('&')
+            PMPut(decodeURIComponent(qurl), decodeURIComponent(userid), name, decodeURIComponent(prid), decodeURIComponent(pr), true, true, true);
             entry.date.nodeValue = date;
             entry.date.parentElement.title = time
         }
@@ -96,9 +96,8 @@ function copy() {
     for(var i=0; i<keys.length; i++) {
         let key = keys[i];
         if(entries[key].checked.checked == false) continue;
-        let [userid, url_query] = key.split(";");
-        let [date, pw_name, {}, {}] = localStorage.getItem(key).split(";");
-        keyval += key + "=" + date + ";" + pw_name + "&"
+        let [date, pw_name, {}, {}, {}] = localStorage.getItem(key).split("&");
+        keyval += key + "=" + date + "&" + pw_name + "/"
     }
     if (keyval === ""){
         alert("Select a website to export");
@@ -156,73 +155,73 @@ async function do_update_all() {
     load_pw_name()
 }
 
-function export_data() {
-    let arr = [];
-    let keys = Object.keys(entries);
-    for(var i=0; i<keys.length; i++) {
-        let key = keys[i];
-        if(entries[key].checked.checked == false) continue;
-        let [userid, url_query] = key.split(";");
-        let [date, pw_name, {}, {}] = localStorage.getItem(key).split(";");
-        let object = {
-            'id' : userid,
-            'url_query' : url_query,
-            'date' : date,
-            'pw_name' : pw_name,
-        }
-        arr.push(JSON.stringify(object));
-    }
-    if(arr.length !== 0){
-        document.getElementById("input_file").innerHTML = "";
-        let blob = new Blob([JSON.stringify(arr)], {type: "application/json"});
-        let url = URL.createObjectURL(blob);
-        let a = document.getElementById("export_result");
-        a.innerHTML = "Download file"
-        a.href = url;
-        a.download = "export.json"
-    }
-    else{
-        alert("Select a website to export");
-    }
-}
+// function export_data() {
+//     let arr = [];
+//     let keys = Object.keys(entries);
+//     for(var i=0; i<keys.length; i++) {
+//         let key = keys[i];
+//         if(entries[key].checked.checked == false) continue;
+//         let [userid, url_query] = key.split(";");
+//         let [date, pw_name, {}, {}] = localStorage.getItem(key).split("&");
+//         let object = {
+//             'id' : userid,
+//             'url_query' : url_query,
+//             'date' : date,
+//             'pw_name' : pw_name,
+//         }
+//         arr.push(JSON.stringify(object));
+//     }
+//     if(arr.length !== 0){
+//         document.getElementById("input_file").innerHTML = "";
+//         let blob = new Blob([JSON.stringify(arr)], {type: "application/json"});
+//         let url = URL.createObjectURL(blob);
+//         let a = document.getElementById("export_result");
+//         a.innerHTML = "Download file"
+//         a.href = url;
+//         a.download = "export.json"
+//     }
+//     else{
+//         alert("Select a website to export");
+//     }
+// }
 
-function import_data() {
-    document.getElementById("export_result").innerHTML = "";
-    document.getElementById("input_file").innerHTML = '<input type="file" onchange="parse_file(this.files[0])">'
-}
+// function import_data() {
+//     document.getElementById("export_result").innerHTML = "";
+//     document.getElementById("input_file").innerHTML = '<input type="file" onchange="parse_file(this.files[0])">'
+// }
 
-async function parse_file(file) {
-    let arrstr = await file.text();
-    let arr = JSON.parse(arrstr)
-    arr.forEach(function (element) {
-        let object = JSON.parse(element)
-        let key = object.id + ';' + object.url_query;
-        let prev_val = localStorage.getItem(key);
-        if(prev_val === null) {
-            let val = object.date + ';' + object.pw_name + ';;'
-            localStorage.setItem(key, val);
-        }
-        else {
-            let [prev_date, {}, {}, {}] = prev_val.split(';');
-            if(prev_date === "UNKNOWN") {
-                let val = object.date + ';' + object.pw_name + ';;'
-                localStorage.setItem(key, val);
-            }
-            else if(object.date !== "UNKNOWN") {
-                let date_parts = object.date.split('-')
-                let json_date = new Date(date_parts[0], date_parts[1]-1, date_parts[2]);
-                let date_parts2 = prev_date.split('-')
-                let prev_val_date = new Date(date_parts2[0], date_parts2[1]-1, date_parts2[2]);
-                if(json_date > prev_val_date) {
-                    let val = object.date + ';' + object.pw_name + ';;'
-                    localStorage.setItem(key, val);
-                }
-            }
-        }
-    })
-    document.getElementById("input_file").innerHTML = "";
-    refresh_view();
-}
+// async function parse_file(file) {
+//     let arrstr = await file.text();
+//     let arr = JSON.parse(arrstr)
+//     arr.forEach(function (element) {
+//         let object = JSON.parse(element)
+//         let key = object.id + ';' + object.url_query;
+//         let prev_val = localStorage.getItem(key);
+//         if(prev_val === null) {
+//             let val = object.date + ';' + object.pw_name + ';;'
+//             localStorage.setItem(key, val);
+//         }
+//         else {
+//             let [prev_date, {}, {}, {}] = prev_val.split(';');
+//             if(prev_date === "UNKNOWN") {
+//                 let val = object.date + ';' + object.pw_name + ';;'
+//                 localStorage.setItem(key, val);
+//             }
+//             else if(object.date !== "UNKNOWN") {
+//                 let date_parts = object.date.split('-')
+//                 let json_date = new Date(date_parts[0], date_parts[1]-1, date_parts[2]);
+//                 let date_parts2 = prev_date.split('-')
+//                 let prev_val_date = new Date(date_parts2[0], date_parts2[1]-1, date_parts2[2]);
+//                 if(json_date > prev_val_date) {
+//                     let val = object.date + ';' + object.pw_name + ';;'
+//                     localStorage.setItem(key, val);
+//                 }
+//             }
+//         }
+//     })
+//     document.getElementById("input_file").innerHTML = "";
+//     refresh_view();
+// }
 
 function select_global() {
     let keys = Object.keys(entries);
@@ -265,9 +264,9 @@ function get_userpw() {
 }
 
 function key_to_entry(key, val) {
-    if(!key.includes(';')) return [null,null];
-    let [userid, path] = key.split(";");
-    let [time, pw_name, prid, pr] = val.split(";");
+    if(!key.includes('&')) return [null,null];
+    let [userid, path] = key.split("&");
+    let [time, pw_name, prid, pr, forget] = val.split("&");
     let date = ""
     if(time === "0") {
         time = ""
@@ -279,7 +278,7 @@ function key_to_entry(key, val) {
     }
     let host = null;
     try{
-        host = new URL(path).host;
+        host = new URL(decodeURIComponent(path)).host;
     } catch(err) {
         return [null,null];
     }
@@ -295,18 +294,18 @@ function key_to_entry(key, val) {
     tr.appendChild(td_checked);
 
     let td_host = document.createElement("td");
-    td_host.title = path;
+    td_host.title = decodeURIComponent(path);
     let td_host_val = document.createTextNode(host);
     td_host.appendChild(td_host_val);
     tr.appendChild(td_host);
 
     let td_userid = document.createElement("td");
-    let td_userid_val = document.createTextNode(userid);
+    let td_userid_val = document.createTextNode(decodeURIComponent(userid));
     td_userid.appendChild(td_userid_val);
     tr.appendChild(td_userid);
 
     let td_pw_name = document.createElement("td");
-    let td_pw_name_val = document.createTextNode(pw_name);
+    let td_pw_name_val = document.createTextNode(decodeURIComponent(pw_name));
     td_pw_name.appendChild(td_pw_name_val);
     tr.appendChild(td_pw_name);
 
@@ -349,7 +348,9 @@ function add_status(key) {
 }
 
 async function entry_query(key, eml) {
-    let [userid, url_query] = key.split(";");
+    let [userid, url_query] = key.split("&");
+    userid = decodeURIComponent(userid)
+    url_query = decodeURIComponent(url_query)
     let entry = entries[key];
     let result = await QueryManager(userid, url_query, entry);
     if (result === null)
@@ -392,7 +393,9 @@ async function do_query_manager(url) {
 }
 
 async function entry_change(key, pw, pw_n, pwn_n, al) {
-    let [userid, path] = key.split(";");
+    let [userid, path] = key.split("&");
+    userid = decodeURIComponent(userid)
+    path = decodeURIComponent(path)
     const qurl = path + "?query=change_all&id=" + userid;
     let entry = entries[key];
     try {

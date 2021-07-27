@@ -4,17 +4,17 @@ window.onload = function() {
         let arr = getList()
         arr.forEach((e) => {
             console.log(e)
-            let key = e.id + ';' + e.url;
+            let key = e.id + '&' + e.url;
             let prev_val = localStorage.getItem(key);
             if(prev_val === null) {
-                let val = e.time + ';' + e.pwname + ';;'
+                let val = e.time + '&' + e.pwname + '&&&'
                 localStorage.setItem(key, val);
                 return;
             }
             else {
-                let [time_p, {}, {}, {}] = prev_val.split(';');
+                let [time_p, {}, {}, {}] = prev_val.split('&');
                 if(parseInt(time_p) < parseInt(e.time)) {
-                    let val = e.time + ';' + e.pwname + ';;'
+                    let val = e.time + '&' + e.pwname + '&&&'
                     localStorage.setItem(key, val);    
                 }
                 return;
@@ -27,13 +27,13 @@ window.onload = function() {
 function getList(url = window.location.href) {
     let anchor = url.split('#');
     anchor = anchor[1];
-    let list = anchor.split('&')
+    let list = anchor.split('/')
     let res = []
     list.forEach(element => {
         if(element === "") return;
         let [key, val] = element.split('=')
-        let [id, url] = key.split(';')
-        let [time, pwname] = val.split(';')
+        let [id, url] = key.split('&')
+        let [time, pwname] = val.split('&')
         res.push({
             id: id,
             url: url,
