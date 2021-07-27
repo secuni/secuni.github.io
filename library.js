@@ -141,6 +141,12 @@ async function do_change(aux, pt, data, pt_n, data_n, etc, pw, pw_n) {
     return [ret, prid_n, pr_n];
 }
   
+async function do_restore(aux, pt, data, pt_n, data_n, etc, pw_n) {
+    let [r_n, prid_n, pr_n] = await prove_new(pt_n)(data_n, pw_n, etc);
+    let ret = aux + ';' + pt + ';' + pt_n + ';' + await prove_test(pt)(data, null, r_n)
+    return [ret, prid_n, pr_n];
+}
+
 function PMPut(url_query, id, pwn, prid, pr, ma, al, changedate=false) {
     const url = new URL(url_query)
     const path = url.origin + url.pathname;
@@ -234,4 +240,4 @@ function PMGet(url_query, id, prid, secure=false) {
 export {check_strength, load_pw_name, do_query,
          prove_new, get_prover, prove_test, get_prid,
         parse, return_failure, do_login, do_create, do_change,
-        PMPut, PMGet};
+        PMPut, PMGet, do_restore};

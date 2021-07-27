@@ -25,6 +25,7 @@
         <th>ID</th>
         <th colspan="2">PW Name</th>
         <th>Auto Login</th>
+        <th>Restored</th>
       </tr>
     </table>
     <!-- <button type="button" id="export_data" onclick="export_data()">Export</button> -->
@@ -36,6 +37,9 @@
     <div>
       <button type="button" id="export_url" onclick="import_url()">Export Test</button>
       <canvas id="qr_method"></canvas>
+    </div>
+    <div>
+      <button type="button" id="request_restore" onclick="request_restore()">Request Restore</button>
     </div>
     <div>
       <td>Use PM<input type="checkbox" id="use_pm" onchange="check_usepm()" autocomplete="off" name="remember"></td>

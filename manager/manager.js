@@ -1,6 +1,6 @@
 import {check_strength, load_pw_name, do_query,
     parse, prove_new,return_failure, get_prover, 
-    get_prid, prove_test, do_change, do_create, PMPut, PMGet} from "../library.js";
+    get_prid, prove_test, do_change, do_create, PMPut, PMGet, do_restore} from "../library.js";
 
 
 // function PMChange(id, url_query, pw_name, salt, pr) {
@@ -36,6 +36,7 @@ document.getElementById('compute').onclick = do_update_all;
 // document.getElementById('import_data').onclick = import_data;
 document.getElementById('clear_all').onclick = clear_all;
 document.getElementById('rename').onclick = rename;
+document.getElementById('request_restore').onclick = request_restore;
 // window.parse_file = parse_file
 
 function rename () {
@@ -324,6 +325,15 @@ function key_to_entry(key, val) {
     td_saved.appendChild(td_saved_val);
     tr.appendChild(td_saved);
 
+    let td_restored = document.createElement("td");
+    td_restored.style.textAlign = "center";
+    let td_restored_val = document.createElement("input");
+    td_restored_val.type = "checkbox";
+    td_restored_val.disabled = true;
+    td_restored_val.checked = forget !== ""
+    td_restored.appendChild(td_restored_val);
+    tr.appendChild(td_restored);
+
     let entry = {
         node: tr,
         userid: td_userid_val,
@@ -332,6 +342,7 @@ function key_to_entry(key, val) {
         date: td_date_val,
         saved: td_saved_val,
         checked: td_checked_val,
+        restored: td_restored_val,
         status: null,
     }
     return [tr, entry];
@@ -348,6 +359,8 @@ function add_status(key) {
 }
 
 async function entry_query(key, eml) {
+    if(entries[key].restored.checked)
+        return restore_query(key, eml);
     let [userid, url_query] = key.split("&");
     userid = decodeURIComponent(userid)
     url_query = decodeURIComponent(url_query)
@@ -360,6 +373,26 @@ async function entry_query(key, eml) {
     let data = ds ? parse(pt)(ds) : null;
     let data_n = parse(pt_n)(ds_n)
     entries[key] = {...entry, aux, pt, data, pt_n, data_n, etc}
+    return true;
+}
+
+function restore_query(key, eml) {
+    let val = localStorage.getItem(key);
+    let [_0, _1, _2, _3, restore] = val.split("&");
+    let [userid, url_query] = key.split("&");
+    let [aux, pt, pt_n, ds, ds_n] = restore.split('/');
+    userid = decodeURIComponent(userid);
+    url_query = decodeURIComponent(url_query);
+    aux = decodeURIComponent(aux);
+    pt = decodeURIComponent(pt);
+    pt_n = decodeURIComponent(pt_n);
+    ds = decodeURIComponent(ds);
+    ds_n = decodeURIComponent(ds_n);
+    let entry = entries[key];
+    let etc = "" +';' + eml;
+    let data = ds ? parse(pt)(ds) : null;
+    let data_n = parse(pt_n)(ds_n)
+    entries[key] = {...entry, aux, pt, data, pt_n, data_n, etc,}
     return true;
 }
 
@@ -393,6 +426,8 @@ async function do_query_manager(url) {
 }
 
 async function entry_change(key, pw, pw_n, pwn_n, al) {
+    if(entries[key].restored.checked)
+        return await restore_change(key, pw_n, pwn_n, al);
     let [userid, path] = key.split("&");
     userid = decodeURIComponent(userid)
     path = decodeURIComponent(path)
@@ -421,12 +456,51 @@ async function entry_change(key, pw, pw_n, pwn_n, al) {
             entry.date.parentElement.title = time
         }
         else {
-            entry.status.nodeValue = "update fail";
+            entry.status.nodeValue = "update failed";
         }
     }
     catch (err) {
         console.log(err)
-        entry.status.nodeValue = "update fail";
+        entry.status.nodeValue = "update failed";
+    }
+}
+
+async function restore_change(key, pw_n, pwn_n, al) {
+    let [userid, path] = key.split("&");
+    userid = decodeURIComponent(userid)
+    path = decodeURIComponent(path)
+    const qurl = path + "?query=restore&id=" + userid;
+    let entry = entries[key];
+    try {
+        let [ret, prid_n, pr_n] = await do_restore(entry.aux, entry.pt, entry.data, entry.pt_n, entry.data_n, entry.etc, pw_n)
+        let res = await fetch(qurl, {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'omit',
+            headers: {},
+            redirect: 'follow',
+            referrer: 'no-referrer',
+            body: JSON.stringify({ id : userid, r: ret }),
+        })
+        if (res.ok) {
+            entry.status.nodeValue = "success";
+            entry.pw_name.nodeValue = pwn_n;
+            let time = new Date();
+            let date = time.getFullYear() + "/" + (time.getMonth()+1) + "/" + time.getDate()
+            PMPut(qurl, userid, pwn_n, prid_n, pr_n, true, al, true);
+            entry.saved.checked = al
+            entry.restored.checked = false
+            entry.date.nodeValue = date;
+            entry.date.parentElement.title = time
+        }
+        else {
+            entry.status.nodeValue = "update failed";
+        }
+    }
+    catch (err) {
+        console.log(err)
+        entry.status.nodeValue = "update failed";
     }
 }
 
@@ -479,27 +553,87 @@ function clear_all() {
     document.getElementById("select_global").checked = false;
 }
 
-function refresh_view() {
-    let dom_entries = document.getElementById("entries")
-    dom_entries.innerHTML = 
-    '<tr id="entry_title">\
-    <th>\
-        <input type="checkbox" id="select_global" onchange="select_global()"/>\
-    </th>\
-    <th>Site</th>\
-    <th>ID</th>\
-    <th colspan="2">PW Name</th>\
-    <th>Auto Login</th>\
-    </tr>';
-    let keys = Object.keys(localStorage);
+// function refresh_view() {
+//     let dom_entries = document.getElementById("entries")
+//     dom_entries.innerHTML = 
+//     '<tr id="entry_title">\
+//     <th>\
+//         <input type="checkbox" id="select_global" onchange="select_global()"/>\
+//     </th>\
+//     <th>Site</th>\
+//     <th>ID</th>\
+//     <th colspan="2">PW Name</th>\
+//     <th>Auto Login</th>\
+//     </tr>';
+//     let keys = Object.keys(localStorage);
+//     for(var i=0; i<keys.length; i++) {
+//         let key = keys[i];
+//         let [tr, entry] = key_to_entry(key, localStorage.getItem(key));
+//         if( tr!== null && entry !== null) {
+//             dom_entries.appendChild(tr);
+//             entries[key] = entry;
+//         }
+//     }
+//     document.getElementById('pw_name_list').innerHTML = '';
+//     load_pw_name()
+// }
+
+async function request_restore() {
+    let keys = Object.keys(entries);
+    let all_unchecked = true;    
     for(var i=0; i<keys.length; i++) {
         let key = keys[i];
-        let [tr, entry] = key_to_entry(key, localStorage.getItem(key));
-        if( tr!== null && entry !== null) {
-            dom_entries.appendChild(tr);
-            entries[key] = entry;
+        if (entries[key].checked.checked === true) {
+            all_unchecked = false;
+            break;
         }
     }
-    document.getElementById('pw_name_list').innerHTML = '';
-    load_pw_name()
+    if(all_unchecked) {
+        alert("Select a website to request");
+        return;
+    }
+
+    let eml = document.getElementById('eml').value;
+
+    if(document.getElementById('status') === null) {
+        let th = document.createElement('th');
+        th.id = "status"
+        th.style.width = "90px";
+        th.innerHTML = "Status"
+        document.getElementById("entry_title").appendChild(th)
+    }
+
+    await Promise.all(keys.map( async (key) => {
+        let entry = entries[key];
+        if(entry.status === null)
+            add_status(key);
+        if (entry.checked.checked === true) {
+            entry.status.nodeValue = "requesting..."
+            await send_request(key, eml)
+        }
+    }));
+}
+
+async function send_request(key, eml) {
+    let [userid, url_hp] = key.split('&');
+    let entry = entries[key];
+    userid = decodeURIComponent(userid);
+    url_hp = decodeURIComponent(url_hp);
+    const qurl = url_hp + "?query=request_restore";
+    let res = await fetch(qurl, {
+        method: 'POST',
+        mode: 'cors',
+        cache: 'no-cache',
+        credentials: 'omit',
+        headers: {},
+        redirect: 'follow',
+        referrer: 'no-referrer',
+        body: JSON.stringify({ id : userid, url : url_hp, eml : eml }),
+    })
+    if (res.ok) {
+        entry.status.nodeValue = "request sent"
+    }
+    else {
+        entry.status.nodeValue = "request failed"
+    }
 }
