@@ -226,7 +226,6 @@ function PMGet(url_query, id, prid, secure=false) {
         if(val === null) {
             return ["", "", ma, al]
         }
-        console.log(key, val,)
         let [{}, s_pwn, s_prid, s_pr, {}] = val.split("&");
         if(decodeURIComponent(s_prid) !== prid && !secure) {
             localStorage.removeItem(key);

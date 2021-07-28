@@ -14,19 +14,22 @@ async function receive_message() {
     // alert("dom_app:" + dom_app);
     const dom_app = '';
     const id = getByName('id'); const url_query = getByName('url');
-    const dom_app_n = getByName('dom'); const otp_n = getByName('otp');    
-
+    const sec = getByName('sec'); let pwname = getByName('pwname');
+    const dom_app_n = getByName('dom'); const otp_n = getByName('otp');   
+    console.log(id,url_query,dom_app_n, otp_n)
     document.getElementById("user_info1").value = id
     document.getElementById("user_info_view").value = id
     document.getElementById("url_query").value = url_query
     document.getElementById("otp").value = otp_n
     document.getElementById("dom_app").value = dom_app_n
     let result = await QueryLogin(id, url_query);
-    let ty= result['ty']; let pt = result['pt']; let ds = result['ds']; let pt_n = result['pt_n']; let ds_n = result['ds_n'];  let aux = result['aux'];
-    let etc = aux +';' + dom_app;
+    let aux= result['aux']; let pt = result['pt']; let ds = result['ds']; let pt_n = result['pt_n']; let ds_n = result['ds_n'];
+    let etc = dom_app +';' + "";
     let data = parse(pt)(ds)
     let data_n = ds_n ? parse(pt_n)(ds_n) : null
-    let [pwname, pr, ma, al] = PMGet(url_query, id, get_prid(pt)(data), false);
+    let [mypwname, pr, ma, al] = PMGet(url_query, id, get_prid(pt)(data), false);
+    if(mypwname !== "")
+        pwname = mypwname
     document.getElementById('remember_sva').checked = ma;
     document.getElementById('remember_svp').checked = al;
     document.getElementById('secuni_form').action = url_query+'?query=submit_otp';
@@ -36,13 +39,13 @@ async function receive_message() {
     if(pr !== "" && data_n === null && al) {
         let res = confirm("Use Auto Login");
         if(res) {
-            let ret = ty + ';' + pt + ';' + pt_n + ';' + await prove_test(pt)(data, pr, etc);
+            let ret = aux + ';' + pt + ';' + pt_n + ';' + await prove_test(pt)(data, pr, etc);
             document.getElementById("result").value = ret
             document.getElementById("user_info2").value = '';
             document.getElementById('secuni_form').submit();
         }
     }
-    document.getElementById('compute').onclick = set_submit_button(id, url_query, ty, pt, pt_n, data, data_n, etc, pwname);
+    document.getElementById('compute').onclick = set_submit_button(id, url_query, aux, pt, pt_n, data, data_n, etc, pwname);
 }
 
 async function QueryLogin(id, url_query) {
@@ -50,11 +53,11 @@ async function QueryLogin(id, url_query) {
     return await do_query(url);
 }
 
-function set_submit_button(id, url_query, ty, pt, pt_n, data, data_n, etc, pwname) {
+function set_submit_button(id, url_query, aux, pt, pt_n, data, data_n, etc, pwname) {
     return(async () => {
         try {
             let [pw, ma, al] = get_userpw();
-            let [res, prid, pr] = await do_login(ty, pt, data, pt_n, data_n, etc, pw);
+            let [res, prid, pr] = await do_login(aux, pt, data, pt_n, data_n, etc, pw);
             document.getElementById("result").value = res
             document.getElementById("user_info2").value = '';
             PMPut(url_query, id, pwname, prid, pr, ma, al, false);

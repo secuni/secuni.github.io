@@ -43,11 +43,12 @@ window.onload = function() {
 //         console.log(err)
 //     }
 // }
-    
-function get_query_string(url_query, id, dom_app,otp) {
+function get_query_string(url_query, id, sec, pwname, dom_app,otp) {
     let str='&';
     str += 'url=' + encodeURIComponent(url_query) + '&';
     str += 'id=' + encodeURIComponent(id) + '&';
+    str += 'sec=' + encodeURIComponent(sec) + '&';
+    str += 'pwname=' + encodeURIComponent(pwname) + '&';
     str += 'otp=' + encodeURIComponent(otp) + '&';
     str += 'dom=' + encodeURIComponent(dom_app) + '&';
     return toBase64URL(str);
@@ -70,7 +71,7 @@ async function receive_message(event) {
     document.getElementById("user_info1").value = id;
     document.getElementById("url_query").value = new URL(url_query).origin;
     window.removeEventListener("message", receive_message);
-    let sec = true;
+    let sec = false;
     let result = await QueryLogin(id, url_query);
     let aux= result['aux']; let pt = result['pt']; let ds = result['ds']; let pt_n = result['pt_n']; let ds_n = result['ds_n'];
     let [otp] = aux.split(';',1)
