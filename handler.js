@@ -18,8 +18,11 @@ function check_svp() {
 
 
 function set_id() {
-    let dummy_id = document.getElementById("dummy_id")
-    dummy_id.value = document.getElementById('pw_name').value
+    let pwn = document.getElementById('pw_name').value
+    if(pwn === "")
+        document.getElementById("dummy_id").value = "Default"
+    else
+        document.getElementById("dummy_id").value = document.getElementById('pw_name').value
 }
 
 function check_sva() {

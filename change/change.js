@@ -64,13 +64,14 @@ async function receive_message(event) {
     let [pwname, {}, ma, al] = PMGet(url_query, id, get_prid(pt)(data), true);
     document.getElementById('remember_sva').checked = ma;
     document.getElementById('remember_svp').checked = al;
-
+    
     if(data === null) {
         document.getElementById("user_info2_old").remove();
         document.getElementById("user_info3").autocomplete = "current-password";
         document.getElementById("user_info3").focus();
     }
     else {
+        document.getElementById("dummy_id").value = pwname;
         document.getElementById("user_info2").placeholder = "PW Name: " +  pwname;
     }
     document.getElementById('compute').onclick = set_change_button(id, url_query, aux, pt, pt_n, data, data_n, dom_app);
