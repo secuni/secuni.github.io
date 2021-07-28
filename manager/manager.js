@@ -598,7 +598,7 @@ async function request_restore() {
     if(document.getElementById('status') === null) {
         let th = document.createElement('th');
         th.id = "status"
-        th.style.width = "90px";
+        th.style.width = "100px";
         th.innerHTML = "Status"
         document.getElementById("entry_title").appendChild(th)
     }

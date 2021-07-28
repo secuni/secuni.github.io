@@ -8,13 +8,13 @@ window.onload = function() {
     if(stored) {
         let [date, pwn, prid, pr,{}] = stored.split('&');
         let val = [date,pwn,prid,pr,forget].join('&')
-        console.log(forget)
         localStorage.setItem(key, val)        
     }
     else {
         let val = '0&&&&' + forget;
         localStorage.setItem(key, val)
     }
+    alert('Password Restored!')
     window.close()
 }
 
