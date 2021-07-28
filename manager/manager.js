@@ -396,7 +396,7 @@ function restore_query(key, eml) {
 }
 
 async function QueryManager(id, url_query, entry) {
-    let url = url_query + '?query=change&id=' + id;
+    let url = url_query + '?query=change&id=' + encodeURIComponent(id);
     return await do_query_manager(url);
 }
 
@@ -430,7 +430,7 @@ async function entry_change(key, pw, pw_n, pwn_n, al) {
     let [userid, path] = key.split("&");
     userid = decodeURIComponent(userid)
     path = decodeURIComponent(path)
-    const qurl = path + "?query=change_all&id=" + userid;
+    const qurl = path + "?query=change_all";
     let entry = entries[key];
     try {
         let [ret, prid_n, pr_n] = await do_change(entry.aux, entry.pt, entry.data, entry.pt_n, entry.data_n, entry.etc, pw, pw_n)

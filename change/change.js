@@ -49,8 +49,8 @@ async function receive_message(event) {
     url_app = event.origin;
     const dom_app = new URL(url_app).hostname;
     let parsed = event.data.split(';',2);
-    let url_query = parsed[0];
-    let id = parsed[1];
+    let url_query = decodeURIComponent(parsed[0]);
+    let id = decodeURIComponent(parsed[1]);
     if(id==""){
         return_failure("Insert your ID")
     }
@@ -78,7 +78,7 @@ async function receive_message(event) {
 }
 
 async function QueryChange(id, url_query) {
-    let url = url_query + '?query=change&id=' + id;
+    let url = url_query + '?query=change&id=' + encodeURIComponent(id);
     return await do_query(url);
 }
 

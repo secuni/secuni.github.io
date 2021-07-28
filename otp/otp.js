@@ -16,7 +16,6 @@ async function receive_message() {
     const id = getByName('id'); const url_query = getByName('url');
     const sec = getByName('sec'); let pwname = getByName('pwname');
     const dom_app_n = getByName('dom'); const otp_n = getByName('otp');   
-    console.log(id,url_query,dom_app_n, otp_n)
     document.getElementById("user_info1").value = id
     document.getElementById("user_info_view").value = id
     document.getElementById("url_query").value = url_query
@@ -49,7 +48,7 @@ async function receive_message() {
 }
 
 async function QueryLogin(id, url_query) {
-    let url = url_query + '?query=login&id=' + id;
+    let url = url_query + '?query=login&id=' + encodeURIComponent(id);
     return await do_query(url);
 }
 

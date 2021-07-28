@@ -39,8 +39,8 @@ async function receive_message(event) {
     url_app = event.origin;
     const dom_app = new URL(url_app).hostname;
     let parsed = event.data.split(';',2);
-    let url_query = parsed[0];
-    let id = parsed[1];
+    let url_query = decodeURIComponent(parsed[0]);
+    let id = decodeURIComponent(parsed[1]);
     document.getElementById("user_info1").value = id;
     document.getElementById("url_query").value = new URL(url_query).origin;
     window.removeEventListener("message", receive_message);
@@ -54,7 +54,7 @@ async function receive_message(event) {
 }
 
 async function QueryCreate(id, url_query) {
-    let url = url_query + '?query=create&id=' + id;
+    let url = url_query + '?query=create&id=' + encodeURIComponent(id);
     return await do_query(url);
 }
 
