@@ -15,9 +15,9 @@
   <body style="text-align:center;">
     <h1 > SecUni </h1>
     <table style="margin-left:auto; margin-right:auto;">
-      <div style="display:none !important; visibility:hidden; pointer-events: none;">
+      <!-- <div style="display:none !important; visibility:hidden; pointer-events: none;">
         <input style="width:160px" value="Default" type="text" name="dummy_id" id="dummy_id" autocomplete="username">
-      </div>
+      </div> -->
       <tr>
         <td> Site </td>
         <td> <input type="text" id="url_query" disabled> </td>
@@ -58,7 +58,7 @@
         <td>
           <span>
           PW Name 
-          <input style="width:100px;" list="pw_name_list" type="text" id="pw_name" onchange="set_id()" autocomplete="off" tabindex="3" placeholder="Default" onkeypress="enter_pwd()">
+          <input style="width:100px;" list="pw_name_list" type="text" id="pw_name" autocomplete="username" tabindex="3" placeholder="Default" onkeypress="enter_pwd()">
           <datalist id="pw_name_list">
             <option value="Default">Default</option>
             <option value="Special">Special</option>

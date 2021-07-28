@@ -51,31 +51,34 @@
 
     <table>
       <div style="display:none !important; visibility:hidden; pointer-events: none;">
-        <input style="width:160px" value="Default" type="text" name="dummy_id" id="dummy_id" autocomplete="username">
+        <input style="width:160px" type="text" value="Default" name="dummy_id" id="dummy_id" autocomplete="username">
       </div>
       <tr>
-        <div id="pm_id" style="display:none !important; visibility:hidden; pointer-events: none;"></div>
         <td> Old </td>
         <td> <input type="password" id="user_info2" tabindex="1" autocomplete="current-password" autofocus> </td>
-        <td>Manage Account<input type="checkbox" id="remember_sva" onchange="check_sva()" checked autocomplete="off" name="remember"></td>
-      </tr>
-      <tr>
-        <td> New </td>  
-        <td> <input type="password" id="user_info3" tabindex="2" placeholder="Minimum 15 characters" autocomplete="new-password" onkeypress="enter_pwd()"> </td>
-        <td>Auto Login<input type="checkbox" onchange="check_svp()" id="remember_svp" autocomplete="new-password" name="remember"></td>
-      </tr>
-      <tr>
-        <td> Confirm </td>
-        <td> <input type="password" id="user_info4" tabindex="3" placeholder="Minimum 15 characters" autocomplete="new-password" onkeypress="enter_pwd()"> </td>
         <td colspan="2">
           <span>
             PW Name
-            <input style="width:100px;" list="pw_name_list" tabindex="4" type="text" onchange="set_id()" id="pw_name" autocomplete="off" placeholder="Default" onkeypress="enter_pwd()">
+            <input style="width:100px;" list="pw_name_list" tabindex="4" type="text" id="pw_name" autocomplete="off" placeholder="Default" onkeypress="enter_pwd()">
             <datalist id="pw_name_list">
               <option value="Default">Default</option>
               <option value="Special">Special</option>
             </datalist>
           </span>
+        </td>
+      </tr>
+      <tr>
+        <td> New </td>  
+        <td> <input type="password" id="user_info3" tabindex="2" placeholder="Minimum 15 characters" autocomplete="new-password" onkeypress="enter_pwd()"> </td>
+        <td>
+          Manage Account<input type="checkbox" id="remember_sva" onchange="check_sva()" checked autocomplete="off" name="remember">
+        </td>
+      </tr>
+      <tr>
+        <td> Confirm </td>
+        <td> <input type="password" id="user_info4" tabindex="3" placeholder="Minimum 15 characters" autocomplete="new-password" onkeypress="enter_pwd()"> </td>
+        <td>
+          Auto Login<input type="checkbox" onchange="check_svp()" id="remember_svp" autocomplete="new-password" name="remember">
         </td>
       </tr>
 

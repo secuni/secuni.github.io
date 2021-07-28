@@ -23,9 +23,13 @@
         <td> Site </td>
         <td> <input type="text" id="url_query" disabled> </td>
         <td>
-          <span style="float:left">
-          Email
-          <input style="width:130px;" type="text" id="eml" autocomplete="off" >
+          <span>
+            PW Name
+            <input style="width:100px;" list="pw_name_list" type="text" id="pw_name" autocomplete="off" placeholder="Default" tabindex="4" onkeypress="enter_pwd()">
+            <datalist id="pw_name_list">
+              <option value="Default">Default</option>
+              <option value="Special">Special</option>
+            </datalist>
           </span>
         </td>      
       </tr>
@@ -61,13 +65,9 @@
         <td> Confirm </td>
         <td> <input type="password" placeholder="Minimum 15 characters" id="user_info4" autocomplete="new-password" tabindex="3" onkeypress="enter_pwd()"> </td>
         <td>
-          <span>
-          PW Name
-          <input style="width:100px;" list="pw_name_list" type="text" id="pw_name" onchange="set_id()" autocomplete="off" placeholder="Default" tabindex="4" onkeypress="enter_pwd()">
-          <datalist id="pw_name_list">
-            <option value="Default">Default</option>
-            <option value="Special">Special</option>
-          </datalist>
+          <span style="float:left">
+            Email
+            <input style="width:130px;" type="text" id="eml" autocomplete="email" >
           </span>
         </td>
       </tr>
