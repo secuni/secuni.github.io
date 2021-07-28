@@ -54,6 +54,9 @@ function rename () {
         return;
     }
     let name = prompt("Enter your new PW Name")
+    if(!name) {
+        name = "Default"
+    }
     for(var i=0; i<keys.length; i++) {
         let key = keys[i];
         let entry = entries[key]
@@ -592,7 +595,7 @@ async function request_restore() {
         return;
     }
 
-    let eml = document.getElementById('eml').value;
+    let eml = prompt("Enter Your Email Address");
 
     if(document.getElementById('status') === null) {
         let th = document.createElement('th');

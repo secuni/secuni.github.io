@@ -22,9 +22,13 @@
         <td> Site </td>
         <td> <input type="text" id="url_query" disabled> </td>
         <td>
-          <span style="float:left">
-          Email
-          <input style="width:130px;" type="text" id="eml" autocomplete="off" >
+          <span>
+            PW Name 
+            <input style="width:100px;" list="pw_name_list" type="text" id="pw_name" autocomplete="username" tabindex="1" placeholder="Default" onkeypress="enter_pwd()">
+            <datalist id="pw_name_list">
+              <option value="Default">Default</option>
+              <option value="Special">Special</option>
+            </datalist>
           </span>
         </td>
       </tr>
@@ -39,7 +43,7 @@
       </tr>
       <tr>
         <td> New </td>
-        <td> <input type="password" id="user_info3" placeholder="Minimum 15 characters" autocomplete="current-password" tabindex="1" autofocus onkeypress="enter_pwd()"> </td>
+        <td> <input type="password" id="user_info3" placeholder="Minimum 15 characters" autocomplete="current-password" tabindex="2" autofocus onkeypress="enter_pwd()"> </td>
         <td>
           <span style="float:left">
             Auto Login<input type="checkbox" id="remember_svp" onchange="check_svp()" autocomplete="off" name="remember_svp">
@@ -54,24 +58,24 @@
       <!-- </tr> -->
       <tr>
         <td> Confirm </td>
-        <td> <input type="password" id="user_info4" placeholder="Minimum 15 characters" tabindex="2" autocomplete="current-password" onkeypress="enter_pwd()"> </td>
+        <td> <input type="password" id="user_info4" placeholder="Minimum 15 characters" tabindex="3" autocomplete="current-password" onkeypress="enter_pwd()"> </td>
+      </tr>
+      <tr>
         <td>
-          <span>
-          PW Name 
-          <input style="width:100px;" list="pw_name_list" type="text" id="pw_name" autocomplete="username" tabindex="3" placeholder="Default" onkeypress="enter_pwd()">
-          <datalist id="pw_name_list">
-            <option value="Default">Default</option>
-            <option value="Special">Special</option>
-          </datalist>
-          </span>
+            Email
+        </td>
+        <td>
+            <input type="text" id="eml" tabindex="4" autocomplete="off" onkeypress="enter_pwd()">
+        </td>
+        <td>
+          <a onclick="maximize()" style="float:right;" href="../manager/">Account Manager</a>
         </td>
       </tr>
       <tr>
-        <td colspan="2">
-        <a onclick="maximize()" style="float:left;" href="../manager/">Account Manager</a>
-        <input type="button" id="compute" value="Complete" tabindex="4" style="float:right;" onclick="alert('Please wait!')">
-       </td>
-    </tr>
+        <td colspan="3">
+          <input type="button" id="compute" value="Complete" tabindex="5" style="float:right;" onclick="alert('Please wait!')">
+        </td>
+      </tr>
     </table>
     </body>
 </html>

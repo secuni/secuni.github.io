@@ -30,22 +30,20 @@
     </table>
     <!-- <button type="button" id="export_data" onclick="export_data()">Export</button> -->
     <!-- <button type="button" id="import_data" onclick="import_data()">Import</button> -->
-    <button type="button" id="clear_all" onclick="clear_all()">Remove</button>
+    <button type="button" id="export_url" onclick="import_url()">Export</button>
+    <button type="button" id="request_restore" onclick="request_restore()">Restore</button>
     <button type="button" id="rename" onclick="rename()">Rename</button>
+    <button type="button" id="clear_all" onclick="clear_all()">Remove</button>
     <div id="input_file"></div>
     <div><a id="export_result"></a></div>
     <div>
-      <button type="button" id="export_url" onclick="import_url()">Export Test</button>
       <canvas id="qr_method"></canvas>
-    </div>
-    <div>
-      <button type="button" id="request_restore" onclick="request_restore()">Request Restore</button>
     </div>
     <input type="hidden" id="aux_timeouts" value="60000">
     <input type="hidden" id="aux_ip" value="true">
     <br>
 
-    <h4 style="margin-left: 80px;">
+    <h4 style="margin-left: 70px;">
       Change the selected passwords at once
     </h4>
 
@@ -55,11 +53,11 @@
       </div>
       <tr>
         <td> Old </td>
-        <td> <input type="password" id="user_info2" tabindex="1" autocomplete="current-password" autofocus> </td>
+        <td> <input type="password" id="user_info2" tabindex="1" autocomplete="current-password"> </td>
         <td colspan="2">
           <span>
             PW Name
-            <input style="width:100px;" list="pw_name_list" tabindex="4" type="text" id="pw_name" autocomplete="off" placeholder="Default" onkeypress="enter_pwd()">
+            <input style="width:100px;" list="pw_name_list" type="text" id="pw_name" autocomplete="off" placeholder="Default" onkeypress="enter_pwd()">
             <datalist id="pw_name_list">
               <option value="Default">Default</option>
               <option value="Special">Special</option>
@@ -83,16 +81,16 @@
       </tr>
 
       <tr>
-        <td colspan="2">
-          <span style="float:left">
+        <td>
             Email
-            <input type="text" id="eml" autocomplete="off" >
-          </span>
+        </td>
+        <td>
+            <input type="text" id="eml" autocomplete="off" tabindex="4" onkeypress="enter_pwd()">
         </td>
       </tr>
       <tr>
         <td>          
-          <td style="float:right;"><input type="button" id="compute" value="Change All" onclick="do_update_all()"></td>
+          <td style="float:right;"><input type="button" id="compute" tabindex="5" value="Change All" onclick="do_update_all()"></td>
         </td>
       </tr>
     </table>
