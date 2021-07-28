@@ -3,14 +3,14 @@
   <head>
     <meta charset="utf-8">
     <title> SecUni </title>
-    <script defer src="../handleinput.js"></script>
+    <!-- <script defer src="../handleinput.js"></script> -->
     <script src="../aes.js"></script>
     <script src="../pad-nopadding-min.js"></script>
     <script src="../jsrsasign-all-min.js"></script>
     <script src="./manager.js" type="module"></script>
     <script src="../handler.js"></script>
     <script src="../qrious.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="../handleinput.css">
+    <!-- <link rel="stylesheet" type="text/css" href="../handleinput.css"> -->
   </head>
 
   <body>
@@ -41,9 +41,6 @@
     <div>
       <button type="button" id="request_restore" onclick="request_restore()">Request Restore</button>
     </div>
-    <div>
-      <td>Use PM<input type="checkbox" id="use_pm" onchange="check_usepm()" autocomplete="off" name="remember"></td>
-    </div>
     <input type="hidden" id="aux_timeouts" value="60000">
     <input type="hidden" id="aux_ip" value="true">
     <br>
@@ -53,20 +50,23 @@
     </h4>
 
     <table>
+      <div style="display:none !important; visibility:hidden; pointer-events: none;">
+        <input style="width:160px" value="Default" type="text" name="dummy_id" id="dummy_id" autocomplete="username">
+      </div>
       <tr>
         <div id="pm_id" style="display:none !important; visibility:hidden; pointer-events: none;"></div>
         <td> Old </td>
-        <td> <input class="no_autofill" type="text" id="user_info2" tabindex="1" autocomplete="off" autofocus> </td>
+        <td> <input type="password" id="user_info2" tabindex="1" autocomplete="current-password" autofocus> </td>
         <td>Manage Account<input type="checkbox" id="remember_sva" onchange="check_sva()" checked autocomplete="off" name="remember"></td>
       </tr>
       <tr>
         <td> New </td>  
-        <td> <input class="no_autofill" type="text" id="user_info3" tabindex="2" placeholder="Minimum 15 characters" autocomplete="off" onkeypress="enter_pwd()"> </td>
+        <td> <input type="password" id="user_info3" tabindex="2" placeholder="Minimum 15 characters" autocomplete="new-password" onkeypress="enter_pwd()"> </td>
         <td>Auto Login<input type="checkbox" onchange="check_svp()" id="remember_svp" autocomplete="new-password" name="remember"></td>
       </tr>
       <tr>
         <td> Confirm </td>
-        <td> <input class="no_autofill" type="text" id="user_info4" tabindex="3" placeholder="Minimum 15 characters" autocomplete="off" onkeypress="enter_pwd()"> </td>
+        <td> <input type="password" id="user_info4" tabindex="3" placeholder="Minimum 15 characters" autocomplete="new-password" onkeypress="enter_pwd()"> </td>
         <td colspan="2">
           <span>
             PW Name

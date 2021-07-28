@@ -90,7 +90,8 @@ async function receive_message(event) {
     document.getElementById('otp_view').style.display= "";
     document.getElementById('remember_sva').checked = ma;
     document.getElementById('remember_svp').checked = al;
-    user_info2_e.placeholder = "PW Name: " +  pwname;
+    document.getElementById("user_info2").placeholder = "PW Name: " +  pwname;
+    document.getElementById("dummy_id").value = pwname;
     if(pr !== "" && data_n === null && al) {
         let res = confirm("Use Auto Login");
         if(res) {
@@ -139,8 +140,7 @@ function set_login_button(id, url_query, aux, pt, pt_n, data, data_n, etc, pwnam
 }
 
 function get_userpw() {
-    let pw = get_info2();
-    // user_info2="";
+    let pw = document.getElementById('user_info2').value;
     let sva = document.getElementById("remember_sva").checked;
     let svp = document.getElementById("remember_svp").checked;
     return [pw, sva, svp];

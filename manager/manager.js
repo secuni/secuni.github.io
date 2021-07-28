@@ -87,7 +87,6 @@ window.onload = function() {
     let [_0, _1, ma, al] = PMGet(null, null, null);
     document.getElementById('remember_sva').checked = ma
     document.getElementById('remember_svp').checked = al
-    document.getElementById('use_pm').checked = (localStorage.getItem("Use PM") === "Y")
 }
 
 function copy() {
@@ -242,9 +241,9 @@ function select_global() {
 }
 
 function get_userpw() {
-    let pw = get_info2();
-    let pw_n = get_info3();
-    let pw_n_confirm = get_info4();
+    let pw = document.getElementById('user_info2').value;
+    let pw_n = document.getElementById('user_info3').value;
+    let pw_n_confirm = document.getElementById('user_info4').value;
     if(pw_n !== pw_n_confirm) { 
         alert("The password confirmation does not match"); return [null, null]; }
     let strength = check_strength(pw_n);

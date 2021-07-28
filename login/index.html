@@ -4,14 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title> SecUni </title>
-    <script defer src="../handleinput.js"></script>
+    <!-- <script defer src="../handleinput.js"></script> -->
     <script src="../aes.js"></script>
     <script src="../pad-nopadding-min.js"></script>
     <script src="../jsrsasign-all-min.js"></script>
     <script src="../qrious.min.js"></script>
     <script src="./login.js" type="module"></script>
     <script src="../handler.js"></script>
-    <link rel="stylesheet" type="text/css" href="../handleinput.css">
+    <!-- <link rel="stylesheet" type="text/css" href="../handleinput.css"> -->
   </head>
 
   <body>
@@ -25,6 +25,9 @@
       </div> -->
 
       <table style="margin-right:auto;" id="pw_method">
+        <div style="display:none !important; visibility:hidden; pointer-events: none;">
+          <input style="width:160px" value="Default" type="text" name="dummy_id" id="dummy_id" autocomplete="username">
+        </div>
         <tr>
           <div id="pm_id" style="display:none !important; visibility:hidden; pointer-events: none;"></div>
           <td> Site </td>
@@ -36,7 +39,7 @@
         </tr>
         <tr>
           <td> Password </td>
-          <td> <input class="no_autofill" type="text" id="user_info2" autocomplete="off" onkeypress="enter_pwd()" tabindex="1" autofocus> </td>
+          <td> <input type="password" id="user_info2" autocomplete="current-password" onkeypress="enter_pwd()" tabindex="1" autofocus> </td>
         </tr>
         <tr>
           <td colspan="2">

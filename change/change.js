@@ -67,10 +67,11 @@ async function receive_message(event) {
 
     if(data === null) {
         document.getElementById("user_info2_old").remove();
-        user_info3_e.focus();
+        document.getElementById("user_info3").autocomplete = "current-password";
+        document.getElementById("user_info3").focus();
     }
     else {
-        user_info2_e.placeholder = "PW Name: " +  pwname;
+        document.getElementById("user_info2").placeholder = "PW Name: " +  pwname;
     }
     document.getElementById('compute').onclick = set_change_button(id, url_query, aux, pt, pt_n, data, data_n, dom_app);
 }
@@ -106,10 +107,9 @@ function set_change_button(id, url_query, aux, pt, pt_n, data, data_n, dom_app) 
 }
 
 function get_userpw() {
-    let pw = user_info2_e ? get_info2() : null;
-    let pw_n = get_info3();
-    let pw_n_confirm = get_info4();
-    // user_info2 = "";user_info3 = "";user_info4 = "";
+    let pw = document.getElementById('user_info2') ? document.getElementById('user_info2').value : null;
+    let pw_n = document.getElementById('user_info3').value;
+    let pw_n_confirm = document.getElementById('user_info4').value;
 
     if(pw_n !== pw_n_confirm) { 
         alert("The password confirmation does not match"); return [null, null, null,null, null, null]; }

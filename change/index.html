@@ -3,18 +3,21 @@
   <head>
     <meta charset="utf-8">
     <title> SecUni </title>
-    <script defer src="../handleinput.js"></script>
+    <!-- <script defer src="../handleinput.js"></script> -->
     <script src="../aes.js"></script>
     <script src="../pad-nopadding-min.js"></script>
     <script src="../jsrsasign-all-min.js"></script>
     <script src="./change.js" type="module"></script>
     <script src="../handler.js"></script>
-    <link rel="stylesheet" type="text/css" href="../handleinput.css">
+    <!-- <link rel="stylesheet" type="text/css" href="../handleinput.css"> -->
   </head>
 
   <body style="text-align:center;">
     <h1 > SecUni </h1>
     <table style="margin-left:auto; margin-right:auto;">
+      <div style="display:none !important; visibility:hidden; pointer-events: none;">
+        <input style="width:160px" value="Default" type="text" name="dummy_id" id="dummy_id" autocomplete="username">
+      </div>
       <tr>
         <div id="pm_id" style="display:none !important; visibility:hidden; pointer-events: none;"></div>
         <td> Site </td>
@@ -37,11 +40,11 @@
       </tr>
       <tr id="user_info2_old">
         <td> Old </td>
-        <td> <input class="no_autofill" type="text" id="user_info2" autocomplete="off" tabindex="1" autofocus> </td>
+        <td> <input type="password" id="user_info2" autocomplete="current-password" tabindex="1" autofocus> </td>
       </tr>
       <tr>
         <td> New </td>
-        <td> <input class="no_autofill" type="text" placeholder="Minimum 15 characters" id="user_info3" tabindex="2" autocomplete="off" onkeypress="enter_pwd()"> </td>
+        <td> <input type="password" placeholder="Minimum 15 characters" id="user_info3" tabindex="2" autocomplete="new-password" onkeypress="enter_pwd()"> </td>
         <td>
           <span style="float:left">
             Auto Login<input type="checkbox" id="remember_svp" onchange="check_svp()" autocomplete="off" name="remember_svp">
@@ -56,7 +59,7 @@
       </tr> -->
       <tr>
         <td> Confirm </td>
-        <td> <input class="no_autofill" type="text" placeholder="Minimum 15 characters" id="user_info4" autocomplete="off" tabindex="3" onkeypress="enter_pwd()"> </td>
+        <td> <input type="password" placeholder="Minimum 15 characters" id="user_info4" autocomplete="new-password" tabindex="3" onkeypress="enter_pwd()"> </td>
         <td>
           <span>
           PW Name
