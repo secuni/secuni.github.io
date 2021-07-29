@@ -80,6 +80,10 @@ window.onload = function() {
     let keys = Object.keys(localStorage);
     for(var i=0; i<keys.length; i++) {
         let key = keys[i];
+        if((localStorage.getItem(key).split(";").length - 1) === 3) {
+            localStorage.removeItem(key);
+            continue;
+        }
         let [tr, entry] = key_to_entry(key, localStorage.getItem(key));
         if( tr!== null && entry !== null) {
             dom_entries.appendChild(tr);
