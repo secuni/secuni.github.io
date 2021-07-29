@@ -31,13 +31,119 @@ import {check_strength, load_pw_name, do_query,
 let entries = {};
 
 document.getElementById('select_global').onchange = select_global;
-document.getElementById('compute').onclick = do_update_all;
+// document.getElementById('compute').onclick = do_update_all;
 // document.getElementById('export_data').onclick = export_data;
 // document.getElementById('import_data').onclick = import_data;
 document.getElementById('clear_all').onclick = clear_all;
 document.getElementById('rename').onclick = rename;
+document.getElementById('do_change').onclick = click_change;
+document.getElementById('do_reset').onclick = click_reset;
 document.getElementById('request_restore').onclick = request_restore;
 // window.parse_file = parse_file
+window.do_update_all = do_update_all;
+window.do_reset_all = do_reset_all;
+
+function click_change() {
+    document.getElementById('user_request').innerHTML = `
+    <h4 style="margin-left: 70px;">
+      Change the selected passwords at once
+    </h4>
+
+    <table>
+      <div style="display:none !important; visibility:hidden; pointer-events: none;">
+        <input style="width:160px" type="text" value="Default" name="dummy_id" id="dummy_id" autocomplete="username">
+      </div>
+      <tr>
+        <td> Old </td>
+        <td> <input type="password" id="user_info2" tabindex="1" autocomplete="current-password"> </td>
+        <td colspan="2">
+          <span>
+            PW Name
+            <input style="width:100px;" list="pw_name_list" type="text" id="pw_name" autocomplete="off" placeholder="Default" onkeypress="enter_pwd()">
+            <datalist id="pw_name_list">
+              <option value="Default">Default</option>
+              <option value="Special">Special</option>
+            </datalist>
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td> New </td>  
+        <td> <input type="password" id="user_info3" tabindex="2" placeholder="Minimum 15 characters" autocomplete="new-password" onkeypress="enter_pwd()"> </td>
+        <td>
+        </td>
+      </tr>
+      <tr>
+        <td> Confirm </td>
+        <td> <input type="password" id="user_info4" tabindex="3" placeholder="Minimum 15 characters" autocomplete="new-password" onkeypress="enter_pwd()"> </td>
+        <td>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+            Email
+        </td>
+        <td>
+            <input type="text" id="eml" autocomplete="off" tabindex="4" onkeypress="enter_pwd()">
+        </td>
+      </tr>
+      <tr>
+        <td>          
+          <td style="float:right;"><input type="button" id="compute" tabindex="5" value="Change All" onclick="do_update_all()"></td>
+        </td>
+      </tr>
+    </table>
+    `
+}
+
+function click_reset() {
+    document.getElementById('user_request').innerHTML = `
+    <h4 style="margin-left: 70px;">
+      Reset the selected passwords at once
+    </h4>
+
+    <table>
+      <div style="display:none !important; visibility:hidden; pointer-events: none;">
+        <input style="width:160px" type="text" value="Default" name="dummy_id" id="dummy_id" autocomplete="username">
+      </div>
+      <tr>
+        <td> New </td>  
+        <td> <input type="password" id="user_info3" tabindex="2" placeholder="Minimum 15 characters" autocomplete="new-password" onkeypress="enter_pwd()"> </td>
+        <td colspan="2">
+          <span>
+            PW Name
+            <input style="width:100px;" list="pw_name_list" type="text" id="pw_name" autocomplete="off" placeholder="Default" onkeypress="enter_pwd()">
+            <datalist id="pw_name_list">
+              <option value="Default">Default</option>
+              <option value="Special">Special</option>
+            </datalist>
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td> Confirm </td>
+        <td> <input type="password" id="user_info4" tabindex="3" placeholder="Minimum 15 characters" autocomplete="new-password" onkeypress="enter_pwd()"> </td>
+        <td>
+        </td>
+      </tr>
+
+      <tr>
+        <td>
+            Email
+        </td>
+        <td>
+            <input type="text" id="eml" autocomplete="off" tabindex="4" onkeypress="enter_pwd()">
+        </td>
+      </tr>
+      <tr>
+        <td>          
+          <td style="float:right;"><input type="button" id="compute" tabindex="5" value="Reset All" onclick="do_reset_all()"></td>
+        </td>
+      </tr>
+    </table>
+    `
+}
 
 function rename () {
     let keys = Object.keys(entries);
@@ -54,7 +160,9 @@ function rename () {
         return;
     }
     let name = prompt("Enter your new PW Name")
-    if(!name) {
+    if(name === null)
+        return;
+    if(name === "") {
         name = "Default"
     }
     for(var i=0; i<keys.length; i++) {
@@ -66,7 +174,7 @@ function rename () {
             let time = new Date();
             let date = time.getFullYear() + "/" + (time.getMonth()+1) + "/" + time.getDate()
             let [_0, _1, prid, pr, _2] = localStorage.getItem(key).split('&')
-            PMPut(decodeURIComponent(qurl), decodeURIComponent(userid), name, decodeURIComponent(prid), decodeURIComponent(pr), true, true, true);
+            PMPut(decodeURIComponent(qurl), decodeURIComponent(userid), name, decodeURIComponent(prid), decodeURIComponent(pr), true, document.getElementById('remember_svp').checked, true);
             entry.date.nodeValue = date;
             entry.date.parentElement.title = time
         }
@@ -110,6 +218,7 @@ function copy() {
         alert("Select a website to export");
         return;
     }
+    document.getElementById("user_request").innerHTML = '<canvas id="qr_method"></canvas>'
     // let val = "http://localhost:7999/import#" + keyval;
     let val = "https://secuni.github.io/import#" + keyval;
     navigator.clipboard.writeText(val).then(function() {}, function(err) {});
@@ -142,7 +251,7 @@ async function do_update_all() {
     if(document.getElementById('status') === null) {
         let th = document.createElement('th');
         th.id = "status"
-        th.style.width = "90px";
+        th.style.width = "100px";
         th.innerHTML = "Status"
         document.getElementById("entry_title").appendChild(th)
     }
@@ -155,6 +264,50 @@ async function do_update_all() {
             entry.status.nodeValue = "querying..."
             if(await entry_query(key, eml))
                 await entry_change(key, pw, pw_n, pwn_n, al);
+        }
+    }));
+    document.getElementById("compute").disabled = false;
+    document.getElementById('pw_name_list').innerHTML = '<option value="Default">Default</option><option value="Special">Special</option>';
+    load_pw_name()
+}
+
+async function do_reset_all() {
+    let keys = Object.keys(entries);
+    let all_unchecked = true;
+    let [pw, pw_n, pwn_n, eml, al] = get_userpw();
+
+    for(var i=0; i<keys.length; i++) {
+        let key = keys[i];
+        if (entries[key].checked.checked === true) {
+            all_unchecked = false;
+            break;
+        }
+    }
+    if(all_unchecked) {
+        alert("Select a website to change");
+        return;
+    }
+
+    document.getElementById("compute").disabled = true;
+
+    if(document.getElementById('status') === null) {
+        let th = document.createElement('th');
+        th.id = "status"
+        th.style.width = "100px";
+        th.innerHTML = "Status"
+        document.getElementById("entry_title").appendChild(th)
+    }
+    
+    await Promise.all(keys.map( async (key) => {
+        let entry = entries[key];
+        if(entry.restored.checked === false)
+            return;
+        if(entry.status === null)
+            add_status(key);
+        if (entry.checked.checked === true) {
+            entry.status.nodeValue = "querying..."
+            if(await restore_query(key, eml))
+                await restore_change(key, pw_n, pwn_n, al);
         }
     }));
     document.getElementById("compute").disabled = false;
@@ -248,7 +401,7 @@ function select_global() {
 }
 
 function get_userpw() {
-    let pw = document.getElementById('user_info2').value;
+    let pw = document.getElementById('user_info2') ? document.getElementById('user_info2').value : null;
     let pw_n = document.getElementById('user_info3').value;
     let pw_n_confirm = document.getElementById('user_info4').value;
     if(pw_n !== pw_n_confirm) { 
@@ -365,8 +518,6 @@ function add_status(key) {
 }
 
 async function entry_query(key, eml) {
-    if(entries[key].restored.checked)
-        return restore_query(key, eml);
     let [userid, url_query] = key.split("&");
     userid = decodeURIComponent(userid)
     url_query = decodeURIComponent(url_query)
@@ -432,8 +583,6 @@ async function do_query_manager(url) {
 }
 
 async function entry_change(key, pw, pw_n, pwn_n, al) {
-    if(entries[key].restored.checked)
-        return await restore_change(key, pw_n, pwn_n, al);
     let [userid, path] = key.split("&");
     userid = decodeURIComponent(userid)
     path = decodeURIComponent(path)
@@ -458,6 +607,7 @@ async function entry_change(key, pw, pw_n, pwn_n, al) {
             let date = time.getFullYear() + "/" + (time.getMonth()+1) + "/" + time.getDate()
             PMPut(qurl, userid, pwn_n, prid_n, pr_n, true, al, true);
             entry.saved.checked = al
+            entry.restored.checked = false;
             entry.date.nodeValue = date;
             entry.date.parentElement.title = time
         }
@@ -600,6 +750,8 @@ async function request_restore() {
     }
 
     let eml = prompt("Enter Your Email Address");
+    if(eml === null)
+        return;
 
     if(document.getElementById('status') === null) {
         let th = document.createElement('th');
