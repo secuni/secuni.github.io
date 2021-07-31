@@ -25,7 +25,7 @@
         <td>
           <span>
             PW Name 
-            <input style="width:100px;" list="pw_name_list" onchange="set_id()" type="text" id="pw_name" tabindex="1" autocomplete="username" autofocus placeholder="Default" onkeypress="enter_pwd()">
+            <input style="width:100px;" list="pw_name_list" onchange="set_id()" type="text" id="pw_name" tabindex="1" autocomplete="username" placeholder="Default" onkeypress="enter_pwd()">
             <datalist id="pw_name_list">
               <option value="Default">Default</option>
               <option value="Special">Special</option>
@@ -44,7 +44,7 @@
       </tr>
       <tr>
         <td> New </td>
-        <td> <input type="password" id="user_info3" placeholder="Minimum 15 characters" autocomplete="current-password" tabindex="2" onkeypress="enter_pwd()"> </td>
+        <td> <input type="password" autofocus id="user_info3" placeholder="Minimum 15 characters" autocomplete="current-password" tabindex="2" onkeypress="enter_pwd()"> </td>
         <td>
           <span style="float:left">
             Auto Login<input type="checkbox" id="remember_svp" onchange="check_svp()" autocomplete="off" name="remember_svp">
