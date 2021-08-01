@@ -227,10 +227,10 @@ function PMGet(url_query, id, prid, secure=false) {
             return ["", "", ma, al]
         }
         let [{}, s_pwn, s_prid, s_pr, {}] = val.split("&");
-        if(decodeURIComponent(s_prid) !== prid && !secure) {
-            localStorage.removeItem(key);
-            return ["", "", ma, al]   
-        }
+        // if(decodeURIComponent(s_prid) !== prid && !secure) {
+        //     localStorage.removeItem(key);
+        //     return ["", "", ma, al]   
+        // }
         return [decodeURIComponent(s_pwn), decodeURIComponent(s_pr), ma, al]
     }
     return ["", "", ma, al];

@@ -83,7 +83,6 @@ async function receive_message(event) {
         alert('no such user')
         window.close()
     }
-    
     let [pwname, pr, ma, al] = PMGet(url_query, id, get_prid(pt)(data), false);
     let otp_url = "https://secuni.github.io/otp#" + get_query_string(url_query, id, sec, pwname, dom_app, otp);
     console.log("http://localhost:7999/otp#" + get_query_string(url_query, id, sec, pwname, dom_app, otp))
