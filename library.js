@@ -122,7 +122,6 @@ function parse(pt) {
 async function do_login(aux, pt, data, pt_n, data_n, etc, pw) {
     let prid = get_prid(pt)(data);
     let pr = pw !== "" ? await get_prover(pt)(data, pw) : null;
-    data_n = pw !==  "" ? data_n : null;
     let [r_n, prid_n, pr_n] = (data_n===null) ? [etc, prid, pr] : await prove_new(pt_n)(data_n, pw, etc);
     let ret = aux + ';' + pt + ';' + pt_n + ';' + await prove_test(pt)(data, pr, r_n);
     return [ret, prid_n, pr_n];
