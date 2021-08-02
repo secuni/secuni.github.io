@@ -119,7 +119,7 @@ function get_userpw() {
         alert(strength); return [null, null, null,null, null, null];
     }
 
-    let pwname = document.getElementById('pw_name').value;
+    let pwname = document.getElementById('pw_name') ? document.getElementById('pw_name').value : "Default";
     if(pwname.includes(";")) {
         alert("semicolon not allowed for PW Name")
         return;
