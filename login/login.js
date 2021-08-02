@@ -92,7 +92,7 @@ async function receive_message(event) {
     document.getElementById('remember_svp').checked = al;
     document.getElementById("user_info2").placeholder = "PW Name: " +  pwname;
     document.getElementById("dummy_id").value = pwname;
-    if(pr !== "" && data_n === null && al) {
+    if(pr !== "" && data_n === null) {
         setTimeout(async () => {
             let res = confirm("Use Auto Login");
             if(res) {
