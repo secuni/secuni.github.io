@@ -45,6 +45,16 @@ function check_sva() {
     }
 }
 
+function check_sva_local() {
+    if(!document.getElementById('remember_sva').checked)
+        document.getElementById('remember_svp').checked = false;
+}
+
+function check_svp_local() {
+    if(document.getElementById('remember_svp').checked)
+        document.getElementById('remember_sva').checked = true;
+}
+
 function maximize() {
     window.moveTo(0, 0);
     window.resizeTo(screen.availWidth, screen.availHeight);   

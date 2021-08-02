@@ -93,12 +93,14 @@ async function receive_message(event) {
     document.getElementById("user_info2").placeholder = "PW Name: " +  pwname;
     document.getElementById("dummy_id").value = pwname;
     if(pr !== "" && data_n === null && al) {
-        let res = confirm("Use Auto Login");
-        if(res) {
-            let ret = aux + ';' + pt + ';' + pt_n + ';' + await prove_test(pt)(data, pr, etc);
-            opener.postMessage(ret, url_app);
-            window.close();
-        }
+        setTimeout(async () => {
+            let res = confirm("Use Auto Login");
+            if(res) {
+                let ret = aux + ';' + pt + ';' + pt_n + ';' + await prove_test(pt)(data, pr, etc);
+                opener.postMessage(ret, url_app);
+                window.close();
+            }
+        }, 10);
     }
     // document.getElementById('otp_link').onclick = () => opener.postMessage(otp_str, url_app);
     document.getElementById('compute').onclick = set_login_button(id, url_query, aux, pt, pt_n, data, data_n, etc, pwname);
