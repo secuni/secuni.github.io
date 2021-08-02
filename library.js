@@ -150,19 +150,19 @@ function PMPut(url_query, id, pwn, prid, pr, ma, al, changedate=false) {
     const url = new URL(url_query)
     const path = url.origin + url.pathname;
     let key = [encodeURIComponent(id), encodeURIComponent(path)].join("&");
-    if(ma === true) {
-        localStorage.setItem('Manage Account', "Y");   
-    }
-    else {
-        localStorage.setItem('Manage Account', "N");   
-    }
+    // if(ma === true) {
+    //     localStorage.setItem('Manage Account', "Y");   
+    // }
+    // else {
+    //     localStorage.setItem('Manage Account', "N");   
+    // }
 
-    if(al === true) {
-        localStorage.setItem('Auto Login', "Y");
-    }
-    else {
-        localStorage.setItem('Auto Login', "N");
-    }
+    // if(al === true) {
+    //     localStorage.setItem('Auto Login', "Y");
+    // }
+    // else {
+    //     localStorage.setItem('Auto Login', "N");
+    // }
 
     if(!al) {
         pr = ""
