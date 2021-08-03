@@ -350,10 +350,10 @@ async function do_reset_all() {
         
         await Promise.all(keys.map( async (key) => {
             let entry = entries[key];
-            if(entry.restored.checked === false)
-            return;
             if(entry.status === null)
                 add_status(key);
+                if(entry.restored.checked === false)
+                    return;
                 if (entry.checked.checked === true) {
                     entry.status.nodeValue = "querying..."
                 if(await restore_query(key, eml))
