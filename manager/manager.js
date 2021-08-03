@@ -64,7 +64,7 @@ function click_change() {
         <tr id="pwname_tr">
         </tr>
         <tr>
-        <td id="input_name" style="width:90px"> Old </td>
+        <td id="input_name" style="width:100px"> Old </td>
         <td id="input_value"> <input type="password" id="user_info2" autocomplete="current-password" onkeypress="enter_pwd()"> </td>
         </tr>  
         <tr>
@@ -104,7 +104,7 @@ function click_reset() {
         </td>
     </tr>
     <tr>
-        <td id="input_name" style="width:90px"> New </td>
+        <td id="input_name" style="width:100px"> New </td>
         <td id="input_value"> <input type="password" placeholder="Minimum 15 characters" id="user_info3" autocomplete="current-password" onkeypress="enter_pwd()"> </td>
     </tr>  
     <tr>
