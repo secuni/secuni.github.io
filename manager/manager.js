@@ -50,6 +50,19 @@ let pw_n = null;
 let pw_confirm = null;
 let step = 1;
 
+function get_pwname() {
+    let keys = Object.keys(entries);
+    let pwname = "Default";
+    for(var i=0; i<keys.length; i++) {
+        let key = keys[i];
+        if (entries[key].checked.checked === true) {
+            pwname = entries[key].pw_name.nodeValue;
+            break;
+        }
+    }
+    return pwname;
+}
+
 function click_change() {
     pw = null;
     pw_n = null;
@@ -62,6 +75,11 @@ function click_change() {
 
     <table style="text-align: center;margin-left: 70px;">
         <tr id="pwname_tr">
+            <td>
+                <div style="display:none !important; visibility:hidden; pointer-events: none;">
+                    <input style="width:160px" value="Default" type="text" name="dummy_id" id="dummy_id" autocomplete="username">
+                </div>
+            </td>
         </tr>
         <tr>
         <td id="input_name" style="width:100px"> Old </td>
@@ -77,6 +95,9 @@ function click_change() {
         </tr>
     </table>
     `
+    let pwname = get_pwname()
+    document.getElementById('user_info2').placeholder = "PW Name: " + pwname;
+    document.getElementById('dummy_id').value = pwname
     document.getElementById('user_info2').focus()
 }
 
@@ -120,7 +141,7 @@ function click_reset() {
     document.getElementById('user_info3').focus()
 }
 
-function rename () {
+function rename() {
     let keys = Object.keys(entries);
     let empty = true;
     for(var i=0; i<keys.length; i++) {
@@ -211,7 +232,13 @@ function redo_change() {
     step = 1;
     document.getElementById('input_name').innerHTML = "Old"
     document.getElementById('input_value').innerHTML = '<input type="password" id="user_info2" autocomplete="current-password" onkeypress="enter_pwd()">'
-    document.getElementById('pwname_tr').innerHTML = ""
+    document.getElementById('pwname_tr').innerHTML = `<td>
+    <div style="display:none !important; visibility:hidden; pointer-events: none;">
+        <input style="width:160px" value="Default" type="text" name="dummy_id" id="dummy_id" autocomplete="username">
+    </div></td>`
+    let pwname = get_pwname();
+    document.getElementById('user_info2').placeholder = "PW Name: " + pwname;
+    document.getElementById('dummy_id').value = pwname
     document.getElementById('user_info2').focus();
 }
 
@@ -261,7 +288,6 @@ async function do_update_all() {
         step = 4
     }
     else {
-
         let keys = Object.keys(entries);
         let all_unchecked = true;
         let [pw, pw_n, pwn_n, eml, al] = get_userpw(true);
