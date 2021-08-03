@@ -262,6 +262,7 @@ async function do_update_all() {
         let keys = Object.keys(entries);
         let all_unchecked = true;
         let [pw, pw_n, pwn_n, eml, al] = get_userpw(true);
+        if(!pw && !pw_n && !pwn_n && !eml && !al) return;
         for(var i=0; i<keys.length; i++) {
             let key = keys[i];
             if (entries[key].checked.checked === true) {
@@ -321,16 +322,16 @@ async function do_reset_all() {
         let keys = Object.keys(entries);
         let all_unchecked = true;
         let [pw, pw_n, pwn_n, eml, al] = get_userpw(false);
-        
+        if(!pw && !pw_n && !pwn_n && !eml && !al) return;
         for(var i=0; i<keys.length; i++) {
             let key = keys[i];
-            if (entries[key].checked.checked === true) {
+            if (entries[key].checked.checked === true && entries[key].restored.checked === true) {
                 all_unchecked = false;
                 break;
             }
         }
         if(all_unchecked) {
-            alert("Select a website to change");
+            alert("Select a restored website");
             return;
         }
         
