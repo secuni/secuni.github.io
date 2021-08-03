@@ -1,7 +1,10 @@
 import {check_strength, load_pw_name, do_query, parse, prove_new, do_create, return_failure, PMGet, PMPut} from "../library.js";
 let opener = null;
 let url_app = null;
-
+let step = 1;
+let pw_n = null;
+let pw_confirm = null;
+let eml = null;
 
 window.onload = function() {
     // window.onblur = function(){ window.close(); };
@@ -50,6 +53,7 @@ async function receive_message(event) {
     let [_0, _1, ma, al] = PMGet(null, null, null);
     document.getElementById('remember_sva').checked = ma;
     document.getElementById('remember_svp').checked = al;
+    document.getElementById('redo').onclick = reset_dom;
     document.getElementById('compute').onclick = await set_create_button(id, url_query, aux, pt, pt_n, data_n, dom_app);
 }
 
@@ -60,43 +64,71 @@ async function QueryCreate(id, url_query) {
 
 function set_create_button(id, url_query, aux, pt, pt_n, data_n, dom_app) {
     return (async () => {
-        let [pw, pwn_n, eml, ma,al] = get_userpw();
-        if(pw === null) return;
-        try {
-            // let pw_name = document.getElementById("pw_name").value;
-            // PMCreate(id, url_query, pw_name);
-            let etc = dom_app + ';' + eml;
-            let [ret, prid, pr] = await do_create(aux, pt, pt_n, data_n, etc, pw)
-            opener.postMessage(ret, url_app);
-            PMPut(url_query, id, pwn_n, prid, pr, ma, al, true);
-            window.close();
-        } catch(err) {
-            // this event shouldn't occur
-            console.log(err)
-            return_failure(err);
+        if(step === 1) {
+            pw_n = document.getElementById('user_info3').value;
+            document.getElementById('input_name').innerHTML = "Confirm"
+            document.getElementById('input_value').innerHTML = '<input type="password" autofocus id="user_info4" placeholder="Minimum 15 characters" autocomplete="current-password" onkeypress="enter_pwd()">'
+            document.getElementById('user_info4').focus();
+            step = 2
+        }
+        else if(step === 2 ){
+            pw_confirm = document.getElementById('user_info4').value;
+            document.getElementById('input_name').innerHTML = "Email"
+            document.getElementById('input_value').innerHTML = '<input type="text" id="eml" autocomplete="off" onkeypress="enter_pwd()">'
+            document.getElementById('compute').value = "Complete"
+            document.getElementById('eml').focus();
+            step = 3
+        }
+        else {
+            let [pw, pwn_n, eml, ma,al] = get_userpw();
+            if(pw === null) {
+                reset_dom();
+                return;
+            }
+            try {
+                // let pw_name = document.getElementById("pw_name").value;
+                // PMCreate(id, url_query, pw_name);
+                let etc = dom_app + ';' + eml;
+                let [ret, prid, pr] = await do_create(aux, pt, pt_n, data_n, etc, pw)
+                opener.postMessage(ret, url_app);
+                PMPut(url_query, id, pwn_n, prid, pr, ma, al, true);
+                window.close();
+            } catch(err) {
+                // this event shouldn't occur
+                console.log(err)
+                return_failure(err);
 
+            }
         }
     });
 }
 
-function get_userpw() {
-    let pw = document.getElementById('user_info3').value;
-    let pw_confirm = document.getElementById('user_info4').value;
-    if(pw !== pw_confirm) { alert("The password confirmation does not match"); return [null,null]; }
-    let strength = check_strength(pw);
-    if(strength !== null) {
-        alert(strength); return [null,null];
-    }
+function reset_dom() {
+    document.getElementById('input_name').innerHTML = "New"
+    document.getElementById('input_value').innerHTML = '<input type="password" autofocus id="user_info3" placeholder="Minimum 15 characters" autocomplete="current-password" onkeypress="enter_pwd()">'
+    step = 1;
+    pw_n = null;
+    pw_confirm = null;
+    eml = null;
+}
 
-    let pwname = document.getElementById('pw_name').value;
-    if(pwname.includes(";")) {
-        alert("semicolon not allowed for PW Name")
-        return;
+function get_userpw() {
+    if(pw_n !== pw_confirm) { 
+        alert("The password confirmation does not match"); 
+        reset_dom();
+        return [null,null]; 
     }
+    let strength = check_strength(pw_n);
+    if(strength !== null) {
+        alert(strength);
+        reset_dom();
+        return [null,null];
+    }
+    let pwname = document.getElementById('pw_name').value;
     pwname = (pwname ? pwname : "Default");
     let eml = document.getElementById('eml').value;
     let sva = document.getElementById("remember_sva").checked
     let svp = document.getElementById("remember_svp").checked
-    return [pw, pwname, eml, sva, svp];
+    return [pw_n, pwname, eml, sva, svp];
 }
 

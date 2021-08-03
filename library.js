@@ -52,8 +52,6 @@ function get_pw_name(key) {
     } catch(err) {
         return null;
     }
-    console.log(origin)
-    console.log(key)
     let val = localStorage.getItem(key);
     let [date, pw_name, salt, pr, {}] = val.split("&");
     return decodeURIcomponent(pw_name)

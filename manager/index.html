@@ -18,7 +18,7 @@
     <h1> SecUni - Account Manager </h1>
     <div>
       Manage Account<input type="checkbox" id="remember_sva" onchange="check_sva()" checked autocomplete="off" name="remember">
-      Auto Login<input type="checkbox" onchange="check_svp()" id="remember_svp" autocomplete="new-password" name="remember">
+      Auto Login<input type="checkbox" onchange="check_svp()" id="remember_svp" name="remember">
     </div>
     <br>
     <table id="entries" border="1">
@@ -45,6 +45,36 @@
     <div><a id="export_result"></a></div> -->
     <br><br><br>
     <div id="user_request">
+      <h4 style="margin-left: 70px;">
+        Change the selected passwords at once
+      </h4>
+  
+      <table style="text-align: center;margin-left: 70px;">
+        <tr id="pwname_tr">
+          <td>
+            PW Name
+          </td>
+          <td>
+              <input list="pw_name_list" type="text" id="pw_name" autocomplete="username" placeholder="Default" onkeypress="enter_pwd()">
+              <datalist id="pw_name_list">
+              <option value="Default">Default</option>
+              <option value="Special">Special</option>
+              </datalist>
+          </td>
+        </tr>
+        <tr>
+          <td id="input_name" style="width:80px"> New </td>
+          <td id="input_value"> <input type="password" placeholder="Minimum 15 characters" id="user_info3" autocomplete="current-password" onkeypress="enter_pwd()"> </td>
+        </tr>  
+        <tr>
+          <td>          
+            <td style="float:right;">
+              <input type="button" id="redo" onclick="redo_reset()" value="&#8634;">
+              <input type="button" id="compute" value="Next" onclick="do_reset_all()">
+            </td>
+          </td>
+        </tr>
+      </table>
     </div>
     <!-- <input type="hidden" id="aux_timeouts" value="60000">
     <input type="hidden" id="aux_ip" value="true">

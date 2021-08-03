@@ -16,16 +16,16 @@
   <body style="text-align:center;">
     <h1 > SecUni </h1>
     <table style="margin-left:auto; margin-right:auto;">
-      <!-- <div style="display:none !important; visibility:hidden; pointer-events: none;">
+      <div style="display:none !important; visibility:hidden; pointer-events: none;">
         <input style="width:160px" value="Default" type="text" name="dummy_id" id="dummy_id" autocomplete="username">
-      </div> -->
+      </div>
       <tr>
-        <td> Site </td>
+        <td style="width:60px;"> Site </td>
         <td> <input type="text" id="url_query" disabled> </td>
         <td>
           <span>
-            PW Name 
-            <input style="width:100px;" list="pw_name_list" onchange="set_id()" type="text" id="pw_name" tabindex="1" autocomplete="username" placeholder="Default" onkeypress="enter_pwd()">
+            PW Name
+            <input style="width:100px;" list="pw_name_list" type="text" id="pw_name" autocomplete="username" placeholder="Default" onkeypress="enter_pwd()">
             <datalist id="pw_name_list">
               <option value="Default">Default</option>
               <option value="Special">Special</option>
@@ -38,43 +38,38 @@
         <td> <input type="text" id="user_info1" disabled> </td>
         <td>
           <span style="float:left">
-          Manage Account<input type="checkbox" onchange="check_sva_local()" id="remember_sva" checked autocomplete="off" name="remember">
-          </span>
+            Manage Account<input type="checkbox" onchange="check_sva_local()" id="remember_sva" checked autocomplete="off" name="remember">
+          </span>  
         </td>
       </tr>
       <tr>
-        <td> New </td>
-        <td> <input type="password" autofocus id="user_info3" placeholder="Minimum 15 characters" autocomplete="current-password" tabindex="2" onkeypress="enter_pwd()"> </td>
+        <td id="input_name"> New </td>
+        <td id="input_value">
+          <input type="password" autofocus id="user_info3" placeholder="Minimum 15 characters" autocomplete="current-password" onkeypress="enter_pwd()">
+        </td>
         <td>
           <span style="float:left">
             Auto Login<input type="checkbox" id="remember_svp" onchange="check_svp_local()" autocomplete="off" name="remember_svp">
           </span>
         </td>
-        <!-- <td> Use 10 or more characters with a mix of letters, numbers & symbols !@#$%^&*)(+=._- </td> -->
-      </tr>
-      <!-- <tr> -->
-	<!-- <td  colspan="2">
-	It must be at least 15 characters.
-	</td> -->
-      <!-- </tr> -->
-      <tr>
-        <td> Confirm </td>
-        <td> <input type="password" id="user_info4" placeholder="Minimum 15 characters" tabindex="3" autocomplete="current-password" onkeypress="enter_pwd()"> </td>
-      </tr>
-      <tr>
         <td>
+        </td>
+      </tr>
+      <tr>
+        <!-- <td>
             Email
         </td>
         <td>
-            <input type="text" id="eml" tabindex="4" autocomplete="off" onkeypress="enter_pwd()">
-        </td>
-        <td>
-          <a onclick="maximize()" style="float:right;" href="../manager/">Account Manager</a>
-        </td>
+            <input type="text" id="eml" autocomplete="off" onkeypress="enter_pwd()">
+        </td> -->
       </tr>
       <tr>
-        <td colspan="3">
-          <input type="button" id="compute" value="Complete" tabindex="5" style="float:right;" onclick="alert('Please wait!')">
+        <td colspan="2">
+          <a onclick="maximize()" style="float:right;" href="../manager/">Account Manager</a>
+        </td>
+        <td>
+          <input type="button" id="redo" value="&#8634;" >
+          <input type="button" id="compute" value="Next" >
         </td>
       </tr>
     </table>

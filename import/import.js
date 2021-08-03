@@ -3,7 +3,6 @@ window.onload = function() {
     if(input) {
         let arr = getList()
         arr.forEach((e) => {
-            console.log(e)
             let key = e.id + '&' + e.url;
             let prev_val = localStorage.getItem(key);
             if(prev_val === null) {

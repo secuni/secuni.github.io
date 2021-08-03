@@ -17,17 +17,21 @@
     <h1 > SecUni </h1>
     <table style="margin-left:auto; margin-right:auto;">
       <!-- <div style="display:none !important; visibility:hidden; pointer-events: none;"> -->
-      <div style="overflow:hidden; position: absolute; left: -100000px">
+      <div id="prev_id" style="overflow:hidden; position: absolute; left: -100000px">
         <input value="Default" type="text" name="dummy_id" id="dummy_id" autocomplete="username">
       </div>
       <tr>
-        <div id="pm_id" style="display:none !important; visibility:hidden; pointer-events: none;"></div>
-        <td> Site </td>
+        <td style="width:60px;"> Site </td>
         <td> <input type="text" id="url_query" disabled> </td>
         <td>
-          <span style="float:left">
-            Manage Account<input type="checkbox" id="remember_sva" onchange="check_sva_local()" checked autocomplete="off" name="remember">
-          </span>  
+          <span id="new_id">
+            PW Name
+            <input style="width:100px;" list="pw_name_list" type="text" id="pw_name" placeholder="Default" onkeypress="enter_pwd()">
+            <datalist id="pw_name_list">
+              <option value="Default">Default</option>
+              <option value="Special">Special</option>
+            </datalist>
+          </span>
         </td>      
       </tr>
       <tr>
@@ -35,50 +39,28 @@
         <td> <input type="text" id="user_info1" disabled> </td>
 	      <td>
           <span style="float:left">
-            Auto Login<input type="checkbox" id="remember_svp" onchange="check_svp_local()" autocomplete="off" name="remember_svp">
-          </span>
+            Manage Account<input type="checkbox" id="remember_sva" onchange="check_sva_local()" checked autocomplete="off" name="remember">
+          </span>  
 	      </td>
       </tr>
-      <tr id="user_info2_old">
-        <td> Old </td>
-        <td> <input type="password" id="user_info2" autocomplete="current-password" tabindex="1" autofocus> </td>
-        <td>
-          <span>
-            PW Name
-            <input style="width:100px;" list="pw_name_list" type="text" id="pw_name" autocomplete="username" placeholder="Default" tabindex="2" onkeypress="enter_pwd()">
-            <datalist id="pw_name_list">
-              <option value="Default">Default</option>
-              <option value="Special">Special</option>
-            </datalist>
-          </span>
-        </td>
-      </tr>
       <tr>
-        <td> New </td>
-        <td> <input type="password" placeholder="Minimum 15 characters" id="user_info3" tabindex="3" autocomplete="new-password" onkeypress="enter_pwd()"> </td>
-        <!-- <td> Use 10 or more characters with a mix of letters, numbers & symbols !@#$%^&*)(+=._- </td> -->
-        <td>
+        <td id="input_name"> Old </td>
+        <td id="input_value"> <input type="password" id="user_info2" autocomplete="current-password" autofocus onkeypress="enter_pwd()"> </td>
+        <td> 
           <span style="float:left">
-            Email
-            <input style="width:140px;" type="text" id="eml" tabindex="5" autocomplete="email" onkeypress="enter_pwd()">
+            Auto Login<input type="checkbox" id="remember_svp" onchange="check_svp_local()" autocomplete="off" name="remember_svp">
           </span>
         </td>
       </tr>
-      <!-- <tr>
-	<td  colspan="2">
-	It must be at least 15 characters.
-	</td>
-      </tr> -->
       <tr>
-        <td> Confirm </td>
-        <td> <input type="password" placeholder="Minimum 15 characters" id="user_info4" autocomplete="new-password" tabindex="4" onkeypress="enter_pwd()"> </td>
-        <td>
+        <td colspan="2">
           <a onclick="maximize()" style="float:right;" href="../manager/">Account Manager</a>
         </td>
+        <td>
+          <input type="button" id="redo" value="&#8634;">
+          <input type="button" id="compute" value="Next">
+        </td>
       </tr>
-      <tr><td colspan="3">
-        <input type="button" id="compute" value="Complete" style="float:right;" tabindex="6" onclick="alert('Please wait!')">
-      </td></tr>
     </table>
   </body>
 </html>
