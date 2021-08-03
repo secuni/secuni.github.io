@@ -148,6 +148,7 @@ function reset_dom() {
     document.getElementById('input_value').innerHTML = '<input type="password" autofocus id="user_info2" placeholder="Minimum 15 characters" autocomplete="current-password" onkeypress="enter_pwd()">'
     document.getElementById('prev_id').innerHTML = '<input value="' + prev_pwname +'" type="text" name="dummy_id" id="dummy_id" autocomplete="username">'
     document.getElementById('pw_name').autocomplete = ""
+    document.getElementById('user_info2').focus();
     step = 1;
     pw= null;
     pw_n = null;

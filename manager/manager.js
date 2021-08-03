@@ -212,6 +212,7 @@ function redo_change() {
     document.getElementById('input_name').innerHTML = "Old"
     document.getElementById('input_value').innerHTML = '<input type="password" id="user_info2" autocomplete="current-password" onkeypress="enter_pwd()">'
     document.getElementById('pwname_tr').innerHTML = ""
+    document.getElementById('user_info2').focus();
 }
 
 function redo_reset() {
@@ -221,6 +222,8 @@ function redo_reset() {
     step = 1;
     document.getElementById('input_name').innerHTML = "New"
     document.getElementById('input_value').innerHTML = '<input type="password" placeholder="Minimum 15 characters" id="user_info3" autocomplete="current-password" onkeypress="enter_pwd()">'
+    document.getElementById('user_info3').focus();
+
 }
 
 async function do_update_all() {
