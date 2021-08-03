@@ -1,3 +1,13 @@
+window.addEventListener('DOMSubtreeModified', function() {
+    Array.from(document.getElementsByClassName('pwname_sup')).forEach(element => {
+        element.title = "pwnametest"
+    });
+    Array.from(document.getElementsByClassName('eml_sup')).forEach(element => {
+        element.title = "emltest"
+    });
+})
+
+
 function check_svp() {
     if(document.getElementById('remember_svp').checked)
         document.getElementById('remember_sva').checked = true;

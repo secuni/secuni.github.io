@@ -73,7 +73,7 @@ function set_create_button(id, url_query, aux, pt, pt_n, data_n, dom_app) {
         }
         else if(step === 2 ){
             pw_confirm = document.getElementById('user_info4').value;
-            document.getElementById('input_name').innerHTML = "Email"
+            document.getElementById('input_name').innerHTML = 'Email <sup class="eml_sup">&#x1F6C8;</sup>'
             document.getElementById('input_value').innerHTML = '<input type="text" id="eml" autocomplete="off" onkeypress="enter_pwd()">'
             document.getElementById('compute').value = "Complete"
             document.getElementById('eml').focus();
