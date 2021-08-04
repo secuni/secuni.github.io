@@ -5,6 +5,12 @@ window.addEventListener('DOMSubtreeModified', function() {
     Array.from(document.getElementsByClassName('eml_info')).forEach(element => {
         element.title = "emltest"
     });
+    Array.from(document.getElementsByClassName('remember_account_info')).forEach(element => {
+        element.title = "remeber account test"
+    });
+    Array.from(document.getElementsByClassName('remember_credential_info')).forEach(element => {
+        element.title = "remeber credential test"
+    });
 })
 
 
