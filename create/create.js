@@ -108,7 +108,7 @@ function set_create_button(id, url_query, aux, pt, pt_n, data_n, dom_app) {
 }
 
 function reset_dom() {
-    document.getElementById('input_name').innerHTML = "New"
+    document.getElementById('input_name').innerHTML = "Enter a new password"
     document.getElementById('input_value').innerHTML = '<input type="password" autofocus id="user_info3" placeholder="Minimum 15 characters" autocomplete="current-password" onkeypress="enter_pwd()">'
     document.getElementById('user_info3').focus();
     step = 1;

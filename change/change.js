@@ -76,7 +76,7 @@ async function receive_message(event) {
     document.getElementById('remember_svp').checked = al;
     
     if(data === null) {
-        document.getElementById('input_name').innerHTML = "New"
+        document.getElementById('input_name').innerHTML = "Enter a new password"
         document.getElementById('input_value').innerHTML = '<input type="password" placeholder="Minimum 15 characters" id="user_info3" autocomplete="current-password" onkeypress="enter_pwd()">'
         document.getElementById('prev_id').innerHTML = ""
         document.getElementById('pw_name').autocomplete = "username"
@@ -86,7 +86,7 @@ async function receive_message(event) {
     }
     else {
         document.getElementById("dummy_id").value = pwname;
-        document.getElementById("user_info2").placeholder = "PW Name: " +  pwname;
+        document.getElementById("user_info2").placeholder = "PWN: " +  pwname;
     }
     document.getElementById('redo').onclick = reset_dom;
     document.getElementById('compute').onclick = set_change_button(id, url_query, aux, pt, pt_n, data, data_n, dom_app);
@@ -101,7 +101,7 @@ function set_change_button(id, url_query, aux, pt, pt_n, data, data_n, dom_app) 
     return (async () => {
         if(step === 1) {
             pw = document.getElementById('user_info2').value;
-            document.getElementById('input_name').innerHTML = "New"
+            document.getElementById('input_name').innerHTML = "Enter a new password"
             document.getElementById('input_value').innerHTML = '<input type="password" placeholder="Minimum 15 characters" id="user_info3" autocomplete="current-password" onkeypress="enter_pwd()">'
             document.getElementById('prev_id').innerHTML = ""
             document.getElementById('pw_name').autocomplete = "username"
@@ -110,14 +110,14 @@ function set_change_button(id, url_query, aux, pt, pt_n, data, data_n, dom_app) 
         }
         else if(step === 2) {
             pw_n = document.getElementById('user_info3').value;
-            document.getElementById('input_name').innerHTML = "Confirm"
+            document.getElementById('input_name').innerHTML = "Confirm the new password"
             document.getElementById('input_value').innerHTML = '<input type="password" autofocus id="user_info4" placeholder="Minimum 15 characters" autocomplete="current-password" onkeypress="enter_pwd()">'
             document.getElementById('user_info4').focus();
             step = 3
         }
         else if(step === 3) {
             pw_confirm = document.getElementById('user_info4').value;
-            document.getElementById('input_name').innerHTML = '<span class="eml_info">Email <sup>&#x1F6C8;</sup></span>'
+            document.getElementById('input_name').innerHTML = '<span class="eml_info">Recovery Email <sup>&#x1F6C8;</sup></span>'
             document.getElementById('input_value').innerHTML = '<input type="text" id="eml" autocomplete="off" onkeypress="enter_pwd()">'
             document.getElementById('compute').value = "Complete"
             document.getElementById('eml').focus();
@@ -154,7 +154,7 @@ function reset_dom() {
     pw_n = null;
     pw_confirm = null;
     if(!createmode) {
-        document.getElementById('input_name').innerHTML = "Old"
+        document.getElementById('input_name').innerHTML = "Enter the current password"
         document.getElementById('input_value').innerHTML = '<input type="password" autofocus id="user_info2" placeholder="Minimum 15 characters" autocomplete="current-password" onkeypress="enter_pwd()">'
         document.getElementById('prev_id').innerHTML = '<input value="' + prev_pwname +'" type="text" name="dummy_id" id="dummy_id" autocomplete="username">'
         document.getElementById('pw_name').autocomplete = ""
@@ -162,7 +162,7 @@ function reset_dom() {
         step = 1;
     }
     else {
-        document.getElementById('input_name').innerHTML = "New"
+        document.getElementById('input_name').innerHTML = "Enter a new password"
         document.getElementById('input_value').innerHTML = '<input type="password" placeholder="Minimum 15 characters" id="user_info3" autocomplete="current-password" onkeypress="enter_pwd()">'
         document.getElementById('prev_id').innerHTML = ""
         document.getElementById('pw_name').autocomplete = "username"

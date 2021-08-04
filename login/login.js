@@ -90,7 +90,7 @@ async function receive_message(event) {
     document.getElementById('otp_view').style.display= "";
     document.getElementById('remember_sva').checked = ma;
     document.getElementById('remember_svp').checked = al;
-    document.getElementById("user_info2").placeholder = "PW Name: " +  pwname;
+    document.getElementById("user_info2").placeholder = "PWN: " +  pwname;
     document.getElementById("dummy_id").value = pwname;
     if(pr !== "" && data_n === null) {
         setTimeout(async () => {
