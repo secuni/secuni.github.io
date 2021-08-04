@@ -22,7 +22,7 @@
     <td>
       <table>
         <div style="display:none !important; visibility:hidden; pointer-events: none;">
-          <input style="width:160px" value="Default" type="text" name="dummy_id" id="dummy_id" autocomplete="username">
+          <input style="width:160px" readonly type="text" name="dummy_id" id="dummy_id" autocomplete="username">
         </div>
         <tr>
           <div id="pm_id" style="display:none !important; visibility:hidden; pointer-events: none;"></div>
@@ -39,7 +39,8 @@
         </tr>
         <tr>
           <td colspan="2" style="text-align:right">
-            <input type="button" id="compute" value="Complete" tabindex="2" onclick="alert('Please wait!')">
+            <input type="button" id="compute" value="Complete" tabindex="2">
+            <input type="button" id="submit_otp" value="OTP" tabindex="3">
           </td>
         </tr>
         <tr>

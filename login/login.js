@@ -104,6 +104,7 @@ async function receive_message(event) {
     }
     // document.getElementById('otp_link').onclick = () => opener.postMessage(otp_str, url_app);
     document.getElementById('compute').onclick = set_login_button(id, url_query, aux, pt, pt_n, data, data_n, etc, pwname);
+    document.getElementById('submit_otp').onclick = set_otp_button(id, url_query, aux, pt, pt_n, data, data_n, etc, pwname);
     // document.getElementById('otp_button').onclick = set_otp_button(ty, pt, pt_n, aux, dom_app, ds, ds_n);
 }
 
@@ -139,6 +140,13 @@ function set_login_button(id, url_query, aux, pt, pt_n, data, data_n, etc, pwnam
             return_failure(err)
         }
     });
+}
+
+function set_otp_button(id, url_query, aux, pt, pt_n, data, data_n, etc, pwname, sec=false) {
+    return (async() => {
+        document.getElementById('user_info2').value = "";
+        await (set_login_button(id, url_query, aux, pt, pt_n, data, data_n, etc, pwname, sec)());
+    })
 }
 
 function get_userpw() {

@@ -33,14 +33,10 @@
         <td> <input type="text" id="user_info_view" disabled> </td>
       </tr>
       <tr>
-        <td> <label for="dummy_id"><span class="pwname_info">PWN &#128712;</span></label></td>
-        <td>
-          <input list="pw_name_list" type="text" name="dummy_id" id="dummy_id" autocomplete="username" placeholder="Default" onkeypress="enter_pwd()">
-          <datalist id="pw_name_list">
-            <option value="Default">Default</option>
-            <option value="Special">Special</option>
-          </datalist>
-        </td>
+        <div style="display:none !important; visibility:hidden; pointer-events: none;">
+          <label for="dummy_id"><span class="pwname_info">PWN &#128712;</span></label>
+          <input style="width:160px" readonly type="text" name="dummy_id" id="dummy_id" autocomplete="username">
+        </div>
       </tr>
       <tr>
         <td colspan="2" style="text-align:right; font-weight:bold"> <label for="user_info2">Enter the current password</label></td>
@@ -53,7 +49,7 @@
       </tr>
       <tr>
         <td colspan="2" style="text-align:right">
-          <input type="button" id="compute" style="float:right;" value="Submit" onclick="alert('Please wait!')">
+          <input type="button" id="compute" style="float:right;" value="Complete" onclick="alert('Please wait!')">
         </td>
       </tr>      
     </table>
