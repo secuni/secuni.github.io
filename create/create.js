@@ -7,7 +7,7 @@ let pw_confirm = null;
 let eml = null;
 
 document.getElementById('redo').onclick = reset_dom;
-document.getElementById('compute').onclick = await set_create_button(null, null, null, null, null, null, null);
+document.getElementById('compute').onclick = set_create_button(null, null, null, null, null, null, null);
 
 
 window.onload = function() {
@@ -58,7 +58,7 @@ async function receive_message(event) {
     document.getElementById('remember_sva').checked = ma;
     document.getElementById('remember_svp').checked = al;
     document.getElementById('redo').onclick = reset_dom;
-    document.getElementById('compute').onclick = await set_create_button(id, url_query, aux, pt, pt_n, data_n, dom_app);
+    document.getElementById('compute').onclick = set_create_button(id, url_query, aux, pt, pt_n, data_n, dom_app);
 }
 
 async function QueryCreate(id, url_query) {
