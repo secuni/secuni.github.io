@@ -10,6 +10,9 @@ let pw = null;
 let pw_n = null;
 let pw_confirm = null;
 
+document.getElementById('redo').onclick = reset_dom;
+document.getElementById('compute').onclick = set_change_button(null, null, null, null, null, null, null, null);
+
 
 window.onload = function() {
     // window.onblur = function(){ window.close(); };
