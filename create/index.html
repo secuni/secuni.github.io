@@ -17,20 +17,14 @@
 
   <body style="text-align:center;">
     <h1 > HanPass </h1>
-    <table style="white-space:nowrap; margin-left:auto; margin-right:auto;">
+    <table style="margin-left:auto; margin-right:auto;">
       <tr>
         <td> Site </td>
         <td> <input type="text" id="url_query" disabled> </td>
-        <td>
-            <span style="float:left" class="remember_account_info">&nbsp; Store Account &#x1F6C8;</span><span style="float:right"><input type="checkbox" onchange="check_sva_local()" id="remember_sva" checked autocomplete="off" name="remember"></span>
-        </td>
       </tr>
       <tr>
         <td> ID </td>
         <td> <input type="text" id="user_info1" disabled> </td>
-        <td>
-            <span style="float:left" class="remember_credential_info">&nbsp; Remember Credential &#x1F6C8;</span><span style="float:right"><input type="checkbox" id="remember_svp" onchange="check_svp_local()" autocomplete="off" name="remember_svp"></span>
-        </td>
       </tr>
       <tr>
         <td> <span class="pwname_info">PWN &#x1F6C8;</span></td>
@@ -40,10 +34,6 @@
             <option value="Default">Default</option>
             <option value="Special">Special</option>
           </datalist>
-        </td>
-        <td style="text-align:left;">
-          &nbsp;
-          <a onclick="maximize()" href="../manager/">Account Manager</a>
         </td>
       </tr>
       <tr>
@@ -58,6 +48,24 @@
         <td style="text-align:left;">
           <input type="button" id="compute" value="Next" >
           <input type="button" id="redo" value="&#8634;" >
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="text-align:right">
+          <span class="remember_account_info">Store Account &#x1F6C8;</span>
+          <input type="checkbox" onchange="check_sva_local()" id="remember_sva" checked autocomplete="off" name="remember">
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="text-align:right">
+          <span class="remember_credential_info">Remember Credential &#x1F6C8;</span>
+          <input type="checkbox" id="remember_svp" onchange="check_svp_local()" autocomplete="off" name="remember_svp">
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" style="text-align:right">
+          &nbsp;
+          <a onclick="maximize()" href="../manager/">Account Manager</a>
         </td>
       </tr>
     </table>
