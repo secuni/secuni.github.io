@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <link rel="shortcut icon" href="#">
-    <title> SecUni </title>
+    <title> HanPass </title>
     <script defer src="../handleinput.js"></script>
     <script src="../aes.js"></script>
     <script src="../pad-nopadding-min.js"></script>
@@ -14,38 +14,43 @@
   </head>
 
   <body style="text-align:center;">
-    <h1 > SecUni </h1>
+    <h1 > HanPass </h1>
     <table style="margin-left:auto; margin-right:auto;">
       <tr>
-        <td style="width:60px;"> Site </td>
+        <td style="width:100px; text-align:right;"> Site </td>
         <td> <input type="text" id="url_query" disabled> </td>
         <td>
-          <span>
-            PW Name <sup class="pwname_sup">&#x1F6C8;</sup>
-            <input style="width:70px;" list="pw_name_list" type="text" id="pw_name" autocomplete="username" placeholder="Default" onkeypress="enter_pwd()">
-            <datalist id="pw_name_list">
-              <option value="Default">Default</option>
-              <option value="Special">Special</option>
-            </datalist>
+          <span style="float:left">
+            &nbsp;
+            ID
+            <input style="width:100px;" type="text" id="user_info1" disabled>
           </span>
         </td>
       </tr>
       <tr>
-        <td> ID </td>
-        <td> <input type="text" id="user_info1" disabled> </td>
+        <td style="text-align:right;"> PW Name <sup class="pwname_sup">&#x1F6C8;</sup></td>
+        <td>
+          <input list="pw_name_list" type="text" id="pw_name" autocomplete="username" placeholder="Default" onkeypress="enter_pwd()">
+          <datalist id="pw_name_list">
+            <option value="Default">Default</option>
+            <option value="Special">Special</option>
+          </datalist>
+        </td>
         <td>
           <span style="float:left">
+            &nbsp;
             Manage Account<input type="checkbox" onchange="check_sva_local()" id="remember_sva" checked autocomplete="off" name="remember">
           </span>  
         </td>
       </tr>
       <tr>
-        <td id="input_name"> New </td>
+        <td id="input_name" style="text-align:right;"> New </td>
         <td id="input_value">
           <input type="password" autofocus id="user_info3" placeholder="Minimum 15 characters" autocomplete="current-password" onkeypress="enter_pwd()">
         </td>
         <td>
           <span style="float:left">
+            &nbsp;
             Auto Login<input type="checkbox" id="remember_svp" onchange="check_svp_local()" autocomplete="off" name="remember_svp">
           </span>
         </td>
@@ -61,12 +66,13 @@
         </td> -->
       </tr>
       <tr>
-        <td colspan="2">
-          <a onclick="maximize()" style="float:right;" href="../manager/">Account Manager</a>
-        </td>
-        <td>
+        <td colspan="2" style="text-align:right;">
           <input type="button" id="redo" value="&#8634;" >
           <input type="button" id="compute" value="Next" >
+        </td>
+        <td style="text-align:left;">
+          &nbsp;
+          <a onclick="maximize()" href="../manager/">Account Manager</a>
         </td>
       </tr>
     </table>
