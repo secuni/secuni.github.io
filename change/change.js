@@ -9,6 +9,7 @@ let prev_pwname = null;
 let pw = null;
 let pw_n = null;
 let pw_confirm = null;
+let createmode = false;
 
 document.getElementById('redo').onclick = reset_dom;
 document.getElementById('compute').onclick = set_change_button(null, null, null, null, null, null, null, null);
@@ -81,6 +82,7 @@ async function receive_message(event) {
         document.getElementById('pw_name').autocomplete = "username"
         document.getElementById('user_info3').focus();
         step = 2
+        createmode = true;
     }
     else {
         document.getElementById("dummy_id").value = pwname;
@@ -147,15 +149,26 @@ function set_change_button(id, url_query, aux, pt, pt_n, data, data_n, dom_app) 
 }
 
 function reset_dom() {
-    document.getElementById('input_name').innerHTML = "Old"
-    document.getElementById('input_value').innerHTML = '<input type="password" autofocus id="user_info2" placeholder="Minimum 15 characters" autocomplete="current-password" onkeypress="enter_pwd()">'
-    document.getElementById('prev_id').innerHTML = '<input value="' + prev_pwname +'" type="text" name="dummy_id" id="dummy_id" autocomplete="username">'
-    document.getElementById('pw_name').autocomplete = ""
-    document.getElementById('user_info2').focus();
-    step = 1;
+
     pw= null;
     pw_n = null;
     pw_confirm = null;
+    if(!createmode) {
+        document.getElementById('input_name').innerHTML = "Old"
+        document.getElementById('input_value').innerHTML = '<input type="password" autofocus id="user_info2" placeholder="Minimum 15 characters" autocomplete="current-password" onkeypress="enter_pwd()">'
+        document.getElementById('prev_id').innerHTML = '<input value="' + prev_pwname +'" type="text" name="dummy_id" id="dummy_id" autocomplete="username">'
+        document.getElementById('pw_name').autocomplete = ""
+        document.getElementById('user_info2').focus();
+        step = 1;
+    }
+    else {
+        document.getElementById('input_name').innerHTML = "New"
+        document.getElementById('input_value').innerHTML = '<input type="password" placeholder="Minimum 15 characters" id="user_info3" autocomplete="current-password" onkeypress="enter_pwd()">'
+        document.getElementById('prev_id').innerHTML = ""
+        document.getElementById('pw_name').autocomplete = "username"
+        document.getElementById('user_info3').focus();
+        step = 2;
+    }
 }
 
 function get_userpw() {
