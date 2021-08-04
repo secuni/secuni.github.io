@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <link rel="shortcut icon" href="#">
     <title> HanPass </title>
     <script defer src="../handleinput.js"></script>
@@ -20,6 +19,9 @@
     <table style="margin-left:auto; margin-right:auto;"><tr>
     <td>
     <table>
+      <div id="prev_id" style="overflow:hidden; position: absolute; left: -100000px">
+        <input readonly type="text" name="dummy_id" id="dummy_id" autocomplete="username">
+      </div>
       <tr>
         <td> Site </td>
         <td> <input type="text" id="url_query" disabled> </td>
@@ -31,7 +33,7 @@
       <tr>
         <td> <span class="pwname_info">PWN &#128712;</span></td>
         <td>
-          <input list="pw_name_list" type="text" id="pw_name" autocomplete="username" placeholder="Default" onkeypress="enter_pwd()">
+          <input list="pw_name_list" type="text" id="pw_name" placeholder="Default" onkeypress="enter_pwd()">
           <datalist id="pw_name_list">
             <option value="Default">Default</option>
             <option value="Special">Special</option>
@@ -39,12 +41,12 @@
         </td>
       </tr>
       <tr>
-        <td colspan="2" id="input_name" style="text-align:right; font-weight:bold"> Enter a new password</td>
+        <td colspan="2" id="input_name" style="text-align:right; font-weight:bold"> Enter the current password</td>
       </tr>
       <tr>
         <td></td>
         <td id="input_value">
-          <input type="password" autofocus id="user_info3" placeholder="Minimum 15 characters" autocomplete="current-password" onkeypress="enter_pwd()">
+          <input type="password" autofocus id="user_info2" autocomplete="current-password" onkeypress="enter_pwd()">
         </td>
       </tr>
       <tr>
@@ -94,4 +96,3 @@
     </tr></table>
   </body>
 </html>
-
