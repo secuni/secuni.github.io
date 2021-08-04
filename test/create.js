@@ -6,7 +6,8 @@ let pw_n = null;
 let pw_confirm = null;
 let eml = null;
 
-
+document.getElementById('redo').onclick = reset_dom;
+// document.getElementById('compute').onclick = await set_create_button(null, null, null, null, null, null, null);
 
 window.onload = function() {
 alert("onload 1");
