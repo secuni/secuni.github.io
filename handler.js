@@ -84,17 +84,6 @@ function enter_pwd() {
     }
 }
 
-function changeAuth() {
-    if(document.getElementById('auth_method').checked) {
-        document.getElementById('pw_method').style.display = 'none';
-        document.getElementById('otp_view').style.display = 'block';
-    }
-    else {
-        document.getElementById('pw_method').style.display = '';
-        document.getElementById('otp_view').style.display = 'none';
-    }
-}
-
 // function copy() {
 //     let val = document.getElementById('secuni_result').value;
 //     navigator.clipboard.writeText(val).then(function() {

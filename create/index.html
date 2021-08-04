@@ -15,8 +15,11 @@
     <link rel="stylesheet" type="text/css" href="../handleinput.css">
   </head>
 
-  <body style="text-align:center;">
-    <h1 > HanPass </h1>
+  <body>
+  <div class="container" style="max-width: 500px; margin-left: auto; margin-right: auto">
+    <h1 style="text-align: center"> HanPass </h1>
+    <div style="float:left">
+    <span style="text-align: center;display:inline-block">
     <table style="margin-left:auto; margin-right:auto;">
       <tr>
         <td> Site </td>
@@ -45,30 +48,39 @@
         <td id="input_value">
           <input type="password" autofocus id="user_info3" placeholder="Minimum 15 characters" autocomplete="current-password" onkeypress="enter_pwd()">
         </td>
-        <td style="text-align:left;">
-          <input type="button" id="compute" value="Next" >
-          <input type="button" id="redo" value="&#8634;" >
-        </td>
       </tr>
       <tr>
         <td colspan="2" style="text-align:right">
+          <input type="button" id="compute" value="Next" >
+          <input type="button" id="redo" value="&#8634;" >
+        </td>
+      </tr>      
+    </table>
+    </span>
+    </div>
+    <div style="float:left;">
+      <table>
+      <tr>
+        <td style="text-align:right">
           <span class="remember_account_info">Store Account &#x1F6C8;</span>
           <input type="checkbox" onchange="check_sva_local()" id="remember_sva" checked autocomplete="off" name="remember">
         </td>
       </tr>
       <tr>
-        <td colspan="2" style="text-align:right">
+        <td style="text-align:right">
           <span class="remember_credential_info">Remember Credential &#x1F6C8;</span>
           <input type="checkbox" id="remember_svp" onchange="check_svp_local()" autocomplete="off" name="remember_svp">
         </td>
       </tr>
       <tr>
-        <td colspan="2" style="text-align:right">
+        <td style="text-align:right">
           &nbsp;
           <a onclick="maximize()" href="../manager/">Account Manager</a>
         </td>
       </tr>
-    </table>
-    </body>
+      </table>      
+    </div>
+  </div>
+  </body>
 </html>
 
