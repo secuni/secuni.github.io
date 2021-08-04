@@ -16,12 +16,11 @@
     <!-- <link rel="stylesheet" type="text/css" href="../handleinput.css"> -->
   </head>
 
-  <body>
-  <div class="container" style="max-width: 500px; margin-left: auto; margin-right: auto">
-    <h1 style="text-align: center"> HanPass </h1>
-    <div style="float:left">
-    <span style="text-align: center;display:inline-block">
-      <table style="margin-right:auto;">
+  <body style="text-align: center">
+    <h1> HanPass </h1>
+    <table style="margin-left:auto; margin-right:auto;"><tr>
+    <td>
+      <table>
         <div style="display:none !important; visibility:hidden; pointer-events: none;">
           <input style="width:160px" value="Default" type="text" name="dummy_id" id="dummy_id" autocomplete="username">
         </div>
@@ -39,10 +38,8 @@
           <td> <input type="password" id="user_info2" autocomplete="current-password" onkeypress="enter_pwd()" tabindex="1" autofocus> </td>
         </tr>
         <tr>
-          <td colspan="2">
-            <span style="float:right">
-            <input type="button" id="compute" value="Complete" style="float:right;" tabindex="2" onclick="alert('Please wait!')">
-            </span>
+          <td colspan="2" style="text-align:right">
+            <input type="button" id="compute" value="Complete" tabindex="2" onclick="alert('Please wait!')">
           </td>
         </tr>
         <tr>
@@ -67,9 +64,8 @@
           </td>
         </tr>
       </table>
-    </span>
-    </div>
-    <div style="float:left;">
+    </td>
+    <td valign="top">
       <table>
       <tr><td>
       &nbsp;&nbsp;
@@ -77,14 +73,9 @@
       <canvas id="qr_method" style="padding-bottom:0px;"></canvas>
       </span>
       </td></tr>
-<!--
-      <tr><td style="text-align:center">
-      <a href="javascript:undefined"id="otp_link">Use OTP</a>
-      </td></tr>	  
--->
       </table>
-    </div>
-  </div>
+    </td>
+    </tr></table>
   </body>
 </html>
 
