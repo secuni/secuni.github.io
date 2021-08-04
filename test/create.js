@@ -7,7 +7,7 @@ let pw_confirm = null;
 let eml = null;
 
 document.getElementById('redo').onclick = reset_dom;
-// document.getElementById('compute').onclick = await set_create_button(null, null, null, null, null, null, null);
+document.getElementById('compute').onclick = await set_create_button(null, null, null, null, null, null, null);
 
 window.onload = function() {
 alert("onload 1");
@@ -68,6 +68,7 @@ async function QueryCreate(id, url_query) {
 
 function set_create_button(id, url_query, aux, pt, pt_n, data_n, dom_app) {
     return (async () => {
+/*	
         if(step === 1) {
             pw_n = document.getElementById('user_info3').value;
             document.getElementById('input_name').innerHTML = "Confirm the new password"
@@ -104,6 +105,7 @@ function set_create_button(id, url_query, aux, pt, pt_n, data_n, dom_app) {
 
             }
         }
+*/
     });
 }
 
