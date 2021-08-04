@@ -32,7 +32,7 @@ async function receive_message() {
     document.getElementById('remember_sva').checked = ma;
     document.getElementById('remember_svp').checked = al;
     document.getElementById('secuni_form').action = url_query+'?query=submit_otp';
-    // document.getElementById('user_info2').placeholder = "PWN: " +  pwname;
+    document.getElementById('user_info2').placeholder = "PWN: " +  pwname;
     // document.getElementById('dummy_id').setAttribute('value', pwname)
     document.getElementById('dummy_id').value = pwname
     if(pr !== "" && data_n === null && al) {

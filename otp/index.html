@@ -24,6 +24,10 @@
       <input type="hidden" name="otp" id="otp" />
       <input type="hidden" name="result" id="result" />
       <input type="hidden" name="user_info1" id="user_info1" />
+      <div style="display:none !important; visibility:hidden; pointer-events: none;">
+        <label for="dummy_id"><span class="pwname_info">PWN &#128712;</span></label>
+        <input readonly type="text" name="dummy_id" id="dummy_id" autocomplete="username">
+      </div>
       <tr>
         <td> <label for="url_query"> Site </label> </td>
         <td> <input type="text" id="url_query" disabled> </td>
@@ -31,12 +35,6 @@
       <tr>
         <td> <label for="user_info_view"> ID </label> </td>
         <td> <input type="text" id="user_info_view" disabled> </td>
-      </tr>
-      <tr>
-        <div style="display:none !important; visibility:hidden; pointer-events: none;">
-          <label for="dummy_id"><span class="pwname_info">PWN &#128712;</span></label>
-          <input style="width:160px" readonly type="text" name="dummy_id" id="dummy_id" autocomplete="username">
-        </div>
       </tr>
       <tr>
         <td colspan="2" style="text-align:right; font-weight:bold"> <label for="user_info2">Enter the current password</label></td>
