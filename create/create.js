@@ -11,6 +11,7 @@ document.getElementById('compute').onclick = await set_create_button(null, null,
 
 
 window.onload = function() {
+alert("onload");
     // window.onblur = function(){ window.close(); };
     load_pw_name();
     window.addEventListener("message", receive_message, false);
@@ -42,6 +43,7 @@ window.onload = function() {
 // }
 
 async function receive_message(event) {
+alert("receive message");
     opener = event.source;
     url_app = event.origin;
     const dom_app = new URL(url_app).hostname;
