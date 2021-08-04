@@ -11,8 +11,8 @@ let pw_n = null;
 let pw_confirm = null;
 let createmode = false;
 
-// document.getElementById('redo').onclick = reset_dom;
-// document.getElementById('compute').onclick = set_change_button(null, null, null, null, null, null, null, null);
+document.getElementById('redo').onclick = reset_dom;
+document.getElementById('compute').onclick = set_change_button(null, null, null, null, null, null, null, null);
 
 
 window.onload = function() {
