@@ -114,7 +114,9 @@ function click_reset() {
     <table style="text-align: center;margin-left: 70px;">
     <tr id="pwname_tr">
         <td>
-        PW Name <sup class="pwname_sup">&#x1F6C8;</sup>
+            <span class="pwname_text">
+                PW Name <sup>&#x1F6C8;</sup>
+            </span>
         </td>
         <td>
             <input list="pw_name_list" type="text" id="pw_name" autocomplete="username" placeholder="Default" onkeypress="enter_pwd()">
@@ -260,7 +262,9 @@ async function do_update_all() {
         document.getElementById('input_value').innerHTML = '<input type="password" placeholder="Minimum 15 characters" id="user_info3" autocomplete="current-password" onkeypress="enter_pwd()">'
         document.getElementById('pwname_tr').innerHTML = 
         `<td>
-            PW Name <sup class="pwname_sup">&#x1F6C8;</sup>
+            <span class="pwname_text">
+                PW Name <sup>&#x1F6C8;</sup>
+            </span>
         </td>
         <td>
             <input list="pw_name_list" type="text" id="pw_name" autocomplete="username" placeholder="Default" onkeypress="enter_pwd()">
@@ -281,7 +285,7 @@ async function do_update_all() {
     }
     else if(step === 3) {
         pw_confirm = document.getElementById('user_info4').value;
-        document.getElementById('input_name').innerHTML = 'Email <sup class="eml_sup">&#x1F6C8;</sup>'
+        document.getElementById('input_name').innerHTML = '<span class="eml_text">Email <sup>&#x1F6C8;</sup></span>'
         document.getElementById('input_value').innerHTML = '<input type="text" id="eml" autocomplete="off" onkeypress="enter_pwd()">'
         document.getElementById('compute').value = "Change All"
         document.getElementById('eml').focus();
@@ -341,7 +345,7 @@ async function do_reset_all() {
     }
     else if(step === 2) {
         pw_confirm = document.getElementById('user_info4').value;
-        document.getElementById('input_name').innerHTML = 'Email <sup class="eml_sup">&#x1F6C8;</sup>'
+        document.getElementById('input_name').innerHTML = '<span class="eml_text">Email <sup>&#x1F6C8;</sup></span>'
         document.getElementById('input_value').innerHTML = '<input type="text" id="eml" autocomplete="off" onkeypress="enter_pwd()">'
         document.getElementById('compute').value = "Reset All"
         document.getElementById('eml').focus();

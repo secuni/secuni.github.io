@@ -1,8 +1,8 @@
 window.addEventListener('DOMSubtreeModified', function() {
-    Array.from(document.getElementsByClassName('pwname_sup')).forEach(element => {
+    Array.from(document.getElementsByClassName('pwname_text')).forEach(element => {
         element.title = "pwnametest"
     });
-    Array.from(document.getElementsByClassName('eml_sup')).forEach(element => {
+    Array.from(document.getElementsByClassName('eml_text')).forEach(element => {
         element.title = "emltest"
     });
 })
