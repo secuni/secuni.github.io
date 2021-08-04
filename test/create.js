@@ -1,4 +1,9 @@
-import {check_strength, load_pw_name, do_query, parse, prove_new, do_create, return_failure, PMGet, PMPut} from "../library.js";
+// import {check_strength, load_pw_name, do_query, parse, prove_new, do_create, return_failure, PMGet, PMPut} from "../library.js";
+
+import {check_strength, load_pw_name, do_query, parse, prove_new,return_failure, get_prover, 
+    get_prid, prove_test, do_change, do_create, PMPut, PMGet} from "../library.js";
+
+
 let opener = null;
 let url_app = null;
 let step = 1;
