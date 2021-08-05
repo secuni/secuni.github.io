@@ -489,7 +489,7 @@ async function do_reset_all() {
         enable_selection();
         document.getElementById('pw_name_list').innerHTML = '<option value="Default">Default</option><option value="Special">Special</option>';
         load_pw_name()
-        document.getElementById('user_request')=''
+        document.getElementById('user_request').innerHTML = ''
         reset = false;
     }
 }
