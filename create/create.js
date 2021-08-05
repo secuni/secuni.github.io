@@ -4,7 +4,6 @@ let url_app = null;
 let step = 1;
 let pw_n = null;
 let pw_confirm = null;
-let eml = null;
 
 document.getElementById('redo').onclick = reset_dom;
 document.getElementById('compute').onclick = set_create_button(null, null, null, null, null, null, null);
@@ -70,25 +69,27 @@ function set_create_button(id, url_query, aux, pt, pt_n, data_n, dom_app) {
     return (async () => {
         if(step === 1) {
             pw_n = document.getElementById('user_info3').value;
-            document.getElementById('input_name').innerHTML = "Confirm the new password"
-            document.getElementById('input_value').innerHTML = '<input type="password" autofocus id="user_info4" placeholder="Minimum 15 characters" autocomplete="current-password" onkeypress="enter_pwd()">'
-            document.getElementById('user_info4').focus();
-            step = 2
+            let strength = check_strength(pw_n);
+            if(strength !== null) {
+                alert(strength);
+                reset_dom();
+            }
+            else   {
+                go_step2();
+            }
         }
         else if(step === 2 ){
             pw_confirm = document.getElementById('user_info4').value;
-            document.getElementById('input_name').innerHTML = '<span class="eml_info">Recovery Email &#x1F6C8;</span>'
-            document.getElementById('input_value').innerHTML = '<input type="text" id="eml" autocomplete="off" onkeypress="enter_pwd()">'
-            document.getElementById('compute').value = "Complete"
-            document.getElementById('eml').focus();
-            step = 3
+            if(pw_n !== pw_confirm) { 
+                alert("The password confirmation does not match"); 
+                reset_dom();
+            }        
+            else {
+                go_step3();
+            }
         }
         else {
             let [pw, pwn_n, eml, ma,al] = get_userpw();
-            if(pw === null) {
-                reset_dom();
-                return;
-            }
             try {
                 // let pw_name = document.getElementById("pw_name").value;
                 // PMCreate(id, url_query, pw_name);
@@ -108,27 +109,40 @@ function set_create_button(id, url_query, aux, pt, pt_n, data_n, dom_app) {
 }
 
 function reset_dom() {
-    document.getElementById('input_name').innerHTML = "Enter a new password"
-    document.getElementById('input_value').innerHTML = '<input type="password" autofocus id="user_info3" placeholder="Minimum 15 characters" autocomplete="current-password" onkeypress="enter_pwd()">'
-    document.getElementById('user_info3').focus();
-    step = 1;
+    go_step1();
+    reset_state();
+}
+
+function reset_state() {
     pw_n = null;
     pw_confirm = null;
-    eml = null;
+}
+
+function go_step1() {
+    document.getElementById('input_name').innerHTML = "Enter a new password"
+    document.getElementById('input_value').innerHTML = '<input type="password" autofocus id="user_info3" placeholder="Minimum 15 characters" autocomplete="current-password" onkeypress="enter_pwd()">'
+    document.getElementById('compute').value = "Next"
+    document.getElementById('user_info3').focus();
+    step = 1;
+}
+
+function go_step2() {
+    document.getElementById('input_name').innerHTML = "Confirm the new password"
+    document.getElementById('input_value').innerHTML = '<input type="password" autofocus id="user_info4" placeholder="Minimum 15 characters" autocomplete="current-password" onkeypress="enter_pwd()">'
+    document.getElementById('compute').value = "Next"
+    document.getElementById('user_info4').focus();
+    step = 2
+}
+
+function go_step3() {
+    document.getElementById('input_name').innerHTML = '<span class="eml_info">Recovery Email &#x1F6C8;</span>'
+    document.getElementById('input_value').innerHTML = '<input type="text" id="eml" autocomplete="off" onkeypress="enter_pwd()">'
+    document.getElementById('compute').value = "Complete"
+    document.getElementById('eml').focus();
+    step = 3
 }
 
 function get_userpw() {
-    if(pw_n !== pw_confirm) { 
-        alert("The password confirmation does not match"); 
-        reset_dom();
-        return [null,null]; 
-    }
-    let strength = check_strength(pw_n);
-    if(strength !== null) {
-        alert(strength);
-        reset_dom();
-        return [null,null];
-    }
     let pwname = document.getElementById('pw_name').value;
     pwname = (pwname ? pwname : "Default");
     let eml = document.getElementById('eml').value;

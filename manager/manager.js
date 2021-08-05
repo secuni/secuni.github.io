@@ -39,11 +39,29 @@ document.getElementById('rename').onclick = rename;
 document.getElementById('do_change').onclick = click_change;
 document.getElementById('do_reset').onclick = click_reset;
 document.getElementById('request_restore').onclick = request_restore;
+document.getElementById('global_pw_name').oninput = select_by_pwname;
+
 // window.parse_file = parse_file
 window.do_update_all = do_update_all;
 window.do_reset_all = do_reset_all;
 window.redo_change = redo_change;
 window.redo_reset = redo_reset;
+
+function select_by_pwname() {
+    let val = document.getElementById('global_pw_name').value;
+    if(val === "")
+        return;
+    let keys = Object.keys(entries);
+    for(var i=0; i<keys.length; i++) {
+        let key = keys[i];
+        let entry = entries[key]
+        if (entry.pw_name.nodeValue === val) {
+            entry.checked.checked = true;
+        }
+        else
+            entry.checked.checked = false;
+    }   
+}
 
 let pw=null;
 let pw_n = null;
@@ -63,84 +81,135 @@ function get_pwname() {
     return pwname;
 }
 
-function click_change() {
-    pw = null;
-    pw_n = null;
-    pw_confirm = null;
-    step = 1;
-    document.getElementById('user_request').innerHTML = `
-    <h4 style="margin-left: 70px;">
-        Change the selected passwords at once
-    </h4>
+let change = false;
 
-    <table style="text-align: center;margin-left: 70px;">
-        <tr id="pwname_tr">
-            <td>
-                <div style="display:none !important; visibility:hidden; pointer-events: none;">
-                    <input style="width:160px" value="Default" type="text" name="dummy_id" id="dummy_id" autocomplete="username">
-                </div>
+function click_change() {
+    if(!change){
+        let keys = Object.keys(entries);
+        let all_unchecked = true;
+        for(var i=0; i<keys.length; i++) {
+            let key = keys[i];
+            if (entries[key].checked.checked === true) {
+                all_unchecked = false;
+                break;
+            }
+        }
+        if(all_unchecked) {
+            alert("Select a website to change");
+            return;
+        }
+        disable_selection("Change");
+        reset_state();
+        step = 1;
+        document.getElementById('user_request').innerHTML = `
+        <h4 style="margin-left: 70px;">
+            Change the selected passwords at once
+        </h4>
+
+        <table style="text-align: center;margin-left: 70px;">
+            <tr id="pwname_tr">
+                <td>
+                    <div style="display:none !important; visibility:hidden; pointer-events: none;">
+                        <input style="width:160px" type="text" name="dummy_id" id="dummy_id" autocomplete="username">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" id="input_name" style="text-align:right; font-weight:bold"> Enter the current password </td>
+            </tr>
+            <tr>
+            <td></td>
+
+                <td id="input_value"> <input type="password" id="user_info2" autocomplete="current-password" onkeypress="enter_pwd()"> </td>
+            </tr>  
+            <tr>
+            <td>          
+                <td style="float:right;">
+                <input type="button" id="redo" onclick="redo_change()" value="&#8634;">
+                <input type="button" id="compute" value="Next" onclick="do_update_all()">
+                </td>
             </td>
-        </tr>
-        <tr>
-        <td id="input_name" style="width:100px"> Old </td>
-        <td id="input_value"> <input type="password" id="user_info2" autocomplete="current-password" onkeypress="enter_pwd()"> </td>
-        </tr>  
-        <tr>
-        <td>          
-            <td style="float:right;">
-            <input type="button" id="redo" onclick="redo_change()" value="&#8634;">
-            <input type="button" id="compute" value="Next" onclick="do_update_all()">
-            </td>
-        </td>
-        </tr>
-    </table>
-    `
-    let pwname = get_pwname()
-    document.getElementById('user_info2').placeholder = "PW Name: " + pwname;
-    document.getElementById('dummy_id').value = pwname
-    document.getElementById('user_info2').focus()
+            </tr>
+        </table>
+        `
+        let pwname = get_pwname()
+        document.getElementById('user_info2').placeholder = "PWN: " + pwname;
+        document.getElementById('dummy_id').value = pwname
+        document.getElementById('user_info2').focus()
+        change = true;
+    }
+    else {
+        enable_selection();
+        reset_state();
+        step = 1;
+        document.getElementById('user_request').innerHTML = '';
+        change = false;
+    }
+
 }
 
-function click_reset() {
-    pw = null;
-    pw_n = null;
-    pw_confirm = null;
-    step = 1;
-    document.getElementById('user_request').innerHTML = `
-    <h4 style="margin-left: 70px;">
-        Reset the selected passwords at once
-    </h4>
+let reset = false;
 
-    <table style="text-align: center;margin-left: 70px;">
-    <tr id="pwname_tr">
-        <td>
-            <span class="pwname_info">
-                PW Name <sup>&#x1F6C8;</sup>
-            </span>
-        </td>
-        <td>
-            <input list="pw_name_list" type="text" id="pw_name" autocomplete="username" placeholder="Default" onkeypress="enter_pwd()">
-            <datalist id="pw_name_list">
-            <option value="Default">Default</option>
-            <option value="Special">Special</option>
-            </datalist>
-        </td>
-    </tr>
-    <tr>
-        <td id="input_name" style="width:100px"> New </td>
-        <td id="input_value"> <input type="password" placeholder="Minimum 15 characters" id="user_info3" autocomplete="current-password" onkeypress="enter_pwd()"> </td>
-    </tr>  
-    <tr>
-        <td>          
-        <td style="float:right;">
-            <input type="button" id="redo" onclick="redo_reset()" value="&#8634;">
-            <input type="button" id="compute" value="Next" onclick="do_reset_all()">
-        </td>
-        </td>
-    </tr>
-    </table>
-    `
-    document.getElementById('user_info3').focus()
+function click_reset() {
+    if(!reset){
+        let keys = Object.keys(entries);
+        let all_unchecked = true;
+        for(var i=0; i<keys.length; i++) {
+            let key = keys[i];
+            if (entries[key].checked.checked === true && entries[key].restored.checked === true) {
+                all_unchecked = false;
+                break;
+            }
+        }
+        if(all_unchecked) {
+            alert("Select a restored website to reset");
+            return;
+        }
+        disable_selection("Reset");
+        reset_state();
+        step = 1;
+        document.getElementById('user_request').innerHTML = `
+        <h4 style="margin-left: 70px;">
+            Reset the selected passwords at once
+        </h4>
+
+        <table style="text-align: center;margin-left: 70px;">
+        <tr id="pwname_tr">
+            <td>
+                <span class="pwname_info">PWN &#128712;</span>
+            </td>
+            <td>
+                <input list="pw_name_list" type="text" id="pw_name" autocomplete="username" placeholder="Default" onkeypress="enter_pwd()">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" id="input_name" style="text-align:right; font-weight:bold"> Enter a new password </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td id="input_value"> <input type="password" placeholder="Minimum 15 characters" id="user_info3" autocomplete="current-password" onkeypress="enter_pwd()"> </td>
+        </tr>  
+        <tr>
+            <td>          
+            <td style="float:right;">
+                <input type="button" id="redo" onclick="redo_reset()" value="&#8634;">
+                <input type="button" id="compute" value="Next" onclick="do_reset_all()">
+            </td>
+            </td>
+        </tr>
+        </table>
+        `
+        document.getElementById('user_info3').focus()
+        reset = true;
+    }   
+    else {
+        enable_selection();
+        reset_state();
+        step = 1;
+        document.getElementById('user_request').innerHTML = '';
+        reset = false;
+    }
+
 }
 
 function rename() {
@@ -177,6 +246,7 @@ function rename() {
             entry.date.parentElement.title = time
         }
     }
+    load_pw_name()
 }
 
 
@@ -216,7 +286,7 @@ function copy() {
         alert("Select a website to export");
         return;
     }
-    document.getElementById("user_request").innerHTML = '<canvas id="qr_method"></canvas>'
+    document.getElementById("user_request").innerHTML = '<div style="text-align:center;"><h4>URL for exportation is copied to clipboard</h4><canvas id="qr_method"></canvas></div>'
     // let val = "http://localhost:7999/import#" + keyval;
     let val = "https://secuni.github.io/import#" + keyval;
     navigator.clipboard.writeText(val).then(function() {}, function(err) {});
@@ -227,89 +297,91 @@ function copy() {
     });
 }
 
-function redo_change() {
+function reset_state() {
     pw = null;
     pw_n = null;
     pw_confirm = null;
+}
+
+function go_step1_change() {
     step = 1;
-    document.getElementById('input_name').innerHTML = "Old"
+    document.getElementById('input_name').innerHTML = "Enter the current password"
     document.getElementById('input_value').innerHTML = '<input type="password" id="user_info2" autocomplete="current-password" onkeypress="enter_pwd()">'
     document.getElementById('pwname_tr').innerHTML = `<td>
     <div style="display:none !important; visibility:hidden; pointer-events: none;">
-        <input style="width:160px" value="Default" type="text" name="dummy_id" id="dummy_id" autocomplete="username">
+        <input style="width:160px" type="text" name="dummy_id" id="dummy_id" autocomplete="username">
     </div></td>`
     let pwname = get_pwname();
-    document.getElementById('user_info2').placeholder = "PW Name: " + pwname;
+    document.getElementById('user_info2').placeholder = "PWN: " + pwname;
     document.getElementById('dummy_id').value = pwname
+    document.getElementById('compute').value = "Next"
     document.getElementById('user_info2').focus();
 }
 
-function redo_reset() {
-    pw = null;
-    pw_n = null;
-    pw_confirm = null;
-    step = 1;
-    document.getElementById('input_name').innerHTML = "New"
+function go_step2_change() {
+    document.getElementById('input_name').innerHTML = "Enter a new password"
     document.getElementById('input_value').innerHTML = '<input type="password" placeholder="Minimum 15 characters" id="user_info3" autocomplete="current-password" onkeypress="enter_pwd()">'
+    document.getElementById('pwname_tr').innerHTML = 
+    `<td>
+        <span class="pwname_info">PWN &#128712;</span>
+    </td>
+    <td>
+        <input list="pw_name_list" type="text" id="pw_name" autocomplete="username" placeholder="Default" onkeypress="enter_pwd()">
+    </td>`
     document.getElementById('user_info3').focus();
+    step = 2
+}
 
+function go_step3_change(){
+    document.getElementById('input_name').innerHTML = "Confirm the new password"
+    document.getElementById('input_value').innerHTML = '<input type="password" autofocus id="user_info4" placeholder="Minimum 15 characters" autocomplete="current-password" onkeypress="enter_pwd()">'
+    document.getElementById('compute').value = "Next"
+    document.getElementById('user_info4').focus();
+    step = 3
+}
+
+function go_step4_change(){
+    document.getElementById('input_name').innerHTML = '<span class="eml_info">Recovery Email &#x1F6C8;</span>'
+    document.getElementById('input_value').innerHTML = '<input type="text" id="eml" autocomplete="off" onkeypress="enter_pwd()">'
+    document.getElementById('compute').value = "Change All"
+    document.getElementById('eml').focus();
+    step = 4
+}
+
+function redo_change() {
+    reset_state();
+    go_step1_change();
 }
 
 async function do_update_all() {
     if(step === 1) {
         pw = document.getElementById('user_info2').value;
-        document.getElementById('input_name').innerHTML = "New"
-        document.getElementById('input_value').innerHTML = '<input type="password" placeholder="Minimum 15 characters" id="user_info3" autocomplete="current-password" onkeypress="enter_pwd()">'
-        document.getElementById('pwname_tr').innerHTML = 
-        `<td>
-            <span class="pwname_info">
-                PW Name <sup>&#x1F6C8;</sup>
-            </span>
-        </td>
-        <td>
-            <input list="pw_name_list" type="text" id="pw_name" autocomplete="username" placeholder="Default" onkeypress="enter_pwd()">
-            <datalist id="pw_name_list">
-            <option value="Default">Default</option>
-            <option value="Special">Special</option>
-            </datalist>
-        </td>`
-        document.getElementById('user_info3').focus();
-        step = 2
+        go_step2_change();
     }
     else if(step === 2) {
         pw_n = document.getElementById('user_info3').value;
-        document.getElementById('input_name').innerHTML = "Confirm"
-        document.getElementById('input_value').innerHTML = '<input type="password" autofocus id="user_info4" placeholder="Minimum 15 characters" autocomplete="current-password" onkeypress="enter_pwd()">'
-        document.getElementById('user_info4').focus();
-        step = 3
+        let strength = check_strength(pw_n);
+        if(strength !== null) {
+            alert(strength); 
+            redo_change();
+        }
+        else
+            go_step3_change();
     }
     else if(step === 3) {
         pw_confirm = document.getElementById('user_info4').value;
-        document.getElementById('input_name').innerHTML = '<span class="eml_info">Email <sup>&#x1F6C8;</sup></span>'
-        document.getElementById('input_value').innerHTML = '<input type="text" id="eml" autocomplete="off" onkeypress="enter_pwd()">'
-        document.getElementById('compute').value = "Change All"
-        document.getElementById('eml').focus();
-        step = 4
+        if(pw_n !== pw_confirm) { 
+            alert("The password confirmation does not match");
+            redo_change();
+        }
+        else
+            go_step4_change();
     }
     else {
         let keys = Object.keys(entries);
-        let all_unchecked = true;
-        let [pw, pw_n, pwn_n, eml, al] = get_userpw(true);
-        if(!pw && !pw_n && !pwn_n && !eml && !al) return;
-        for(var i=0; i<keys.length; i++) {
-            let key = keys[i];
-            if (entries[key].checked.checked === true) {
-                all_unchecked = false;
-                break;
-            }
-        }
-        if(all_unchecked) {
-            alert("Select a website to change");
-            return;
-        }
-        
-        document.getElementById("compute").disabled = true;
-        
+        let [pw, pw_n, pwn_n, eml, al] = get_userpw();
+        disable_all();
+
         if(document.getElementById('status') === null) {
             let th = document.createElement('th');
             th.id = "status"
@@ -328,48 +400,71 @@ async function do_update_all() {
                 await entry_change(key, pw, pw_n, pwn_n, al);
             }
         }));
-        document.getElementById("compute").disabled = false;
+
+        enable_all();
+        enable_selection();
         document.getElementById('pw_name_list').innerHTML = '<option value="Default">Default</option><option value="Special">Special</option>';
         load_pw_name()
         document.getElementById('user_request').innerHTML=''
+        change = false;
     }
+}
+
+function go_step1_reset() {
+    document.getElementById('input_name').innerHTML = "Enter a new password"
+    document.getElementById('input_value').innerHTML = '<input type="password" placeholder="Minimum 15 characters" id="user_info3" autocomplete="current-password" onkeypress="enter_pwd()">'
+    document.getElementById('compute').value = "Next"
+    document.getElementById('user_info3').focus();
+    step = 1;
+}
+
+function go_step2_reset() {
+    document.getElementById('input_name').innerHTML = "Confirm the new password"
+    document.getElementById('input_value').innerHTML = '<input type="password" autofocus id="user_info4" placeholder="Minimum 15 characters" autocomplete="current-password" onkeypress="enter_pwd()">'
+    document.getElementById('compute').value = "Next"
+    document.getElementById('user_info4').focus();
+    step = 2
+}
+
+function go_step3_reset() {
+    document.getElementById('input_name').innerHTML = '<span class="eml_info">Recovery Email &#x1F6C8;</span>'
+    document.getElementById('input_value').innerHTML = '<input type="text" id="eml" autocomplete="off" onkeypress="enter_pwd()">'
+    document.getElementById('compute').value = "Reset All"
+    document.getElementById('eml').focus();
+    step = 3
+}
+
+function redo_reset() {
+    reset_state();
+    go_step1_reset();
 }
 
 async function do_reset_all() {
     if(step === 1) {
         pw_n = document.getElementById('user_info3').value;
-        document.getElementById('input_name').innerHTML = "Confirm"
-        document.getElementById('input_value').innerHTML = '<input type="password" autofocus id="user_info4" placeholder="Minimum 15 characters" autocomplete="current-password" onkeypress="enter_pwd()">'
-        document.getElementById('user_info4').focus();
-        step = 2
+        let strength = check_strength(pw_n);
+        if(strength !== null) {
+            alert(strength); 
+            redo_reset();
+        }
+        else    
+            go_step2_reset();
     }
     else if(step === 2) {
         pw_confirm = document.getElementById('user_info4').value;
-        document.getElementById('input_name').innerHTML = '<span class="eml_info">Email <sup>&#x1F6C8;</sup></span>'
-        document.getElementById('input_value').innerHTML = '<input type="text" id="eml" autocomplete="off" onkeypress="enter_pwd()">'
-        document.getElementById('compute').value = "Reset All"
-        document.getElementById('eml').focus();
-        step = 3
+        if(pw_n !== pw_confirm) { 
+            alert("The password confirmation does not match");
+            redo_reset();
+        }
+        else
+            go_step3_reset();
     }
     else {
-        let keys = Object.keys(entries);
-        let all_unchecked = true;
-        let [pw, pw_n, pwn_n, eml, al] = get_userpw(false);
-        if(!pw && !pw_n && !pwn_n && !eml && !al) return;
-        for(var i=0; i<keys.length; i++) {
-            let key = keys[i];
-            if (entries[key].checked.checked === true && entries[key].restored.checked === true) {
-                all_unchecked = false;
-                break;
-            }
-        }
-        if(all_unchecked) {
-            alert("Select a restored website");
-            return;
-        }
-        
-        document.getElementById("compute").disabled = true;
-        
+        let keys = Object.keys(entries);        
+        let [pw, pw_n, pwn_n, eml, al] = get_userpw();
+        disable_all();
+
+    
         if(document.getElementById('status') === null) {
             let th = document.createElement('th');
             th.id = "status"
@@ -390,12 +485,75 @@ async function do_reset_all() {
                 await restore_change(key, pw_n, pwn_n, al);
             }
         }));
-        document.getElementById("compute").disabled = false;
+        enable_all();
+        enable_selection();
         document.getElementById('pw_name_list').innerHTML = '<option value="Default">Default</option><option value="Special">Special</option>';
         load_pw_name()
         document.getElementById('user_request')=''
+        reset = false;
     }
 }
+
+function disable_selection(name) {
+    let keys = Object.keys(entries);
+    for(var i=0; i<keys.length; i++) {
+        let key = keys[i];
+        entries[key].checked.disabled = true;
+    }
+    document.getElementById('select_global').disabled = true;
+    document.getElementById('global_pw_name').disabled = true;
+    let elems = document.getElementsByTagName('button');
+    let len = elems.length;
+    for (let i = 0; i < len; i++) {
+        if(elems[i].innerHTML !== name)
+            elems[i].disabled = true;
+    }  
+}
+
+function disable_all() {
+    let elems = document.getElementsByTagName('input');
+    let len = elems.length;
+    for (let i = 0; i < len; i++) {
+        elems[i].disabled = true;
+    }
+    elems = document.getElementsByTagName('button');
+    len = elems.length;
+
+    for (let i = 0; i < len; i++) {
+        elems[i].disabled = true;
+    }    
+}
+
+function enable_all() {
+    let elems = document.getElementsByTagName('input');
+    let len = elems.length;
+    for (let i = 0; i < len; i++) {
+        elems[i].disabled = false;
+    }
+    elems = document.getElementsByTagName('button');
+    len = elems.length;
+
+    for (let i = 0; i < len; i++) {
+        elems[i].disabled = false;
+    }    
+}
+
+
+function enable_selection() {
+    let keys = Object.keys(entries);
+    for(var i=0; i<keys.length; i++) {
+        let key = keys[i];
+        entries[key].checked.disabled = false;
+    }
+    document.getElementById('select_global').disabled = false;
+    document.getElementById('global_pw_name').disabled = false;
+    let elems = document.getElementsByTagName('button');
+    let len = elems.length;
+    for (let i = 0; i < len; i++) {
+        elems[i].disabled = false;
+    }  
+}
+
 
 // function export_data() {
 //     let arr = [];
@@ -482,25 +640,7 @@ function select_global() {
     }
 }
 
-function get_userpw(change) {
-    if(pw_n !== pw_confirm) { 
-        alert("The password confirmation does not match");
-        if(change)
-            redo_change();
-        else
-            redo_reset();
-        return [null, null]; 
-    }
-    let strength = check_strength(pw_n);
-    if(strength !== null) {
-        alert(strength); 
-        if(change)
-            redo_change();
-        else
-            redo_reset();
-        return [null, null];
-    }
-
+function get_userpw() {
     let pw_name = document.getElementById('pw_name').value;
     pw_name = pw_name ? pw_name : "Default";
     let eml = document.getElementById('eml').value;

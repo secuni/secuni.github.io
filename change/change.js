@@ -5,7 +5,7 @@ import {check_strength, load_pw_name, do_query,
 let opener = null;
 let url_app = null;
 let step = 1;
-let prev_pwname = null;
+let curr_pwname = null;
 let pw = null;
 let pw_n = null;
 let pw_confirm = null;
@@ -71,7 +71,7 @@ async function receive_message(event) {
     let data = ds ? parse(pt)(ds) : null;
     let data_n = parse(pt_n)(ds_n);
     let [pwname, {}, ma, al] = PMGet(url_query, id, get_prid(pt)(data), true);
-    prev_pwname = pwname
+    curr_pwname = pwname
     document.getElementById('remember_sva').checked = ma;
     document.getElementById('remember_svp').checked = al;
     
@@ -101,27 +101,28 @@ function set_change_button(id, url_query, aux, pt, pt_n, data, data_n, dom_app) 
     return (async () => {
         if(step === 1) {
             pw = document.getElementById('user_info2').value;
-            document.getElementById('input_name').innerHTML = "Enter a new password"
-            document.getElementById('input_value').innerHTML = '<input type="password" placeholder="Minimum 15 characters" id="user_info3" autocomplete="current-password" onkeypress="enter_pwd()">'
-            document.getElementById('prev_id').innerHTML = ""
-            document.getElementById('pw_name').autocomplete = "username"
-            document.getElementById('user_info3').focus();
-            step = 2
+            go_step2();
         }
         else if(step === 2) {
             pw_n = document.getElementById('user_info3').value;
-            document.getElementById('input_name').innerHTML = "Confirm the new password"
-            document.getElementById('input_value').innerHTML = '<input type="password" autofocus id="user_info4" placeholder="Minimum 15 characters" autocomplete="current-password" onkeypress="enter_pwd()">'
-            document.getElementById('user_info4').focus();
-            step = 3
+            let strength = check_strength(pw_n);
+            if(strength !== null) {
+                alert(strength);
+                reset_dom();
+            }
+            else {
+                go_step3();
+            }
         }
         else if(step === 3) {
             pw_confirm = document.getElementById('user_info4').value;
-            document.getElementById('input_name').innerHTML = '<span class="eml_info">Recovery Email <sup>&#x1F6C8;</sup></span>'
-            document.getElementById('input_value').innerHTML = '<input type="text" id="eml" autocomplete="off" onkeypress="enter_pwd()">'
-            document.getElementById('compute').value = "Complete"
-            document.getElementById('eml').focus();
-            step = 4
+            if(pw_n !== pw_confirm) { 
+                alert("The password confirmation does not match");
+                reset_dom();
+            }
+            else {
+                go_step4();
+            }        
         }
         else {
             let [pw, pw_n, pwn_n, eml, ma, al] = get_userpw();
@@ -149,41 +150,58 @@ function set_change_button(id, url_query, aux, pt, pt_n, data, data_n, dom_app) 
 }
 
 function reset_dom() {
-
-    pw= null;
-    pw_n = null;
-    pw_confirm = null;
-    if(!createmode) {
-        document.getElementById('input_name').innerHTML = "Enter the current password"
-        document.getElementById('input_value').innerHTML = '<input type="password" autofocus id="user_info2" placeholder="Minimum 15 characters" autocomplete="current-password" onkeypress="enter_pwd()">'
-        document.getElementById('prev_id').innerHTML = '<input value="' + prev_pwname +'" type="text" name="dummy_id" id="dummy_id" autocomplete="username">'
-        document.getElementById('pw_name').autocomplete = ""
-        document.getElementById('user_info2').focus();
-        step = 1;
+    reset_state();
+    if(createmode) {
+        go_step2();
     }
     else {
-        document.getElementById('input_name').innerHTML = "Enter a new password"
-        document.getElementById('input_value').innerHTML = '<input type="password" placeholder="Minimum 15 characters" id="user_info3" autocomplete="current-password" onkeypress="enter_pwd()">'
-        document.getElementById('prev_id').innerHTML = ""
-        document.getElementById('pw_name').autocomplete = "username"
-        document.getElementById('user_info3').focus();
-        step = 2;
+        go_step1();
     }
 }
 
-function get_userpw() {
-    if(pw_n !== pw_confirm) { 
-        alert("The password confirmation does not match");
-        reset_dom();
-        return [null, null, null,null, null, null]; 
-    }
-    let strength = check_strength(pw_n);
-    if(strength !== null) {
-        alert(strength);
-        reset_dom();
-        return [null, null, null,null, null, null];
-    }
+function reset_state() {
+    pw = null;
+    pw_n = null;
+    pw_confirm = null;
+}
 
+function go_step1() {
+    document.getElementById('input_name').innerHTML = "Enter the current password"
+    document.getElementById('input_value').innerHTML = '<input type="password" autofocus id="user_info2" placeholder="Minimum 15 characters" autocomplete="current-password" onkeypress="enter_pwd()">'
+    document.getElementById('prev_id').innerHTML = '<input value="' + curr_pwname +'" type="text" name="dummy_id" id="dummy_id" autocomplete="username">'
+    document.getElementById('pw_name').autocomplete = ""
+    document.getElementById('compute').value = "Next"
+    document.getElementById('user_info2').focus();
+    step = 1;
+}
+
+function go_step2() {
+    document.getElementById('input_name').innerHTML = "Enter a new password"
+    document.getElementById('input_value').innerHTML = '<input type="password" placeholder="Minimum 15 characters" id="user_info3" autocomplete="current-password" onkeypress="enter_pwd()">'
+    document.getElementById('prev_id').innerHTML = ""
+    document.getElementById('pw_name').autocomplete = "username"
+    document.getElementById('compute').value = "Next"
+    document.getElementById('user_info3').focus();
+    step = 2
+}
+
+function go_step3() {
+    document.getElementById('input_name').innerHTML = "Confirm the new password"
+    document.getElementById('input_value').innerHTML = '<input type="password" autofocus id="user_info4" placeholder="Minimum 15 characters" autocomplete="current-password" onkeypress="enter_pwd()">'
+    document.getElementById('compute').value = "Next"
+    document.getElementById('user_info4').focus();
+    step = 3
+}
+
+function go_step4() {
+    document.getElementById('input_name').innerHTML = '<span class="eml_info">Recovery Email &#x1F6C8;</span>'
+    document.getElementById('input_value').innerHTML = '<input type="text" id="eml" autocomplete="off" onkeypress="enter_pwd()">'
+    document.getElementById('compute').value = "Complete"
+    document.getElementById('eml').focus();
+    step = 4
+}
+
+function get_userpw() {
     let pwname = document.getElementById('pw_name') ? document.getElementById('pw_name').value : "Default";
     pwname = (pwname ? pwname : "Default");
     let eml = document.getElementById('eml').value;

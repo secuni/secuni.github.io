@@ -17,9 +17,22 @@
 
   <body>
     <h1> SecUni - Account Manager </h1>
+    <div class="remember_account_info">
+      &nbsp;&#8226;Store Account  &#128712;&nbsp;<input type="checkbox" id="remember_sva" onchange="check_sva()" checked autocomplete="off" name="remember">
+    </div>
+    <div class="remember_credential_info">
+      &nbsp;&#8226;Remember Credential&#128712;&nbsp;<input type="checkbox" onchange="check_svp()" id="remember_svp" name="remember">
+    </div>
+    <br>
     <div>
-      Manage Account<input type="checkbox" id="remember_sva" onchange="check_sva()" checked autocomplete="off" name="remember">
-      Auto Login<input type="checkbox" onchange="check_svp()" id="remember_svp" name="remember">
+      <div>
+        Select by PW Name
+      </div>
+      <input list="pw_name_list" type="text" id="global_pw_name">
+      <datalist id="pw_name_list">
+        <option value="Default">Default</option>
+        <option value="Special">Special</option>
+      </datalist>
     </div>
     <br>
     <table style="white-space:nowrap;" id="entries" border="1">

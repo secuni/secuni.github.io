@@ -45,7 +45,7 @@ function load_pw_name() {
 }
 
 function get_pw_name(key) {
-    let [userid, path] = key.split(";");
+    let [userid, path] = key.split("&");
     let origin = null;
     try{
         origin = new URL(decodeURIComponent(path)).origin;
@@ -54,7 +54,7 @@ function get_pw_name(key) {
     }
     let val = localStorage.getItem(key);
     let [date, pw_name, salt, pr, {}] = val.split("&");
-    return decodeURIcomponent(pw_name)
+    return decodeURIComponent(pw_name)
 }
 
   
