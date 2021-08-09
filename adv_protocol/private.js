@@ -21,7 +21,7 @@ async function get_pr(data, hpw){
 }
 
 async function compute_prvr(rnum){
-    const seed = CryptoJS.lib.WordArray.create((await hash_many_bin(rnum.toString(CryptoJS.enc.Base64), hash("dummysalt"), 30000)).words.slice(0, 8));
+    const seed = CryptoJS.lib.WordArray.create((await hash_many_bin(rnum.toString(CryptoJS.enc.Base64), hash("dummysalt"))).words.slice(0, 8));
     const salt = hash(seed.toString(CryptoJS.enc.Base64));
     const ec = new KJUR.crypto.ECDSA({'curve': 'secp256r1'});
     constructKeyPairHex(ec, seed.toString());

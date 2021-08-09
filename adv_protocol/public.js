@@ -8,7 +8,7 @@ async function prove_new_adv(data, pw, s) {
     const [pr, vr, hint] = await generate_prvr(hpw);
     const [pr_sec, vr_sec, hint_sec] = await generate_prvr(hpw);
     let s_n = to_str(data, hint + ';' + vr + ';' + hint_sec+';'+vr_sec + ';' +  s )
-    return [await sign(pr, s_n, 0) + ';' + await sign(pr_sec,s_n, 0) + ';' + s_n, hash(hint), pr]
+    return [await sign(pr, s_n) + ';' + await sign(pr_sec,s_n) + ';' + s_n, hash(hint), pr]
 }
 
 async function get_prover_adv(data,pw) {
@@ -17,7 +17,7 @@ async function get_prover_adv(data,pw) {
 
 async function prove_test_adv(data, pr, s) {
     let s_n = to_str(data, random(32) + ';' +  s)
-    return (pr ? await sign(pr, s_n, 30000) : "")+';'+ s_n
+    return (pr ? await sign(pr, s_n) : "")+';'+ s_n
 }
 
 function get_prid_adv(data) {
