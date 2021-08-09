@@ -528,7 +528,8 @@ function enable_all() {
     let elems = document.getElementsByTagName('input');
     let len = elems.length;
     for (let i = 0; i < len; i++) {
-        elems[i].disabled = false;
+        if(!elems[i].classList.contains("permanent_disable"))
+            elems[i].disabled = false;
     }
     elems = document.getElementsByTagName('button');
     len = elems.length;
@@ -706,6 +707,7 @@ function key_to_entry(key, val) {
     let td_saved_val = document.createElement("input");
     td_saved_val.type = "checkbox";
     td_saved_val.disabled = true;
+    td_saved_val.classList.add("permanent_disable")
     td_saved_val.checked = pr !== ""
     td_saved.appendChild(td_saved_val);
     tr.appendChild(td_saved);
@@ -715,6 +717,7 @@ function key_to_entry(key, val) {
     let td_restored_val = document.createElement("input");
     td_restored_val.type = "checkbox";
     td_restored_val.disabled = true;
+    td_restored_val.classList.add("permanent_disable")
     td_restored_val.checked = forget !== ""
     td_restored.appendChild(td_restored_val);
     tr.appendChild(td_restored);
