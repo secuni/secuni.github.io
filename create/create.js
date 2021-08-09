@@ -51,13 +51,13 @@ async function receive_message(event) {
     document.getElementById("url_query").value = new URL(url_query).origin;
     window.removeEventListener("message", receive_message);
     let result = await QueryCreate(id, url_query);
-    let aux = result['aux']; let pt = result['pt']; let pt_n = result['pt_n']; let ds_n = result['ds_n'];
+    let aux = result['aux']; let pt = result['pt']; let pt_n = result['pt_n']; let ds_n = result['ds_n'];let kh = result['kh'];
     let data_n = parse(pt_n)(ds_n)
     let [_0, _1, ma, al] = PMGet(null, null, null);
     document.getElementById('remember_sva').checked = ma;
     document.getElementById('remember_svp').checked = al;
     document.getElementById('redo').onclick = reset_dom;
-    document.getElementById('compute').onclick = set_create_button(id, url_query, aux, pt, pt_n, data_n, dom_app);
+    document.getElementById('compute').onclick = set_create_button(id, url_query, aux, pt, pt_n, data_n, dom_app, kh);
 }
 
 async function QueryCreate(id, url_query) {
@@ -65,7 +65,7 @@ async function QueryCreate(id, url_query) {
     return await do_query(url);
 }
 
-function set_create_button(id, url_query, aux, pt, pt_n, data_n, dom_app) {
+function set_create_button(id, url_query, aux, pt, pt_n, data_n, dom_app, kh) {
     return (async () => {
         if(step === 1) {
             pw_n = document.getElementById('user_info3').value;
@@ -93,7 +93,7 @@ function set_create_button(id, url_query, aux, pt, pt_n, data_n, dom_app) {
             try {
                 // let pw_name = document.getElementById("pw_name").value;
                 // PMCreate(id, url_query, pw_name);
-                let etc = dom_app + ';' + eml;
+                let etc = kh+ ';' +dom_app + ';' + eml;
                 let [ret, prid, pr] = await do_create(aux, pt, pt_n, data_n, etc, pw)
                 opener.postMessage(ret, url_app);
                 PMPut(url_query, id, pwn_n, prid, pr, ma, al, true);

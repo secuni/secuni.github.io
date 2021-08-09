@@ -67,7 +67,7 @@ async function receive_message(event) {
     document.getElementById("url_query").value = new URL(url_query).origin;
     window.removeEventListener("message", receive_message);
     let result = await QueryChange(id, url_query);
-    let aux= result['aux']; let pt = result['pt']; let ds = result['ds']; let pt_n = result['pt_n']; let ds_n = result['ds_n']; 
+    let aux= result['aux']; let pt = result['pt']; let ds = result['ds']; let pt_n = result['pt_n']; let ds_n = result['ds_n']; let kh = result['kh'];
     let data = ds ? parse(pt)(ds) : null;
     let data_n = parse(pt_n)(ds_n);
     let [pwname, {}, ma, al] = PMGet(url_query, id, get_prid(pt)(data), true);
@@ -89,7 +89,7 @@ async function receive_message(event) {
         document.getElementById("user_info2").placeholder = "PWN: " +  pwname;
     }
     document.getElementById('redo').onclick = reset_dom;
-    document.getElementById('compute').onclick = set_change_button(id, url_query, aux, pt, pt_n, data, data_n, dom_app);
+    document.getElementById('compute').onclick = set_change_button(id, url_query, aux, pt, pt_n, data, data_n, dom_app, kh);
 }
 
 async function QueryChange(id, url_query) {
@@ -97,7 +97,7 @@ async function QueryChange(id, url_query) {
     return await do_query(url);
 }
 
-function set_change_button(id, url_query, aux, pt, pt_n, data, data_n, dom_app) {
+function set_change_button(id, url_query, aux, pt, pt_n, data, data_n, dom_app, kh) {
     return (async () => {
         if(step === 1) {
             pw = document.getElementById('user_info2').value;
@@ -126,7 +126,7 @@ function set_change_button(id, url_query, aux, pt, pt_n, data, data_n, dom_app) 
         }
         else {
             let [pw, pw_n, pwn_n, eml, ma, al] = get_userpw();
-            let etc = dom_app + ';' + eml;
+            let etc = kh + ';' + dom_app + ';' + eml;
             if((data && !(pw && pw_n)) || (!data && !pw_n)) 
                 return;
             try {

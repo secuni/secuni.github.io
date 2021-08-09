@@ -73,10 +73,10 @@ async function receive_message(event) {
     window.removeEventListener("message", receive_message);
     let sec = false;
     let result = await QueryLogin(id, url_query);
-    let aux= result['aux']; let pt = result['pt']; let ds = result['ds']; let pt_n = result['pt_n']; let ds_n = result['ds_n'];
+    let aux= result['aux']; let pt = result['pt']; let ds = result['ds']; let pt_n = result['pt_n']; let ds_n = result['ds_n'];let kh = result['kh'];
     let [otp] = aux.split(';',1)
     
-    let etc = dom_app +';' + "";
+    let etc = kh + ';' + dom_app +';' + "";
     let data = parse(pt)(ds)
     let data_n = ds_n ? parse(pt_n)(ds_n) : null
     if(data === null) {

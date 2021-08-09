@@ -751,8 +751,8 @@ async function entry_query(key, eml) {
     let result = await QueryManager(userid, url_query, entry);
     if (result === null)
         return false;
-    let aux= result['aux']; let pt = result['pt']; let ds = result['ds']; let pt_n = result['pt_n']; let ds_n = result['ds_n'];
-    let etc = "" +';' + eml;
+    let aux= result['aux']; let pt = result['pt']; let ds = result['ds']; let pt_n = result['pt_n']; let ds_n = result['ds_n'];let kh = result['kh'];
+    let etc = kh + ';' +"" +';' + eml;
     let data = ds ? parse(pt)(ds) : null;
     let data_n = parse(pt_n)(ds_n)
     entries[key] = {...entry, aux, pt, data, pt_n, data_n, etc}
@@ -763,7 +763,7 @@ function restore_query(key, eml) {
     let val = localStorage.getItem(key);
     let [_0, _1, _2, _3, restore] = val.split("&");
     let [userid, url_query] = key.split("&");
-    let [aux, pt, pt_n, ds, ds_n] = restore.split('/');
+    let [aux, pt, pt_n, ds, ds_n, kh] = restore.split('/');
     userid = decodeURIComponent(userid);
     url_query = decodeURIComponent(url_query);
     aux = decodeURIComponent(aux);
@@ -771,8 +771,9 @@ function restore_query(key, eml) {
     pt_n = decodeURIComponent(pt_n);
     ds = decodeURIComponent(ds);
     ds_n = decodeURIComponent(ds_n);
+    kh = decodeURIComponent(kh);
     let entry = entries[key];
-    let etc = "" +';' + eml;
+    let etc = kh + ';' +"" +';' + eml;
     let data = ds ? parse(pt)(ds) : null;
     let data_n = parse(pt_n)(ds_n)
     entries[key] = {...entry, aux, pt, data, pt_n, data_n, etc,}

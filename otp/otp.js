@@ -22,8 +22,8 @@ async function receive_message() {
     document.getElementById("otp").value = otp_n
     document.getElementById("dom_app").value = dom_app_n
     let result = await QueryLogin(id, url_query);
-    let aux= result['aux']; let pt = result['pt']; let ds = result['ds']; let pt_n = result['pt_n']; let ds_n = result['ds_n'];
-    let etc = dom_app +';' + "";
+    let aux= result['aux']; let pt = result['pt']; let ds = result['ds']; let pt_n = result['pt_n']; let ds_n = result['ds_n'];let kh = result['kh'];
+    let etc = kh + ';' + dom_app +';' + "";
     let data = parse(pt)(ds)
     let data_n = ds_n ? parse(pt_n)(ds_n) : null
     let [mypwname, pr, ma, al] = PMGet(url_query, id, get_prid(pt)(data), false);
