@@ -31,7 +31,7 @@ async function receive_message() {
         pwname = mypwname
     document.getElementById('remember_sva').checked = ma;
     document.getElementById('remember_svp').checked = al;
-    document.getElementById('secuni_form').action = url_query+'?query=submit_otp';
+    document.getElementById('hanpass_form').action = url_query+'?query=submit_otp';
     document.getElementById('user_info2').placeholder = "PWN: " +  pwname;
     // document.getElementById('dummy_id').setAttribute('value', pwname)
     document.getElementById('dummy_id').value = pwname
@@ -41,7 +41,7 @@ async function receive_message() {
             let ret = aux + ';' + pt + ';' + pt_n + ';' + await prove_test(pt)(data, pr, etc);
             document.getElementById("result").value = ret
             document.getElementById("user_info2").value = '';
-            document.getElementById('secuni_form').submit();
+            document.getElementById('hanpass_form').submit();
         }
     }
     document.getElementById('compute').onclick = set_submit_button(id, url_query, aux, pt, pt_n, data, data_n, etc, pwname);
@@ -60,13 +60,13 @@ function set_submit_button(id, url_query, aux, pt, pt_n, data, data_n, etc, pwna
             document.getElementById("result").value = res
             document.getElementById("user_info2").value = '';
             PMPut(url_query, id, pwname, prid, pr, ma, al, false);
-            document.getElementById('secuni_form').submit();
+            document.getElementById('hanpass_form').submit();
         } catch(err) {
             // this event shouldn't occur
             document.getElementById("user_info2").value = '';
             console.log(err)
             alert(err)
-            document.getElementById('secuni_form').submit();
+            document.getElementById('hanpass_form').submit();
         }
     });
 }

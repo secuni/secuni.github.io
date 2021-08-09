@@ -67,7 +67,7 @@ async function do_query(url) {
     }
     if (!res.ok ) {
         if(res.status === 405 )
-            return_failure("User is not using SecUni")
+            return_failure("User is not using HanPass")
         else
             return_failure('Query Fails');
     }
