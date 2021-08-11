@@ -1,6 +1,6 @@
 import {check_strength, load_pw_name, do_query,
     parse, prove_new,return_failure, get_prover, 
-    get_prid, prove_test, do_change, do_create, PMPut, PMGet, do_restore} from "../library.js";
+    get_prid, prove_test, do_change, do_create, PMPut, PMGet, do_restore, get_otp_url} from "../library.js";
 
 
 // function PMChange(id, url_query, pw_name, salt, pr) {
@@ -784,11 +784,11 @@ function restore_query(key, eml) {
 }
 
 async function QueryManager(id, url_query, entry) {
-    let url = url_query + '?query=change&id=' + encodeURIComponent(id);
-    return await do_query_manager(url);
+    let url = url_query + '?query=change&id=' + encodeURIComponent(id) + '&url_hp=' + encodeURIComponent(url_query);
+    return await do_query_manager(url, entry);
 }
 
-async function do_query_manager(url) {
+async function do_query_manager(url, entry) {
     let res = null;
     try{
         res = await fetch(url);
@@ -818,6 +818,11 @@ async function entry_change(key, pw, pw_n, pwn_n, al) {
     path = decodeURIComponent(path)
     const qurl = path + "?query=change_all";
     let entry = entries[key];
+    let [_0, url_hp] = get_otp_url(entry.aux)
+    if(url_hp !== path) {
+        entry.status.nodeValue = "update failed";
+        return
+    }
     try {
         let [ret, prid_n, pr_n] = await do_change(entry.aux, entry.pt, entry.data, entry.pt_n, entry.data_n, entry.etc, pw, pw_n)
         let res = await fetch(qurl, {
@@ -857,6 +862,11 @@ async function restore_change(key, pw_n, pwn_n, al) {
     path = decodeURIComponent(path)
     const qurl = path + "?query=restore&id=" + userid;
     let entry = entries[key];
+    let [_0, url_hp] = get_otp_url(entry.aux)
+    if(url_hp !== path) {
+        entry.status.nodeValue = "update failed";
+        return
+    }
     try {
         let [ret, prid_n, pr_n] = await do_restore(entry.aux, entry.pt, entry.data, entry.pt_n, entry.data_n, entry.etc, pw_n)
         let res = await fetch(qurl, {
@@ -1016,7 +1026,7 @@ async function send_request(key, eml) {
         headers: {},
         redirect: 'follow',
         referrer: 'no-referrer',
-        body: JSON.stringify({ id : userid, url : url_hp, eml : eml }),
+        body: JSON.stringify({ id : userid, url_hp : url_hp, eml : eml }),
     })
     if (res.ok) {
         entry.status.nodeValue = "request sent"

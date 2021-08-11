@@ -48,7 +48,7 @@ async function receive_message() {
 }
 
 async function QueryLogin(id, url_query) {
-    let url = url_query + '?query=login&id=' + encodeURIComponent(id);
+    let url = url_query + '?query=login&id=' + encodeURIComponent(id) + '&url_hp=' + encodeURIComponent(url_query);
     return await do_query(url);
 }
 

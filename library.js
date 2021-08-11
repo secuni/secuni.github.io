@@ -1,5 +1,10 @@
 import {prove_new_adv, get_prover_adv, prove_test_adv, get_prid_adv, parse_adv} from './adv_protocol/public.js';
 
+function get_otp_url(aux) {
+    let [otp, url] = aux.split(';',2)
+    return [otp, url]
+}
+
 function check_strength(pw) {
     let denylist = ["password"];
     let regex_letter = new RegExp(/^.*[A-Za-z].*$/);
@@ -78,7 +83,7 @@ async function do_query(url) {
 function return_failure(err_msg) {
     alert(err_msg)
     // opener.postMessage("", url_app);
-    // window.close();
+    window.close();
 }
 
 function prove_new(pt) {
@@ -236,4 +241,4 @@ function PMGet(url_query, id, prid, secure=false) {
 export {check_strength, load_pw_name, do_query,
          prove_new, get_prover, prove_test, get_prid,
         parse, return_failure, do_login, do_create, do_change,
-        PMPut, PMGet, do_restore};
+        PMPut, PMGet, do_restore, get_otp_url};

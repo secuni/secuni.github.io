@@ -1,6 +1,6 @@
 import {check_strength, load_pw_name, do_query,
     parse, prove_new,return_failure, get_prover, 
-    get_prid, prove_test, do_change, do_create, PMPut, PMGet} from "../library.js";
+    get_prid, prove_test, do_change, do_create, PMPut, PMGet, get_otp_url} from "../library.js";
 
 let opener = null;
 let url_app = null;
@@ -68,6 +68,11 @@ async function receive_message(event) {
     window.removeEventListener("message", receive_message);
     let result = await QueryChange(id, url_query);
     let aux= result['aux']; let pt = result['pt']; let ds = result['ds']; let pt_n = result['pt_n']; let ds_n = result['ds_n']; let kh = result['kh'];
+    let [_0, url_hp] = get_otp_url(aux)
+    if(url_hp !== url_query) {
+        alert("Query URL mismatch")
+        window.close();
+    }
     let data = ds ? parse(pt)(ds) : null;
     let data_n = parse(pt_n)(ds_n);
     let [pwname, {}, ma, al] = PMGet(url_query, id, get_prid(pt)(data), true);
@@ -93,7 +98,7 @@ async function receive_message(event) {
 }
 
 async function QueryChange(id, url_query) {
-    let url = url_query + '?query=change&id=' + encodeURIComponent(id);
+    let url = url_query + '?query=change&id=' + encodeURIComponent(id) + '&url_hp=' + encodeURIComponent(url_query);
     return await do_query(url);
 }
 

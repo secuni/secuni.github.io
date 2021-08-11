@@ -1,4 +1,4 @@
-import {check_strength, load_pw_name, do_query, parse, prove_new, do_create, return_failure, PMGet, PMPut} from "../library.js";
+import {check_strength, load_pw_name, do_query, parse, prove_new, do_create, return_failure, PMGet, PMPut, get_otp_url} from "../library.js";
 let opener = null;
 let url_app = null;
 let step = 1;
@@ -52,6 +52,11 @@ async function receive_message(event) {
     window.removeEventListener("message", receive_message);
     let result = await QueryCreate(id, url_query);
     let aux = result['aux']; let pt = result['pt']; let pt_n = result['pt_n']; let ds_n = result['ds_n'];let kh = result['kh'];
+    let [_, url_hp] = get_otp_url(aux)
+    if(url_hp !== url_query) {
+        alert("Query URL mismatch")
+        window.close();
+    }
     let data_n = parse(pt_n)(ds_n)
     let [_0, _1, ma, al] = PMGet(null, null, null);
     document.getElementById('remember_sva').checked = ma;
@@ -61,7 +66,7 @@ async function receive_message(event) {
 }
 
 async function QueryCreate(id, url_query) {
-    let url = url_query + '?query=create&id=' + encodeURIComponent(id);
+    let url = url_query + '?query=create&id=' + encodeURIComponent(id) + '&url_hp=' + encodeURIComponent(url_query);
     return await do_query(url);
 }
 

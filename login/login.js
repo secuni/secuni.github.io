@@ -1,6 +1,6 @@
 import {check_strength, load_pw_name, do_query,
         parse, prove_new,return_failure, get_prover, 
-        get_prid, prove_test, do_login, PMPut, PMGet} from "../library.js";
+        get_prid, prove_test, do_login, PMPut, PMGet, get_otp_url} from "../library.js";
 let opener = null;
 let url_app = null;
 let qr=null;
@@ -74,8 +74,11 @@ async function receive_message(event) {
     let sec = false;
     let result = await QueryLogin(id, url_query);
     let aux= result['aux']; let pt = result['pt']; let ds = result['ds']; let pt_n = result['pt_n']; let ds_n = result['ds_n'];let kh = result['kh'];
-    let [otp] = aux.split(';',1)
-    
+    let [otp, url_hp] = get_otp_url(aux)
+    if(url_hp !== url_query) {
+        alert("Query URL mismatch")
+        window.close();
+    }
     let etc = kh + ';' + dom_app +';' + "";
     let data = parse(pt)(ds)
     let data_n = ds_n ? parse(pt_n)(ds_n) : null
@@ -109,7 +112,7 @@ async function receive_message(event) {
 }
 
 async function QueryLogin(id, url_query) {
-    let url = url_query + '?query=login&id=' + encodeURIComponent(id);
+    let url = url_query + '?query=login&id=' + encodeURIComponent(id) + '&url_hp=' + encodeURIComponent(url_query);
     return await do_query(url);
 }
 
