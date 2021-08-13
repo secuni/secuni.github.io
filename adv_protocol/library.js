@@ -82,7 +82,7 @@ async function pbkdf2(password, salt, iterations=1e6, bytes=64) {
   // const saltUint8 = new Uint8Array(_base64ToArrayBuffer(salt));                             // get random salt;
   const saltUint8 = new TextEncoder().encode(salt);                             // get random salt;
 
-  const params = { name: 'PBKDF2', hash: 'SHA-256', salt: saltUint8, iterations: iterations }; // pbkdf2 params
+  const params = { name: 'PBKDF2', hash: 'SHA-512', salt: saltUint8, iterations: iterations }; // pbkdf2 params
   const keyBuffer = await crypto.subtle.deriveBits(params, pwKey, bytes*8);                        // derive key
   return _arrayBufferToBase64(keyBuffer);                                                                  // return composite key
 }
