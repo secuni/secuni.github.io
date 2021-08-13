@@ -150,7 +150,10 @@ function fill_dummypw() {
 function get_userid_login() {
     let val = null;
     login_funcs.forEach(function(f) {
-        let item = f()
+        let item=null;
+        try{
+            item = f()
+        } catch(e){}
         if(item) {
             val = item
             return false;
@@ -162,7 +165,10 @@ function get_userid_login() {
 function get_userid_create() {
     let val = null;
     create_funcs.forEach(function(f) {
-        let item = f()
+        let item=null;
+        try{
+            item = f()
+        } catch(e){}
         if(item) {
             val = item
             return false;
@@ -175,7 +181,10 @@ function get_userid_create() {
 function get_userid_change() {
     let val = null;
     change_funcs.forEach(function(f) {
-        let item = f()
+        let item=null;
+        try{
+            item = f()
+        } catch(e){}
         if(item) {
             val = item
             return false;
